@@ -3,3 +3,8 @@
 
 # Packaging
 .cask
+
+# A temporary and backup files
+tmp/
+*~
+recentf

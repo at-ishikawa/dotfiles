@@ -1,0 +1,29 @@
+* Abstract
+  This is the directory in which emacs lisps loaded for initial configurations are stored.
+  Many packages are managed by Cask, pallet, and package.el.
+
+* Environment
+** Programming
+   1. auto-complete
+      a) auto-java-complete
+
+* Environment variables used for Emacs
+  Environment variables are loaded from a shell.
+  Besides the following environment variables, PATH environment variable is loaded.
+
+  1. TEMPLATE_DIR :: a directory which stores template files to make specific files (or specific extensions) automatically when they do not exist.
+  2. USER_FULL_NAME :: the full name of a user
+  3. USER_MAIL_ADDRESS :: the mail address of a user
+
+* File structure
+emacs
+|-etc :: configurations for initial elisps.
+|-inits :: elisps loaded by init-loader.
+|-tmp :: a directory to store temporary files.
+|-usr :: elisps used for initial configurations.
+
+* TODOList
+** TODO a project plugin, which can load paths for auto-complete easily, and can search files in a project by helm.
+** TODO an email, redmine, gralde plugins
+** TODO a refactoring plugin
+** TODO a tag plugin, in order to search call hierarchy.
