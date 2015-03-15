@@ -1,5 +1,3 @@
-;;; Code:
-
 (when (lazyload nil '(haskell-mode literate-haskell-mode)
 		"haskell-mode" "Major mode for editing Haskell scripts." t)
   (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
@@ -33,4 +31,3 @@
     )
 
   )
-;;; 50_haskell-mode.el ends here

@@ -1,6 +1,3 @@
-(defcustom path-separator ":"
-  "")
-
 (setq dired-guess-shell-alist-user
       (append
        '(("\\.asta\\'" "open -n"))

@@ -1,6 +1,9 @@
 (keyboard-translate ?\C-h ?\C-?)
 (global-set-key (kbd "C-?") 'help-command)
 (global-set-key "\C-h" 'delete-backward-char)
+
+(global-set-key (kbd "<f5>") 'reload-buffer)
+
 ;; smart-compile
 (global-set-key "\C-cc" 'smart-compile)
 (global-set-key "\C-c\C-s" 'sr-speedbar-toggle)
@@ -11,7 +14,7 @@
  ((kbd "C-^") 'helm-c-apropos)
  ((kbd "C-;") 'helm-resume)
  ((kbd "M-s") 'helm-occur)
-;;  ((kbd "M-x") 'helm-M-x)
+ ((kbd "M-x") 'helm-M-x)
  ;;  ((kbd "C-x C-f") 'helm-find-files)
  ;;  ((kbd "C-x b") 'hew-kill-ring)
  ((kbd "M-y") 'helm-show-kill-ring)
@@ -32,6 +35,10 @@
   '(progn
      (define-key sh-mode-map "\C-c\C-r" 'helm-recentf)
      ))
+
+;; expand-region
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-M-@") 'er/contract-region)
 
 ;; smartrep
 (require 'smartrep) ; (require 'smartrep-autoloads)
@@ -60,6 +67,15 @@
       "C-x 5" window-operation-alist)
   )
 
+
+;; php mode
+(add-hook 'php-mode-hook
+	 #'(lambda()
+	     (define-keys php-mode-map
+	       ("\C-c\C-r" 'helm-recentf)
+	       )
+	     ))
+
 ;; Org mode
 (add-hook 'org-mode-hook
 	  #'(lambda()
@@ -68,3 +84,10 @@
 		) ; define-keys
 
 	      ))
+
+;; multiple cursor & region bindings
+;; See http://tam5917.hatenablog.com/entry/20130129/1359465171 for more details (Japanese)
+(define-key region-bindings-mode-map "a" 'mc/mark-all-like-this)
+(define-key region-bindings-mode-map "p" 'mc/mark-previous-like-this)
+(define-key region-bindings-mode-map "n" 'mc/mark-next-like-this)
+(define-key region-bindings-mode-map "m" 'mc/mark-more-like-this-extended)

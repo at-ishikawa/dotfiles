@@ -18,3 +18,4 @@
       ) ; end setq
 
 (setq org-export-html-validation-link nil)
+(setq org-export-html-postable nil)

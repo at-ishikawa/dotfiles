@@ -17,4 +17,3 @@
 
 
 
-;;; 21_auto-complete-clang-async.el ends here

@@ -1,10 +1,11 @@
-;;; 11_frame.el --- Frame configuration              -*- lexical-binding: t; -*-
-
-;;; Code:
-
 (load-theme 'misterioso)
 
+;; Make the toolbar invisible
+(tool-bar-mode -1)
+
+;; Full screen 
 (set-frame-parameter nil 'fullscreen 'maximized)
+
 ;; frame transparent mode
 (defvar frame-current-transparency-mode nil)
 (defvar frame-opaque-focused-alpha 100)
@@ -30,4 +31,3 @@
     ))
 (frame-transparency-mode)
 
-;;; 11_frame.el ends here

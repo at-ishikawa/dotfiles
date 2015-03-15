@@ -1,6 +1,3 @@
-;; input \ instead of ¥
-(define-key global-map [?¥] [?\\]) 
-
 ;; Reduce the number of moving lines by a trackpad.
 (defun scroll-down-with-lines ()
   ""

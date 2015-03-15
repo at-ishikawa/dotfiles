@@ -1,5 +1,3 @@
-;;; Code:
-
 (require 'arduino-mode)
 
 (add-hook 'arduino-mode-hook
@@ -31,6 +29,3 @@
 
 (setq ac-modes
       (append ac-modes '(arduino-mode)))
-
-
-;;; 50_arduino-mode.el ends here

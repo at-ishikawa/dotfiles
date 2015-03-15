@@ -3,6 +3,6 @@
 
 (setq sr-speedbar-right-side nil)
 
-(sr-speedbar-open)
+;; (sr-speedbar-open)
 
 ;;; 20_sr-speedbar.el ends here
