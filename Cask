@@ -61,6 +61,7 @@
 (depends-on "smartrep")
 (depends-on "smex")
 (depends-on "sr-speedbar")
+(depends-on "terraform-mode")
 (depends-on "use-package")
 (depends-on "web-mode")
 (depends-on "yasnippet")
