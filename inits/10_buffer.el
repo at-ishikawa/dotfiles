@@ -16,5 +16,6 @@
 ;; for auto newline
 (setq fill-column 80)
 
+(setq-default indent-tabs-mode nil)
 ;; delete whitespaces of the end of each line before save.
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
