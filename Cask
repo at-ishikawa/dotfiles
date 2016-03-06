@@ -11,6 +11,7 @@
 (depends-on "cask")
 (depends-on "dash")
 (depends-on "diminish")
+(depends-on "dockerfile-mode")
 (depends-on "drag-stuff")
 (depends-on "epl")
 (depends-on "evil")
