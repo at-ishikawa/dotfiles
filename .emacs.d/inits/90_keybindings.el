@@ -15,7 +15,7 @@
  ((kbd "C-;") 'helm-resume)
  ((kbd "M-s") 'helm-occur)
  ((kbd "M-x") 'helm-M-x)
- ;;  ((kbd "C-x C-f") 'helm-find-files)
+ ((kbd "C-x C-f") 'helm-find-files)
  ;;  ((kbd "C-x b") 'hew-kill-ring)
  ((kbd "M-y") 'helm-show-kill-ring)
  ((kbd "M-z") 'helm-do-grep)

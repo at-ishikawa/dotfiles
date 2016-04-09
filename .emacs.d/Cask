@@ -1,7 +1,6 @@
 (source gnu)
 (source melpa)
 
-(depends-on "arduino-mode")
 (depends-on "async")
 (depends-on "auto-complete")
 (depends-on "auto-complete-clang-async")
