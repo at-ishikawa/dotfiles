@@ -1,0 +1,36 @@
+* Abstract
+  This is the directory in which emacs lisps loaded for initial configurations are stored.
+  Many packages are managed by Cask, pallet, and package.el.
+
+* Environment variables used for Emacs
+  Environment variables are loaded from a shell.
+  Besides the following environment variables, PATH environment variable is loaded.
+
+  1. MANPATH :: a path for the "man" command
+  2. TEMPLATE_DIR :: a directory which stores template files to make specific files (or specific extensions) automatically when they do not exist.
+  3. USER_FULL_NAME :: the full name of a user
+  4. USER_MAIL_ADDRESS :: the mail address of a user
+
+* File structure
+emacs
+|-etc :: configurations for initial elisps.
+|-inits :: elisps loaded by init-loader.
+|-tmp :: a directory to store temporary files.
+|-usr :: elisps used for initial configurations.
+
+* Initial files
+| Prefix     | Kind                     | Details                                                      |
+|------------+--------------------------+--------------------------------------------------------------|
+| 00_ to 09_ | Init settings            | Common settings                                              |
+| 10_ to 19_ | Emacs settings           | Settings for frame, buffer, encoding, and other Emacs basics |
+| 20_ to 29_ | Common plugin settings   | Plugin settings for several kinds of files or buffers        |
+| 30_ to 39_ | Specific plugin settings | Plugin settings for a specific kind of files or buffers      |
+| 40_ to 49_ | Plural plugin settings   | Plugin settings which depend on 30 to 39 plugins             |
+| 90_ to 99_ | Final settings           | Settings after loading other functions                       |
+
+* TODOList
+** TODO a project plugin, which can load paths for auto-complete easily, and can search files in a project by helm.
+** TODO an email and redmine
+** TODO a refactoring plugin
+** TODO a tag plugin, in order to search call hierarchy.
+

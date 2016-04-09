@@ -1,0 +1,11 @@
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# A temporary and backup files
+tmp/
+*~
+recentf
+projectile-bookmarks.eld

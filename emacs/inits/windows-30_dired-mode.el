@@ -1,0 +1,2 @@
+(require 'dired-x)
+
