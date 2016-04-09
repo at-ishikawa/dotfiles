@@ -24,3 +24,14 @@ do
 
     ln -sfn $dotfiles_directory/$file $HOME/$file
 done
+
+# Emacs
+which cask >/dev/null
+if [ $? -eq 1 ]; then
+    cd $dotfiles_directory/.emacs.d
+    cask
+fi
+
+# Vim
+cd $dotfiles_directory/.vim/bundle
+[ ! -d neobundle.vim ] && git clone https://github.com/Shougo/neobundle.vim neobundle.vim
