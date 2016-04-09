@@ -2,6 +2,7 @@
 
 exclude_files=(
     .git
+    bash
     README.md
     LICENSE
     $(basename $0)
@@ -21,5 +22,5 @@ do
         [ "${file}" == "${exclude_file}" ] && continue 2
     done
 
-    ln -s $dotfiles_directory/$file $HOME/$file
+    ln -sfn $dotfiles_directory/$file $HOME/$file
 done
