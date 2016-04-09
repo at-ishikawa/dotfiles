@@ -1,0 +1,2 @@
+set columns = 80
+
