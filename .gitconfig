@@ -1,0 +1,7 @@
+[user]
+	name = A. Ishikawa
+	email = a.ishikawa810@gmail.com
+[push]
+	default = matching
+[color]
+	ui = auto

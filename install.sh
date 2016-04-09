@@ -23,6 +23,7 @@ do
     done
 
     ln -sfn $dotfiles_directory/$file $HOME/$file
+    echo $HOME/$file
 done
 
 # Emacs
