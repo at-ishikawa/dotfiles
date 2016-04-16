@@ -12,6 +12,7 @@
 (depends-on "diminish")
 (depends-on "dockerfile-mode")
 (depends-on "drag-stuff")
+(depends-on "editorconfig")
 (depends-on "epl")
 (depends-on "evil")
 (depends-on "exec-path-from-shell")
