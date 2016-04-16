@@ -8,12 +8,15 @@ COMPOSER_IMAGE=composer/composer
 
 function show_help() {
     cat <<EOF
-Usage: docker-composer -v directory [arg..]
+Usage: docker-composer options [args..]
+Running Composer in a Docker container.
 
-Run Composer in Docker container.
+Arguments:
+  The arguments for composer
 
-  -v directory   Directory to run composer
-  arg            Arguments for composer
+Options:
+  -d working_dir   If specified, use the given directory as working directory.
+  -h               Display this help message
 EOF
 }
 
@@ -22,11 +25,11 @@ function get_absolute_path() {
     echo $(pushd $1 >/dev/null && pwd && popd >/dev/null)
 }
 
-while getopts :v: option
+while getopts :d: option
 do
     case "$option" in
-        v)
-            volume=$OPTARG
+        d)
+            working_dir=$OPTARG
             ;;
         h)
             show_help
@@ -45,15 +48,14 @@ done
 
 shift $((OPTIND-1))
 
-if [ "$volume" = "" ]; then
-    show_help
+if [ "$working_dir" = "" ]; then
+    working_dir=$(pwd)
+fi
+
+if [ ! -d $working_dir ]; then
+    echo "Invalid working directory specified, $working_dir does not exist."
     exit 1
 fi
 
-if [ ! -d $volume ]; then
-    echo "Directory $volume does not exist."
-    exit 1
-fi
-
-volume=$(get_absolute_path $volume)
-docker run -v $volume:$CONTAINER_DIR $COMPOSER_IMAGE $@
+working_dir=$(get_absolute_path $working_dir)
+docker run -v $working_dir:$CONTAINER_DIR $COMPOSER_IMAGE $@
