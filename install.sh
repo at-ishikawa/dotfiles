@@ -15,7 +15,7 @@ trap "cd $current_directory" EXIT
 cd $dotfiles_directory
 dotfiles_directory=`pwd`
 
-for file in .??*
+for file in $(find $dotfiles_directory -maxdepth 1 -mindepth 1 -execdir echo {} ';')
 do
     for exclude_file in ${exclude_files[@]}
     do

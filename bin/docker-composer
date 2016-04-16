@@ -1,0 +1,59 @@
+#! /bin/bash
+
+which docker >/dev/null
+[ $? -eq 0 ] || (echo 'Docker must be installed' && exit 1)
+
+CONTAINER_DIR=/app
+COMPOSER_IMAGE=composer/composer
+
+function show_help() {
+    cat <<EOF
+Usage: docker-composer -v directory [arg..]
+
+Run Composer in Docker container.
+
+  -v directory   Directory to run composer
+  arg            Arguments for composer
+EOF
+}
+
+function get_absolute_path() {
+    path=$1
+    echo $(pushd $1 >/dev/null && pwd && popd >/dev/null)
+}
+
+while getopts :v: option
+do
+    case "$option" in
+        v)
+            volume=$OPTARG
+            ;;
+        h)
+            show_help
+            exit 0
+            ;;
+        \?)
+            show_help
+            exit 1
+            ;;
+        :)
+            echo "Option $OPTARG requires an argument."
+            exit 1
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+if [ "$volume" = "" ]; then
+    show_help
+    exit 1
+fi
+
+if [ ! -d $volume ]; then
+    echo "Directory $volume does not exist."
+    exit 1
+fi
+
+volume=$(get_absolute_path $volume)
+docker run -v $volume:$CONTAINER_DIR $COMPOSER_IMAGE $@
