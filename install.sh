@@ -5,6 +5,7 @@ exclude_files=(
     bash
     README.md
     LICENSE
+    lib
     $(basename $0)
 )
 

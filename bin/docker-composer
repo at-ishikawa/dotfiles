@@ -1,61 +1,28 @@
-#! /bin/bash
+#! /usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-which docker >/dev/null
-[ $? -eq 0 ] || (echo 'Docker must be installed' && exit 1)
+DOCKER_IMAGE = "composer/composer"
+CONTAINER_DIR = "/app"
 
-CONTAINER_DIR=/app
-COMPOSER_IMAGE=composer/composer
+import os
+import sys
+from pathlib import Path
+lib_path = Path(Path(os.path.realpath(__file__)).parent.parent, "lib/python")
+sys.path.append(str(lib_path))
 
-function show_help() {
-    cat <<EOF
-Usage: docker-composer options [args..]
-Running Composer in a Docker container.
+import argparse
+from docker.runner import runner
 
-Arguments:
-  The arguments for composer
+parser = argparse.ArgumentParser(description = 'Running Composer in Docker')
+parser.add_argument('-dcw',
+                    '--docker-command-working_dir',
+                    type=str,
+                    default=os.getcwd(),
+                    help='If specified, use the given directory as working directory.')
+parser.add_argument('composer_arguments',
+                    nargs=argparse.REMAINDER,
+                    help='Arguments for composer')
+cli_arguments = parser.parse_args()
 
-Options:
-  -d working_dir   If specified, use the given directory as working directory.
-  -h               Display this help message
-EOF
-}
-
-function get_absolute_path() {
-    path=$1
-    echo $(pushd $1 >/dev/null && pwd && popd >/dev/null)
-}
-
-while getopts :d: option
-do
-    case "$option" in
-        d)
-            working_dir=$OPTARG
-            ;;
-        h)
-            show_help
-            exit 0
-            ;;
-        \?)
-            show_help
-            exit 1
-            ;;
-        :)
-            echo "Option $OPTARG requires an argument."
-            exit 1
-            ;;
-    esac
-done
-
-shift $((OPTIND-1))
-
-if [ "$working_dir" = "" ]; then
-    working_dir=$(pwd)
-fi
-
-if [ ! -d $working_dir ]; then
-    echo "Invalid working directory specified, $working_dir does not exist."
-    exit 1
-fi
-
-working_dir=$(get_absolute_path $working_dir)
-docker run -v $working_dir:$CONTAINER_DIR $COMPOSER_IMAGE $@
+runner = runner(DOCKER_IMAGE, CONTAINER_DIR, cli_arguments.docker_command_working_dir)
+runner.run(cli_arguments.composer_arguments)
