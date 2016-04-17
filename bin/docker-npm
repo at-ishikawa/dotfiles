@@ -1,0 +1,57 @@
+#! /bin/bash
+
+which docker >/dev/null
+[ $? -eq 0 ] || (echo 'Docker must be installed' && exit 1)
+
+CONTAINER_DIR=/usr/src/app
+DOCKER_IMAGE=node
+DOCKER_COMMAND=npm
+
+function show_help() {
+    cat <<EOF
+Usage: docker-npm options [args..]
+Running npm in a Docker container.
+
+Arguments:
+  The arguments for npm
+
+Options:
+  -dcp, --docker-command-prefix prefix   If specified, use the given directory as working directory.
+  -dch, --docker-command-help            Display this help message
+EOF
+}
+
+function get_absolute_path() {
+    path=$1
+    echo $(pushd $1 >/dev/null && pwd && popd >/dev/null)
+}
+
+for option in $@;
+do
+    case "$option" in
+        -dcp | --docker-command-prefix)
+            shift
+            host_dir=$1
+            shift
+            ;;
+        -dch | --docker-command-help)
+            show_help
+            exit 0
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+if [ "$host_dir" = "" ]; then
+    host_dir=$(pwd)
+fi
+
+if [ ! -d $host_dir ]; then
+    mkdir -p $host_dir
+fi
+
+host_dir=$(get_absolute_path $host_dir)
+set -x
+docker run -v $host_dir:$CONTAINER_DIR -w $CONTAINER_DIR $DOCKER_IMAGE $DOCKER_COMMAND $@
+set +x
