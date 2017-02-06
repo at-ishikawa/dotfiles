@@ -27,6 +27,10 @@ do
     echo $HOME/$file
 done
 
+# npm
+cd $HOME
+npm install
+
 # Emacs
 which cask >/dev/null
 if [ $? -eq 1 ]; then
