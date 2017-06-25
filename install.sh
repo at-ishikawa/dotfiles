@@ -28,12 +28,15 @@ do
 done
 
 # npm
-cd $HOME
-npm install
+type npm &> /dev/null
+if [ $? -ne 1 ]; then
+    cd $HOME
+    npm install
+fi
 
 # Emacs
-which cask >/dev/null
-if [ $? -eq 1 ]; then
+type cask &>/dev/null
+if [ $? -ne 1 ]; then
     cd $dotfiles_directory/.emacs.d
     cask
 fi
