@@ -8,7 +8,12 @@ fi
 script_dir=$(dirname $real_script_path)
 bash_user_dir=$script_dir/bash
 
-source $bash_user_dir/.env
+if [ -f $bash_user_dir/.env ]; then
+    source $bash_user_dir/.env
+else
+    echo -e "\033[31m$bash_user_dir/.env not found\033[0m" >&2
+    return
+fi
 source $bash_user_dir/init.sh
 source_files $bash_user_dir/bash_profile.d/common/*.sh
 if [ `os` ]; then
