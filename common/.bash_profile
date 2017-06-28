@@ -6,7 +6,7 @@ if [ "$real_script_path" = "" ]; then
     real_script_path=$script_path
 fi
 script_dir=$(dirname $real_script_path)
-bash_user_dir=$script_dir/bash
+bash_user_dir=$(dirname $script_dir)/bash
 
 if [ -f $bash_user_dir/.env ]; then
     source $bash_user_dir/.env

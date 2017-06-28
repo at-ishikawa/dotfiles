@@ -1,31 +1,34 @@
 #! /bin/bash
 
-exclude_files=(
-    .git
-    bash
-    README.md
-    LICENSE
-    lib
-    $(basename $0)
-)
-
-dotfiles_directory=$(dirname $0)
 current_directory=$(pwd)
 trap "cd $current_directory" EXIT
 
-cd $dotfiles_directory
-dotfiles_directory=`pwd`
-
-for file in $(find $dotfiles_directory -maxdepth 1 -mindepth 1 -execdir echo {} ';')
-do
-    for exclude_file in ${exclude_files[@]}
+function linkFiles()
+{
+    source_directory=$1
+    for file in $(find $source_directory -maxdepth 1 -mindepth 1 | awk -F/ '{ print $NF }')
     do
-        [ "${file}" == "${exclude_file}" ] && continue 2
+	ln -sfn $source_directory/$file $HOME/$file
+	
+	is_symbolic_link_failed=$(find $HOME/$file -xtype l)
+	if [ "$is_symbolic_link_failed" ]; then
+	    echo -e "\033[31m"$HOME/$file "\033[00m is broken symbolic link." >&2
+	else
+	    echo $HOME/$file
+	fi
     done
+}
 
-    ln -sfn $dotfiles_directory/$file $HOME/$file
-    echo $HOME/$file
-done
+dotfiles_directory=$(dirname $0)
+cd $dotfiles_directory
+dotfiles_directory=$(pwd)
+
+. bash/init.sh
+linkFiles $dotfiles_directory/common
+os=$(os)
+if [ "$os" -a -d $os ]; then
+    linkFiles $dotfiles_directory/$os
+fi
 
 # npm
 type npm &> /dev/null
@@ -37,10 +40,10 @@ fi
 # Emacs
 type cask &>/dev/null
 if [ $? -ne 1 ]; then
-    cd $dotfiles_directory/.emacs.d
+    cd $HOME/.emacs.d
     cask
 fi
 
 # Vim
-cd $dotfiles_directory/.vim/bundle
+cd $HOME/.vim/bundle
 [ ! -d neobundle.vim ] && git clone https://github.com/Shougo/neobundle.vim neobundle.vim
