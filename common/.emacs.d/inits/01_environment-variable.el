@@ -5,6 +5,6 @@
 	"MANPATH"
 	"TEMPLATE_DIR"
 	"USER_FULL_NAME"
-	"USER_MAIL_ADDRESS"))
+	"USER_MAIL_ADDRESS"
+	"GOROOT"))
 (exec-path-from-shell-initialize)
-
