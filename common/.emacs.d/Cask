@@ -65,6 +65,7 @@
 (depends-on "terraform-mode")
 (depends-on "use-package")
 (depends-on "web-mode")
+(depends-on "yaml-mode")
 (depends-on "yasnippet")
 ;;;pallet-ignore
 (depends-on "auto-java-complete" :git "https://github.com/emacs-java/auto-java-complete" :files ("*.el" "Tags.java"))
