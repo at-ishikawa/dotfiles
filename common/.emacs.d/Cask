@@ -53,6 +53,7 @@
 (depends-on "popwin")
 (depends-on "prodigy")
 (depends-on "projectile")
+(depends-on "protobuf-mode")
 (depends-on "recentf-ext")
 (depends-on "region-bindings-mode")
 (depends-on "s")
