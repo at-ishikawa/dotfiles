@@ -5,6 +5,10 @@
      Run `composer` inside a docker container.
      `docker-composer require --dev vendor/package`, for example.
 
+### tmux
+    1. Use C-t for prefix, instead of C-b
+    2. Enable mouse
+
 ### git
 
 ### bash
