@@ -9,7 +9,7 @@ function linkFiles()
     for file in $(find $source_directory -maxdepth 1 -mindepth 1 | awk -F/ '{ print $NF }')
     do
 	ln -sfn $source_directory/$file $HOME/$file
-	
+
 	is_symbolic_link_failed=$(find $HOME/$file -xtype l)
 	if [ "$is_symbolic_link_failed" ]; then
 	    echo -e "\033[31m"$HOME/$file "\033[00m is broken symbolic link." >&2
@@ -26,8 +26,14 @@ dotfiles_directory=$(pwd)
 . bash/init.sh
 linkFiles $dotfiles_directory/common
 os=$(os)
-if [ "$os" -a -d $os ]; then
-    linkFiles $dotfiles_directory/$os
+if [ "$os" -d $os ]; then
+    if [ -d $os ]; then
+        linkFiles $dotfiles_directory/$os
+    fi
+    install_script="install_$os.sh"
+    if [ -f $install_script ]; then
+        . $install_script
+    fi
 fi
 
 # npm
@@ -35,13 +41,6 @@ type npm &> /dev/null
 if [ $? -ne 1 ]; then
     cd $HOME
     npm install
-fi
-
-# Emacs
-type cask &>/dev/null
-if [ $? -ne 1 ]; then
-    cd $HOME/.emacs.d
-    cask
 fi
 
 # Vim

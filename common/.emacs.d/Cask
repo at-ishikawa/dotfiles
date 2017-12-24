@@ -1,11 +1,11 @@
 (source gnu)
+;;;pallet-ignore
 (source melpa)
 
 (depends-on "async")
 (depends-on "auto-complete")
 (depends-on "auto-complete-clang-async")
 (depends-on "auto-highlight-symbol")
-(depends-on "auto-java-complete" :git "https://github.com/emacs-java/auto-java-complete" :files ("*.el" "Tags.java"))
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "dash")
@@ -26,7 +26,6 @@
 (depends-on "go-autocomplete")
 (depends-on "go-mode")
 (depends-on "groovy-mode")
-(depends-on "gtags" :git "https://github.com/voins/gtags")
 (depends-on "hamlet-mode")
 (depends-on "haskell-mode")
 (depends-on "helm")
@@ -46,7 +45,6 @@
 (depends-on "nyan-mode")
 (depends-on "package-build")
 (depends-on "pallet")
-(depends-on "php-completion" :git "https://github.com/suzuki/php-completion.git" :branch "develop" :files ("*.el" "phpcmp-index-of-*"))
 (depends-on "php-mode")
 (depends-on "pkg-info")
 (depends-on "popup")
@@ -68,5 +66,4 @@
 (depends-on "web-mode")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
-;;;pallet-ignore
-(depends-on "auto-java-complete" :git "https://github.com/emacs-java/auto-java-complete" :files ("*.el" "Tags.java"))
+

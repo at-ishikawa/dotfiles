@@ -27,7 +27,8 @@
 (add-hook 'helm-after-initialize-hook
 	  #'(lambda()
 	      (define-key helm-map (kbd "C-k") 'kill-line)
-	      (define-key shell-mode-map "\C-c\C-r" 'helm-recentf)
+	      ;; 2017/12/17
+	      ;; (define-key shell-mode-map "\C-c\C-r" 'helm-recentf)
 	      ;; 2013/09/16
 	      ;; (define-key sh-mode-map "\C-c\C-r" 'helm-recentf)
 	      ))
