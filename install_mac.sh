@@ -4,6 +4,9 @@
 
 # homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install ansible python
+ansible-playbook -i hosts package_mac.yml
+
 brew update
 
 # Emacs
@@ -12,7 +15,5 @@ brew install cask
 cask_version=$(cask --version)
 ln -sfn /usr/local/Cellar/cask/$cask_version $HOME/.cask
 
-brew tap caskroom/cask
-brew cask install emacs
 cd ~/.emacs.d
 cask
