@@ -20,6 +20,7 @@
        - Google Cloud SDK
        - Android SDk
        - Anyenv
+       - Golang
 
 ### vim
 
