@@ -1,3 +1,7 @@
+# Getting Started
+1. Copy `bash/.env.example` file to `bash/.env` file and edit it.
+2. Run install.sh by `source install.sh`
+
 # Configurations
 ## Common for platforms
 ### Custom commands
@@ -12,6 +16,7 @@
 ### git
 
 ### bash
+    1. Configure gcloud
 
 ### vim
 
