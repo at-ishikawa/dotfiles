@@ -16,11 +16,12 @@
 ### git
 
 ### bash
-    1. Configure followings
+    1. Configure PATH for followings
        - Google Cloud SDK
        - Android SDk
        - Anyenv
        - Golang
+       - Gem
 
 ### vim
 
