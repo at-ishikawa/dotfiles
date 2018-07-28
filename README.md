@@ -16,7 +16,10 @@
 ### git
 
 ### bash
-    1. Configure Google Cloud SDK, Android SDk
+    1. Configure followings
+       - Google Cloud SDK
+       - Android SDk
+       - Anyenv
 
 ### vim
 
