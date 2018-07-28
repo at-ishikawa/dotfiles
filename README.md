@@ -16,7 +16,7 @@
 ### git
 
 ### bash
-    1. Configure gcloud
+    1. Configure Google Cloud SDK, Android SDk
 
 ### vim
 
