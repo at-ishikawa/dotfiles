@@ -4,6 +4,9 @@
 # Packaging
 .cask
 
+# Security
+network-security.data
+
 # A temporary and backup files
 tmp/
 *~
