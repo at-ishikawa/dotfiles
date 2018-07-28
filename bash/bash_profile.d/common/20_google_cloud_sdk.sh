@@ -8,4 +8,4 @@ if [ -f "$GCLOUD_SDK_PATH/completion.bash.inc" ]; then source "$GCLOUD_SDK_PATH/
 
 command_exists gcloud || return 0
 
-gcloud components update &
+yes yes | gcloud components update 2&>/dev/null &
