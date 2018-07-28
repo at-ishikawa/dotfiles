@@ -9,3 +9,5 @@ if [ -d $HOME/bin ]; then
 fi
 
 export HISTFILE=$bash_temporary_dir/bash_history
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
