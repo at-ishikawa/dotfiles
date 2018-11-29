@@ -4,6 +4,7 @@
   vars:
     homebrew_taps:
       - caskroom/cask
+      - c-bata/kube-prompt
 
     homebrew_cask_packages:
       - name: appcleaner
@@ -15,6 +16,7 @@
       - name: reattach-to-user-namespace
       - name: bash # Install bash 4
       - name: bash-completion
+      - name: kube-prompt
 
   tasks:
     - name: homebrew update
