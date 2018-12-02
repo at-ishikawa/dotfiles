@@ -10,6 +10,7 @@
       - name: appcleaner
       - name: emacs
       - name: slack
+      - name: docker
 
     homebrew_packages:
       - name: tmux
