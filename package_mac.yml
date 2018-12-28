@@ -11,6 +11,11 @@
       - name: emacs
       - name: slack
       - name: docker
+      - name: google-chrome
+      - name: alfred
+      - name: spectacle
+      - name: better-touch-tool
+      - name: 1password
 
     homebrew_packages:
       - name: tmux

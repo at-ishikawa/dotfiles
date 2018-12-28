@@ -1,8 +1,0 @@
-.env
-*~
-*.class
-*.retry
-tmux-*.log
-
-.DS_Store
-

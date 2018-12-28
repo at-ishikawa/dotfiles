@@ -19,5 +19,4 @@
 (setq user-emacs-directory (file-name-directory load-file-name))
 (init-loader-load (concat user-emacs-directory "inits"))
 
-
 ;;; init.el ends here

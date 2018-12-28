@@ -1,14 +1,9 @@
 # Getting Started
 1. Copy `bash/.env.example` file to `bash/.env` file and edit it.
-2. Run install.sh by `source install.sh`
+2. Run make by `make install`
 
 # Configurations
 ## Common for platforms
-### Custom commands
-#### docker-composer
-     Run `composer` inside a docker container.
-     `docker-composer require --dev vendor/package`, for example.
-
 ### tmux
     1. Use C-t for prefix, instead of C-b
     2. Enable mouse
@@ -34,3 +29,6 @@
     2. Alt => Super
     Reference
     - http://nowcodingtime.blogspot.jp/2014/12/ubuntu1410apple-usb-keyboard-mb110jb.html
+
+# List of Mac Apps
+See homebrew_cask_packages in `package_mac.yml`.
