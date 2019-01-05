@@ -5,7 +5,7 @@ bash_user_dir=$(readlink "$script_path")
 if [ "$bash_user_dir" = "" ]; then
     bash_user_dir=$script_path
 fi
-bash_user_dir=$(dirname $(dirname $bash_user_dir))/bash
+bash_user_dir=$(dirname $(dirname $(dirname $bash_user_dir)))/bash
 
 source $bash_user_dir/init.sh
 source_files $bash_user_dir/bashrc.d/common/*.sh
