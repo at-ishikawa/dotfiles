@@ -4,9 +4,11 @@
   vars:
     homebrew_taps:
       - caskroom/cask
+      - grpc/grpc
       - c-bata/kube-prompt
 
     homebrew_cask_packages:
+      - name: google-japanese-ime
       - name: appcleaner
       - name: emacs
       - name: slack
@@ -14,15 +16,23 @@
       - name: google-chrome
       - name: alfred
       - name: spectacle
-      - name: better-touch-tool
+      - name: bettertouchtool
       - name: 1password
+      - name: goland
+      - name: webstorm
+      - name: iterm2
+      - name: google-cloud-sdk
 
     homebrew_packages:
+      - name: git
       - name: tmux
       - name: reattach-to-user-namespace
       - name: bash # Install bash 4
       - name: bash-completion
       - name: kube-prompt
+      - name: go
+      - name: grpc
+        install_options: with-plugins
 
   tasks:
     - name: homebrew update
@@ -36,7 +46,9 @@
       with_items: '{{ homebrew_taps }}'
 
     - name: homebrew cask packages install
-      homebrew_cask: name={{ item.name }} state=installed
+      homebrew_cask:
+        name: '{{ item.name }}'
+        state: installed
       environment:
         HOMEBREW_CASK_OPTS: "--appdir=/Applications"
       with_items: '{{ homebrew_cask_packages }}'
@@ -45,4 +57,5 @@
       homebrew:
         name: '{{ item.name }}'
         state: '{{ item.state | default("present") }}'
+        install_options: '{{ item.install_options | default("") }}'
       with_items: '{{ homebrew_packages }}'
