@@ -13,3 +13,5 @@ source_files $bash_user_dir/bashrc.d/common/*.sh
 if [ "`os`" ]; then
     source_files $bash_user_dir/bashrc.d/`os`/*.sh
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
