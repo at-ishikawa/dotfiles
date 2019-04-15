@@ -29,10 +29,13 @@
       - name: reattach-to-user-namespace
       - name: bash # Install bash 4
       - name: bash-completion
+      - name: kubernetes-helm
+      - name: kubectx
       - name: kube-prompt
       - name: go
       - name: grpc
         install_options: with-plugins
+      - name: terraform
 
   tasks:
     - name: homebrew update
