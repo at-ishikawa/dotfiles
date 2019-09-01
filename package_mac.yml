@@ -4,7 +4,6 @@
   vars:
     homebrew_taps:
       - caskroom/cask
-      - grpc/grpc
       - c-bata/kube-prompt
 
     homebrew_cask_packages:
@@ -22,11 +21,13 @@
       - name: webstorm
       - name: iterm2
       - name: google-cloud-sdk
+      - name: bettersnaptool
 
     homebrew_packages:
       - name: git
       - name: tmux
       - name: reattach-to-user-namespace
+      - name: fish
       - name: bash # Install bash 4
       - name: bash-completion
       - name: kubernetes-helm
@@ -34,8 +35,12 @@
       - name: kube-prompt
       - name: go
       - name: grpc
-        install_options: with-plugins
       - name: terraform
+      - name: fzf
+      - name: ghq
+      - name: mas
+
+  # Install bettersnaptool by mas
 
   tasks:
     - name: homebrew update
@@ -55,6 +60,9 @@
       environment:
         HOMEBREW_CASK_OPTS: "--appdir=/Applications"
       with_items: '{{ homebrew_cask_packages }}'
+      ignore_errors: yes # highly likely this is because applications are already installed
+#      register: result
+#      ignore_errors: "result.msg.find('It seems there is already an App at') != -1"
 
     - name: homebrew packages install
       homebrew:
