@@ -21,7 +21,6 @@
       - name: webstorm
       - name: iterm2
       - name: google-cloud-sdk
-      - name: bettersnaptool
 
     homebrew_packages:
       - name: git
