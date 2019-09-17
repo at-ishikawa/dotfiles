@@ -21,6 +21,7 @@
       - name: webstorm
       - name: iterm2
       - name: google-cloud-sdk
+      - name: dropbox
 
     homebrew_packages:
       - name: git
