@@ -1,8 +1,0 @@
-{
-  "name": "dotfiles",
-  "license": "MIT",
-  "devDependencies": {
-    "browser-sync": "^2.18.7",
-    "eslint": "^3.15.0"
-  }
-}
