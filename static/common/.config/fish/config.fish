@@ -12,12 +12,14 @@ source $HOME/lib/google-cloud-sdk/path.fish.inc
 set -x PATH $HOME/.anyenv/bin $PATH
 
 # iTerm 2
-source ~/.iterm2_shell_integration.fish
-function iterm2_print_user_vars
-  set -l k8s_context (kubectl config current-context)
-  set -l gcp_project (cat ~/.config/gcloud/active_config)
+if test "$TERM_PROGRAM" = "iTerm.app"
+    source ~/.iterm2_shell_integration.fish
+    function iterm2_print_user_vars
+        set -l k8s_context (kubectl config current-context)
+        set -l gcp_project (cat ~/.config/gcloud/active_config)
 
-  #  set -l gcp_project (gcloud config list --format 'value(core.project)')
-  iterm2_set_user_var k8s_context "k8s: $k8s_context"
-  iterm2_set_user_var gcp_project "GCP: $gcp_project"
+        #  set -l gcp_project (gcloud config list --format 'value(core.project)')
+        iterm2_set_user_var k8s_context "k8s: $k8s_context"
+        iterm2_set_user_var gcp_project "GCP: $gcp_project"
+    end
 end
