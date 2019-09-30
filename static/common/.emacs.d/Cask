@@ -3,7 +3,6 @@
 
 (depends-on "async")
 (depends-on "auto-complete")
-(depends-on "auto-complete-clang-async")
 (depends-on "auto-highlight-symbol")
 (depends-on "bind-key")
 (depends-on "cask")
