@@ -3,34 +3,25 @@
 (global-set-key "\C-h" 'delete-backward-char)
 
 (global-set-key (kbd "<f5>") 'reload-buffer)
-
 ;; smart-compile
 (global-set-key "\C-cc" 'smart-compile)
-(global-set-key "\C-c\C-s" 'sr-speedbar-toggle)
 
 ;; Helm
 (global-set-keys
  ;;(,(kbd "C-r")   helm-for-files)
- ((kbd "C-^") 'helm-c-apropos)
  ((kbd "C-;") 'helm-resume)
  ((kbd "M-s") 'helm-occur)
  ((kbd "M-x") 'helm-M-x)
  ((kbd "C-x C-f") 'helm-find-files)
- ;;  ((kbd "C-x b") 'hew-kill-ring)
  ((kbd "M-y") 'helm-show-kill-ring)
- ((kbd "M-z") 'helm-do-grep)
- ;;(,(kbd "C-S-h") helm-descbinds)
- ;;	 ("\C-x\C-f" helm-find-file)
+ ((kbd "M-z") 'helm-do-grep-ag)
+ ((kbd "C-c C-g") 'helm-git-grep)
  ("\C-c\C-r" 'helm-recentf)
  ("\C-c\C-y" 'helm-c-yas-complete)
  )
 (add-hook 'helm-after-initialize-hook
 	  #'(lambda()
 	      (define-key helm-map (kbd "C-k") 'kill-line)
-	      ;; 2017/12/17
-	      ;; (define-key shell-mode-map "\C-c\C-r" 'helm-recentf)
-	      ;; 2013/09/16
-	      ;; (define-key sh-mode-map "\C-c\C-r" 'helm-recentf)
 	      ))
 (eval-after-load "sh-script"
   '(progn
@@ -42,7 +33,7 @@
 (global-set-key (kbd "C-M-@") 'er/contract-region)
 
 ;; smartrep
-(require 'smartrep) ; (require 'smartrep-autoloads)
+(require 'smartrep)
 (declare-function smartrep-define-key "smartrep")
 (let ((window-operation-alist '(("C-j" . 'windmove-down)
 				("C-k" . 'windmove-up)
