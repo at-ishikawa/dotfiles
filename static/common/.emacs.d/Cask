@@ -1,5 +1,4 @@
 (source gnu)
-;;;pallet-ignore
 (source melpa)
 
 (depends-on "async")
@@ -17,6 +16,7 @@
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")
 (depends-on "f")
+(depends-on "fish-mode")
 (depends-on "flycheck")
 (depends-on "flycheck-cask")
 (depends-on "flymake-easy")
@@ -30,7 +30,9 @@
 (depends-on "helm")
 (depends-on "helm-c-yasnippet")
 (depends-on "helm-ghc")
+(depends-on "helm-ghq")
 (depends-on "helm-git")
+(depends-on "helm-git-grep")
 (depends-on "helm-gtags")
 (depends-on "helm-projectile")
 (depends-on "highlight-symbol")
@@ -59,10 +61,8 @@
 (depends-on "smartparens")
 (depends-on "smartrep")
 (depends-on "smex")
-(depends-on "sr-speedbar")
 (depends-on "terraform-mode")
 (depends-on "use-package")
 (depends-on "web-mode")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
-
