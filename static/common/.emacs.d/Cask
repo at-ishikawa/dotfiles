@@ -33,7 +33,6 @@
 (depends-on "helm-ghq")
 (depends-on "helm-git")
 (depends-on "helm-git-grep")
-(depends-on "helm-gtags")
 (depends-on "helm-projectile")
 (depends-on "highlight-symbol")
 (depends-on "htmlize")
