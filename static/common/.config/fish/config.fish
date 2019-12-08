@@ -77,6 +77,54 @@ end
 
 alias git="__fzf_git"
 
+set __fzf_kubectl_kubectl_command (which kubectl)
+set __fzf_kubectl_resources po pod pods \
+  rs replicaset replicasets \
+  deploy deployment deployments \
+  svc service services \
+  no node nodes \
+  cm configmap configmaps
+
+function __fzf_kubectl_get_resource
+    set -l resource $argv[1]
+    $__fzf_kubectl_kubectl_command get $resource --no-headers | \
+    fzf --layout=reverse --preview="kubectl describe $resource {1}" --preview-window=down:80% --bind $__fzf_git_preview_key_bindings | \
+    awk '{ print $1 }' | string trim
+end
+
+function __fzf_kubectl
+    set -l command $__fzf_kubectl_kubectl_command
+    set -l options
+    for arg in $argv
+        if echo $arg | string match -r '^\-+' -q -v
+            set -a command $arg
+        else
+            set -a options $arg
+        end
+    end
+
+    # For debug
+    # echo $command $options
+
+    # Currently, only no option subcommand is supported
+    if not [ -z "$options" ]
+        $__fzf_kubectl_kubectl_command $argv
+        return
+    end
+
+    if not [ (count $command) -eq 3 -a "$command[1]" = "$__fzf_kubectl_kubectl_command" -a "$command[2]" = "get" ]
+        $__fzf_kubectl_kubectl_command $argv
+        return
+    end
+
+    if contains "$command[3]" $__fzf_kubectl_resources
+        __fzf_kubectl_get_resource "$command[3]"
+    else
+        $__fzf_kubectl_kubectl_command $argv
+    end
+end
+alias kubectl="__fzf_kubectl"
+
 
 # # Current version of fzf_complete: https://github.com/junegunn/fzf/issues/868#issuecomment-425592957
 # # Other version: https://github.com/junegunn/fzf/wiki/Examples-(fish)#completion
