@@ -26,3 +26,7 @@ export PATH
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
+export ANYENV_ROOT="$HOME/.anyenv"
+export PATH=$PATH:"$HOME/.anyenv/bin"
+eval "$(anyenv init -)"
+export PATH="$(brew --prefix php@7.1)/bin:$PATH"
