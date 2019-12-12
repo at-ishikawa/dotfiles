@@ -1,5 +1,4 @@
 set -U FZF_COMPLETE 2
-set -U FZF_TMUX 1
 set -U FZF_TMUX_HEIGHT "40%"
 set -U FZF_DEFAULT_OPTS "--bind ctrl-k:kill-line --height $FZF_TMUX_HEIGHT"
 
@@ -23,25 +22,24 @@ source $HOME/lib/google-cloud-sdk/path.fish.inc
 
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
+set -x PATH $HOME/.anyenv/envs/nodenv/bin $PATH
+
+# krew
+set -gx PATH $PATH $HOME/.krew/bin
 
 # iTerm 2
 if test "$TERM_PROGRAM" = "iTerm.app"
+    # function fish_title
+    #     echo 'Custom title'
+    # end
     source ~/.iterm2_shell_integration.fish
-    function iterm2_print_user_vars
-        set -l k8s_context (kubectl config current-context)
-        set -l gcp_project (cat ~/.config/gcloud/active_config)
-
-        #  set -l gcp_project (gcloud config list --format 'value(core.project)')
-        iterm2_set_user_var k8s_context "k8s: $k8s_context"
-        iterm2_set_user_var gcp_project "GCP: $gcp_project"
-    end
 end
 
 ### git fzf commands
 set -g git_command (which git)
 set -g git_options --color
 # TODO ctrl-alt-V should be used for preview-page-up, but can't use it currently
-set -g __fzf_git_preview_key_bindings ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down
+set -g __fzf_git_preview_key_bindings ctrl-k:kill-line,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down
 
 function __fzf_git_branch
     $git_command branch -vv $git_options | fzf --ansi | cut -d ' ' -f 2-3 | string trim
