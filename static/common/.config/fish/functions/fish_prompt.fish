@@ -1,4 +1,8 @@
 function fish_prompt
+    echo '> '
+end
+
+function fish_right_prompt
     set -l current_k8s_context (kubectl config current-context)
     set -l gcp_project (cat ~/.config/gcloud/active_config)
     #    set -l gcp_project (cat ~/.config/gcloud/configurations/config_(cat ~/.config/gcloud/active_config) | grep project | cut -f 3 -d " ")
@@ -11,9 +15,11 @@ function fish_prompt
         set envs $envs (printf 'GCP:%s' $gcp_project)
     end
     if [ (count $envs) -gt 0 ]
+        echo '['
         set_color red
-        printf '%s ' (string join ',' $envs)
+        printf '%s' (string join ',' $envs)
         set_color normal
+        echo ']'
     end
-    printf '> '
+    __fish_git_prompt
 end
