@@ -21,8 +21,8 @@
 
 ;; Company mode: auto completion
 (add-hook 'after-init-hook 'global-company-mode)
-(setq company-idle-delay 0.1)
 (with-eval-after-load 'company
+  (setq company-idle-delay 0.1)
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
   (define-key company-active-map (kbd "C-n") #'company-select-next)
@@ -54,10 +54,13 @@
 (tool-bar-mode -1) ; Hide the tool bar
 (add-hook 'before-save-hook 'delete-trailing-whitespace) ; delete spaces in the end of each line
 
-;; Store backup files in default temporary directory
-(setq backup-directory-alist `(("\\.*$" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-(setq auto-save-list-file-prefix (concat temporary-file-directory "auto-save-list/.saves-"))
+;; stop creating those #auto-save# files
+(setq auto-save-default nil)
+;; stop emacs from creating .#lock file links
+(setq create-lockfiles nil)
+;; disable emacs's automatic backup~ file
+(setq make-backup-files nil)
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

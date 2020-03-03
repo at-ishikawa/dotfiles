@@ -2,5 +2,7 @@
 .cask
 
 # A temporary and backup files
+*~
 recentf
+auto-save-list/
 transient/
