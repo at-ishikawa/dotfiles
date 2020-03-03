@@ -1,2 +1,0 @@
-(defcustom path-separator ":"
-  "")
