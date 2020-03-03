@@ -1,14 +1,6 @@
-# Compiled
-*.elc
-
 # Packaging
 .cask
 
-# Security
-network-security.data
-
 # A temporary and backup files
-tmp/
-*~
 recentf
-projectile-bookmarks.eld
+transient/

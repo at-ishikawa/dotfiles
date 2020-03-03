@@ -1,3 +1,0 @@
-(helm-projectile-on)
-
-
