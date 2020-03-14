@@ -18,6 +18,7 @@
 ;; recentf
 (require 'recentf-ext) ;; store directories
 (run-at-time nil (* 5 60) 'recentf-save-list) ;; save every 5 minutes
+(setq recentf-max-saved-items 500)
 
 ;; Company mode: auto completion
 (add-hook 'after-init-hook 'global-company-mode)
