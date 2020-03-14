@@ -62,6 +62,8 @@
 ;; disable emacs's automatic backup~ file
 (setq make-backup-files nil)
 (setq backup-directory-alist '(("" . "~/.emacs.d/backup")))
+;; reload changed contents on disk
+(global-auto-revert-mode)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
