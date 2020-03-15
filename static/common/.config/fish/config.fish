@@ -29,8 +29,5 @@ set -gx PATH $PATH $HOME/.krew/bin
 
 # iTerm 2
 if test "$TERM_PROGRAM" = "iTerm.app"
-    # function fish_title
-    #     echo 'Custom title'
-    # end
     source ~/.iterm2_shell_integration.fish
 end
