@@ -7,9 +7,13 @@
 	ui = auto
 [rebase]
 	autoStash = true
+	autosquash = true
 [diff]
 	colorMoved = zebra
 [url "git@github.com:"]
 	insteadOf = https://github.com/
 [ghq]
 	root = ~/src
+# Git configuration for work
+[includeIf "gitdir:~/src/github.com/org/"]
+    path = ~/.config/git/work.gitconfig
