@@ -18,7 +18,8 @@ set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin
 
 # gcloud
-source $HOME/lib/google-cloud-sdk/path.fish.inc
+set GCLOUD_SDK_PATH /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+source $GCLOUD_SDK_PATH/path.fish.inc
 
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
