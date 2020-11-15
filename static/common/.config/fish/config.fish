@@ -1,6 +1,6 @@
 set -U FZF_COMPLETE 2
 set -U FZF_TMUX_HEIGHT "40%"
-set -U FZF_DEFAULT_OPTS "--bind ctrl-k:kill-line --height $FZF_TMUX_HEIGHT"
+set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-alt-t:toggle-preview,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down"
 
 # fish_prompt
 set __fish_git_prompt_showdirtystate 'yes'
