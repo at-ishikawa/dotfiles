@@ -70,8 +70,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (exec-path-from-shell flycheck company-flx company company-terraform cask-mode yaml-mode terraform-mode smartrep recentf-ext protobuf-mode pallet markdown-mode magit helm fish-mode editorconfig dockerfile-mode))))
+   '(php-mode exec-path-from-shell flycheck company-flx company company-terraform cask-mode yaml-mode terraform-mode smartrep recentf-ext protobuf-mode pallet markdown-mode magit helm fish-mode editorconfig dockerfile-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
