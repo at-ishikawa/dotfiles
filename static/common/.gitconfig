@@ -1,8 +1,12 @@
+[core]
+	excludesfile = ~/.config/git/gitignore
 [user]
 	name = A. Ishikawa
 	email = a.ishikawa810@gmail.com
 [push]
 	default = matching
+[pull]
+	ff = only
 [color]
 	ui = auto
 [rebase]
