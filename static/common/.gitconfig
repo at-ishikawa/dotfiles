@@ -1,5 +1,7 @@
 [core]
 	excludesfile = ~/.config/git/gitignore
+[init]
+	defaultBranch = main
 [user]
 	name = A. Ishikawa
 	email = a.ishikawa810@gmail.com
