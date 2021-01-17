@@ -3,10 +3,6 @@ function fish_prompt
 end
 
 function fish_right_prompt
-    set -l current_k8s_context (kubectl config current-context)
-    set -l gcp_project (cat ~/.config/gcloud/active_config)
-    #    set -l gcp_project (cat ~/.config/gcloud/configurations/config_(cat ~/.config/gcloud/active_config) | grep project | cut -f 3 -d " ")
-
     set -x envs
     if type -q kubectl
 	set -l current_k8s_context (kubectl config current-context 2>/dev/null)
@@ -14,9 +10,13 @@ function fish_right_prompt
             set envs $envs (printf '⎈ %s' $current_k8s_context)
 	end
     end
-    if contains $gcp_project $FISH_PROMPT_GCP_CONFIG_NAMES
-        set envs $envs (printf 'GCP:%s' $gcp_project)
+    if test -f ~/.config/gcloud/active_config
+	set -l gcp_project (cat ~/.config/gcloud/active_config)
+	if contains $gcp_project $FISH_PROMPT_GCP_CONFIG_NAMES
+            set envs $envs (printf 'GCP:%s' $gcp_project)
+	end
     end
+
     if [ (count $envs) -gt 0 ]
         echo '['
         set_color red

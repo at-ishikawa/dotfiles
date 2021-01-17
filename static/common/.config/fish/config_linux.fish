@@ -1,0 +1,1 @@
+# Configurations only for Linux
