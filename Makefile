@@ -23,11 +23,12 @@ install: install/common install/$(OS) link/all
 install/common:
 	$(shell which npm && cd $(HOME) && npm install)
 	if [ ! -d "$(HOME)/.vim/bundle/neobundle.vim" ]; then \
-		cd $(HOME)/.vim/bundle && git clone https://github.com/Shougo/neobundle.vim neobundle.vim; \
+		mkdir -p $(HOME)/.vim/bundle \
+		git clone https://github.com/Shougo/neobundle.vim $(HOME)/.vim/bundle/neobundle.vim; \
 	fi
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-	chsh -s /usr/local/bin/fish
-	echo /usr/local/bin/fish | sudo tee -a /etc/shells
+	chsh -s $(shell which fish)
+	echo $(shell which fish) | sudo tee -a /etc/shells
 
 .PHONY: install/mac/brew install/mac/emacs
 install/mac: install/mac/brew install/mac/emacs
@@ -56,6 +57,14 @@ install/mac/emacs:
 	ln -sfn /usr/local/Cellar/cask/$(CASK_VERSION) $(HOME)/.cask
 	cd ~/.emacs.d && cask install
 
+
+install/linux:
+	# Emacs
+	curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
+	sudo apt update -y
+	sudo apt install golang-go
+	go get github.com/x-motemen/ghq
+	sudo apt install fzf
 
 .PHONY: link/all link/common
 link/all: link/common
