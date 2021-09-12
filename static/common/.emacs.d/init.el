@@ -1,3 +1,9 @@
+;; Comment out to debug Unnecessary call to a function 'package-initialize' in init file
+;; https://emacs.stackexchange.com/questions/51603/i-see-unnecessary-call-to-package-initialize-in-init-file-but-cant-find-the
+;; (debug-on-entry 'package-initialize)
+;; Quick fix: https://github.com/cask/cask/issues/463#issuecomment-794249642
+(setq warning-suppress-log-types '((package reinitialization)))
+
 ;; package manager cask
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)

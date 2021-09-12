@@ -4,19 +4,37 @@ STATIC_COMMON_SOURCE_LINK_FILES=$(shell ls -A $(STATIC_COMMON_DIR_PREFIX))
 UNAME = $(shell uname)
 ifeq ($(UNAME),Linux)
 OS=linux
+DISTRIBUTION=(lsb_release -si)
 endif
 ifeq ($(UNAME),Darwin)
 OS=mac
+DISTRIBUTION=
 endif
 
 define linkFile
-	ln -sfn $(realpath $(1)) $(abspath $(2))
-
+	$(eval DESTINATION := $(abspath $(2)))
+	if [ -d $(DESTINATION) -o -f $(DESTINATION) ]; then \
+		echo "Move an existing directory or file: $(DESTINATION)"; \
+		cp $(DESTINATION) $(DESTINATION).bak
+	fi \
+	ln -sfn $(realpath $(1)) $(DESTINATION)
 endef
 
 
+prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
+
+prerequisite/Ubuntu:
+	sudo apt install git \
+		curl \
+		python-is-python3 \
+		fish \
+		emacs
+
+prerequisite/mac/:
+
+
 .PHONY: install install/mac
-install: install/common install/$(OS) link/all
+install: link/all install/common install/$(OS)
 
 
 .PHONY: install/common
@@ -27,11 +45,11 @@ install/common:
 		git clone https://github.com/Shougo/neobundle.vim $(HOME)/.vim/bundle/neobundle.vim; \
 	fi
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-	chsh -s $(shell which fish)
-	echo $(shell which fish) | sudo tee -a /etc/shells
 
 .PHONY: install/mac/brew install/mac/emacs
 install/mac: install/mac/brew install/mac/emacs
+	chsh -s $(shell which fish)
+	echo $(shell which fish) | sudo tee -a /etc/shells
 	$(eval BREW_PREFIX=$(shell brew --prefix))
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker-compose
@@ -54,17 +72,21 @@ install/mac/emacs:
 	# https://qiita.com/makky_tyuyan/items/d692e1fe2aeba979bc11
 	brew install cask
 	$(eval CASK_VERSION=$(shell cask --version))
-	ln -sfn /usr/local/Cellar/cask/$(CASK_VERSION) $(HOME)/.cask
+	ln -sfn /usr/local/Cellar/cask/$(CASK_VERSION) $(HOME)/.cask \
 	cd ~/.emacs.d && cask install
 
-
 install/linux:
+	sudo chsh -s $(shell which fish)
+	echo $(shell which fish) | sudo tee -a /etc/shells
 	# Emacs
-	curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
+	if [ ! -d $(HOME)/.cask ]; then \
+		curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python; \
+	fi
 	sudo apt update -y
 	sudo apt install golang-go
 	go get github.com/x-motemen/ghq
 	sudo apt install fzf
+	cd ~/.emacs.d && cask install
 
 .PHONY: link/all link/common
 link/all: link/common

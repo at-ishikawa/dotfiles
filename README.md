@@ -5,8 +5,9 @@
 # Configurations
 ## Common for platforms
 ### tmux
-    1. Use C-t for prefix, instead of C-b
-    2. Enable mouse
+1. Use C-t for prefix, instead of C-b
+2. Enable mouse
+
 
 ### fish
 This dotfiles contain fish to
@@ -19,22 +20,15 @@ These environment variables can be configured in ~/.config/fish/config.fish
 ### git
 
 ### bash
-    1. Configure PATH for followings
-       - Google Cloud SDK
-       - Android SDk
-       - Anyenv
-       - Golang
-       - Gem
+1. Configure PATH for followings
+   - Google Cloud SDK
+   - Android SDk
+   - Anyenv
+   - Golang
+   - Gem
 
 ### emacs
 
-## Linux
-### xkb
-    This configuration is for an apple keyboard.
-    1. Command => Alt
-    2. Alt => Super
-    Reference
-    - http://nowcodingtime.blogspot.jp/2014/12/ubuntu1410apple-usb-keyboard-mb110jb.html
 
 # List of Mac Apps
 See homebrew_cask_packages in `package_mac.yml`.
