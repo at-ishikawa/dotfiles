@@ -24,6 +24,13 @@ set -x PATH $HOME/.anyenv/envs/nodenv/bin $PATH
 # krew
 set -gx PATH $PATH $HOME/.krew/bin
 
+set -x PATH $HOME/bin $PATH
+
+# Sourcegraph
+if test -e ~/.sourcegraph/access_token
+    set -x SRC_ACCESS_TOKEN (cat ~/.sourcegraph/access_token)
+end
+
 # load config files depending on OS
 set -l config_root_directory ~/.config/fish
 source $config_root_directory/config_(uname | string lower).fish
