@@ -1,12 +1,17 @@
+function __fish_prompt_kubernetes_caution
+    set -l current_k8s_context (kubectl config current-context)
+    return (contains $current_k8s_context $FISH_PROMPT_K8S_CONTEXT_NAMES)
+end
+
 function __fish_prompt_kubernetes
     if not type -q kubectl
-	return
+	    return
     end
 
     set -l current_k8s_context (kubectl config current-context)
     set -l prompt_message '⎈ '$current_k8s_context
 
-    if contains $current_k8s_context $FISH_PROMPT_K8S_CONTEXT_NAMES
+    if __fish_prompt_kubernetes_caution
         set_color red
         echo -n $prompt_message
         set_color normal
@@ -15,15 +20,20 @@ function __fish_prompt_kubernetes
     end
 end
 
+function __fish_prompt_gcp_caution
+    set -l gcp_project (cat ~/.config/gcloud/active_config)
+    return (contains $gcp_project $FISH_PROMPT_GCP_CONFIG_NAMES)
+end
+
 function __fish_prompt_gcp
     if not test -f ~/.config/gcloud/active_config
-	return
+    	return
     end
 
     set -l gcp_project (cat ~/.config/gcloud/active_config)
     set -l prompt_message 'GCP '$gcp_project
 
-    if contains $gcp_project $FISH_PROMPT_GCP_CONFIG_NAMES
+    if __fish_prompt_gcp_caution
         set_color red
         echo -n $prompt_message
         set_color normal
@@ -48,14 +58,16 @@ end
 function fish_prompt
     set -l display_status $status
 
-    echo
-    string join ' ' \
-        (printf '(%s)' $PWD) \
-        (printf '(%s)' (__fish_prompt_kubernetes)) \
-        (printf '(%s)' (__fish_prompt_gcp)) \
-#         (prompt_pwd) \
-        (__fish_git_prompt) \
-        (printf '(%s)' (__fish_prompt_status $display_status)) \
+    if __fish_prompt_kubernetes_caution; or __fish_prompt_gcp_caution;
+        echo
+        string join ' ' \
+            (prompt_pwd) \
+            (printf '(%s)' (__fish_prompt_kubernetes)) \
+            (printf '(%s)' (__fish_prompt_gcp)) \
+            (__fish_git_prompt) \
+            (printf '(%s)' (__fish_prompt_status $display_status))
+    end
+
 
     echo '> '
 end
