@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# See https://eioki.eu/2021/01/12/tmux-and-fzf-fuzzy-tmux-session-window-pane-switcher
+# Other references:
+# https://github.com/junegunn/fzf/wiki/Examples#tmux
+# https://www.hschne.at/2020/04/25/creating-a-fuzzy-shell-with-fzf-and-friends.html
+
+# customizable
+LIST_DATA="#{session_name} #{window_name} #{pane_title}"
+FZF_COMMAND="fzf --delimiter=: --with-nth 4 --color=hl:2"
+
+TARGET_SPEC="#{session_id}:#{window_id}:#{pane_id}:"
+
+# select pane
+LINE=$(tmux list-panes -a -F "$TARGET_SPEC $LIST_DATA" | $FZF_COMMAND)
+args=(${LINE//:/ })
+tmux select-pane -t "${args[2]}" && tmux select-window -t "${args[1]}" && tmux switch-client -t "${args[0]}"
