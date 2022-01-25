@@ -2,6 +2,8 @@
 	excludesfile = ~/.config/git/gitignore
 [init]
 	defaultBranch = main
+[format]
+	pretty=fuller
 [user]
 	name = A. Ishikawa
 	email = 10303962+at-ishikawa@users.noreply.github.com
