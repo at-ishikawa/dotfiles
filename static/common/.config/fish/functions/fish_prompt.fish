@@ -1,4 +1,8 @@
 function __fish_prompt_kubernetes_caution
+    if not type -q kubectl
+	    return
+    end
+
     set -l current_k8s_context (kubectl config current-context)
     return (contains $current_k8s_context $FISH_PROMPT_K8S_CONTEXT_NAMES)
 end

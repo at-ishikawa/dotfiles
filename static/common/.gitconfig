@@ -1,5 +1,6 @@
 [core]
 	excludesfile = ~/.config/git/gitignore
+	editor = vi
 [init]
 	defaultBranch = main
 [format]

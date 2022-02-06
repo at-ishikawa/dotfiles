@@ -13,10 +13,6 @@ endif
 
 define linkFile
 	$(eval DESTINATION := $(abspath $(2)))
-	if [ -d $(DESTINATION) -o -f $(DESTINATION) ]; then \
-		echo "Move an existing directory or file: $(DESTINATION)"; \
-		cp $(DESTINATION) $(DESTINATION).bak
-	fi \
 	ln -sfn $(realpath $(1)) $(DESTINATION)
 endef
 

@@ -20,9 +20,9 @@ set -x PATH $PATH $GOPATH/bin
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
 # error happens for some reasons
-# if type -q anyenv
-#     status --is-interactive; and source (anyenv init -|psub)
-# end
+if type -q anyenv
+    status --is-interactive; and source (anyenv init -|psub)
+end
 
 # nodenv under anyenv
 set -x PATH $HOME/.anyenv/envs/nodenv/bin $PATH
