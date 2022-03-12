@@ -1,6 +1,9 @@
 function __fish_prompt_kubernetes_caution
     if not type -q kubectl
-	    return
+	    return 1
+    end
+    if test -n "$FISH_PROMPT_K8S_CONTEXT_NAMES"
+        return 1
     end
 
     set -l current_k8s_context (kubectl config current-context)
@@ -25,6 +28,13 @@ function __fish_prompt_kubernetes
 end
 
 function __fish_prompt_gcp_caution
+    if test -n "$FISH_PROMPT_GCP_CONFIG_NAMES"
+        return 1
+    end
+    if not test -f ~/.config/gcloud/active_config
+        return 1
+    end
+
     set -l gcp_project (cat ~/.config/gcloud/active_config)
     return (contains $gcp_project $FISH_PROMPT_GCP_CONFIG_NAMES)
 end
