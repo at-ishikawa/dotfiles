@@ -4,7 +4,7 @@ STATIC_COMMON_SOURCE_LINK_FILES=$(shell ls -A $(STATIC_COMMON_DIR_PREFIX))
 UNAME = $(shell uname)
 ifeq ($(UNAME),Linux)
 OS=linux
-DISTRIBUTION=(lsb_release -si)
+DISTRIBUTION=$(shell lsb_release -si)
 endif
 ifeq ($(UNAME),Darwin)
 OS=mac
@@ -19,18 +19,16 @@ endef
 
 prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 
-prerequisite/Ubuntu:
+prerequisite/linux/Ubuntu:
 	sudo apt install git \
 		curl \
-		python-is-python3 \
-		fish \
-		emacs
+		fish
 
 prerequisite/mac/:
 
 
 .PHONY: install install/mac
-install: link/all install/common install/$(OS)
+install: prerequisite link/all install/common install/$(OS)
 
 
 .PHONY: install/common
@@ -42,8 +40,8 @@ install/common:
 	fi
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 
-.PHONY: install/mac/brew install/mac/emacs
-install/mac: install/mac/brew install/mac/emacs
+.PHONY: install/mac/brew 
+install/mac: install/mac/brew 
 	chsh -s $(shell which fish)
 	echo $(shell which fish) | sudo tee -a /etc/shells
 	$(eval BREW_PREFIX=$(shell brew --prefix))
@@ -63,26 +61,13 @@ endif
 	ansible-playbook -i hosts package_mac.yml
 	brew update
 
-install/mac/emacs:
-	# Emacs
-	# https://qiita.com/makky_tyuyan/items/d692e1fe2aeba979bc11
-	brew install cask
-	$(eval CASK_VERSION=$(shell cask --version))
-	ln -sfn /usr/local/Cellar/cask/$(CASK_VERSION) $(HOME)/.cask \
-	cd ~/.emacs.d && cask install
-
 install/linux:
 	sudo chsh -s $(shell which fish)
 	echo $(shell which fish) | sudo tee -a /etc/shells
 	# Emacs
-	if [ ! -d $(HOME)/.cask ]; then \
-		curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python; \
-	fi
 	sudo apt update -y
 	sudo apt install golang-go
-	go get github.com/x-motemen/ghq
 	sudo apt install fzf
-	cd ~/.emacs.d && cask install
 
 .PHONY: link/all link/common
 link/all: link/common
