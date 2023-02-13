@@ -1,5 +1,3 @@
-set -U FZF_COMPLETE 2
-set -U FZF_TMUX_HEIGHT "40%"
 set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-alt-t:toggle-preview,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down"
 
 # fish_prompt
@@ -21,7 +19,7 @@ set -x PATH $PATH $GOPATH/bin
 set -x PATH $HOME/.anyenv/bin $PATH
 # error happens for some reasons
 if type -q anyenv
-    status --is-interactive; and source (anyenv init -|psub)
+#    status --is-interactive; and source (anyenv init -|psub)
 end
 
 # nodenv under anyenv
@@ -50,4 +48,12 @@ if not pgrep -f ssh-agent > /dev/null
     set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
     set -Ux SSH_AGENT_PID $SSH_AGENT_PID
     set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
+end
+
+set -Ux USE_GKE_GCLOUD_AUTH_PLUGIN True
+
+# https://github.com/at-ishikawa/fish-completion-interceptor
+set -U FISH_COMPLETION_INTERCEPTOR_ENABLED true
+function fish_completion_interceptor_fallback
+    __fzf_complete
 end
