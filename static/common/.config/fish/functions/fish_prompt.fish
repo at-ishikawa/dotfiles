@@ -2,7 +2,7 @@ function __fish_prompt_kubernetes_caution
     if not type -q kubectl
 	    return 1
     end
-    if test -n "$FISH_PROMPT_K8S_CONTEXT_NAMES"
+    if test -z "$FISH_PROMPT_K8S_CONTEXT_NAMES"
         return 1
     end
 
@@ -28,7 +28,7 @@ function __fish_prompt_kubernetes
 end
 
 function __fish_prompt_gcp_caution
-    if test -n "$FISH_PROMPT_GCP_CONFIG_NAMES"
+    if test -z "$FISH_PROMPT_GCP_CONFIG_NAMES"
         return 1
     end
     if not test -f ~/.config/gcloud/active_config
@@ -81,7 +81,6 @@ function fish_prompt
             (__fish_git_prompt) \
             (printf '(%s)' (__fish_prompt_status $display_status))
     end
-
 
     echo '> '
 end
