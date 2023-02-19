@@ -40,9 +40,10 @@ install/common:
 	fi
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 
-.PHONY: install/mac/brew 
-install/mac: install/mac/brew 
+.PHONY: install/mac/brew
+install/mac: install/mac/brew
 	chsh -s $(shell which fish)
+install/linux: install/linux/$(DISTRIBUTION)
 	echo $(shell which fish) | sudo tee -a /etc/shells
 	$(eval BREW_PREFIX=$(shell brew --prefix))
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker
@@ -61,13 +62,75 @@ endif
 	ansible-playbook -i hosts package_mac.yml
 	brew update
 
-install/linux:
+install/linux: install/linux/$(DISTRIBUTION)
 	sudo chsh -s $(shell which fish)
 	echo $(shell which fish) | sudo tee -a /etc/shells
+
+install/linux/Ubuntu: install/linux/Ubuntu/*
 	# Emacs
 	sudo apt update -y
-	sudo apt install golang-go
-	sudo apt install fzf
+	sudo apt install -y golang-go \
+		fzf \
+		tmux \
+		gnome-tweaks \
+		gnome-shell-extensions \
+		gnome-shell-extension-gpaste \
+		gnome-shell-extension-prefs
+
+install/linux/Ubuntu/vscode:
+	# https://code.visualstudio.com/docs/setup/linux
+	sudo apt install -y wget gpg
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+	sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+	rm -f packages.microsoft.gpg
+	sudo apt install -y apt-transport-https
+	sudo apt update
+	sudo apt install -y code
+
+install/linux/Ubuntu/google-chrome:
+	sudo apt install -y wget
+	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+	sudo dpkg -i google-chrome-stable_current_amd64.deb
+	rm google-chrome-stable_current_amd64.deb
+
+install/linux/Ubuntu/1password:
+	# https://support.1password.com/install-linux/#debian-or-ubuntu
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+	echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/amd64 stable main' | sudo tee /etc/apt/sources.list.d/1password.list
+	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+	sudo apt update && sudo apt install -y 1password
+
+install/linux/Ubuntu/1password-cli:
+	# CLI
+	# https://developer.1password.com/docs/cli/get-started
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+	echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(shell dpkg --print-architecture) stable main" | sudo tee /etc/apt/sources.list.d/1password.list
+	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+	sudo apt update && sudo apt install -y 1password-cli
+
+install/linux/Ubuntu/gh:
+	type -p curl >/dev/null || sudo apt install curl -y
+	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+		&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+		&& echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+		&& sudo apt update \
+		&& sudo apt install gh -y
+
+install/linux/Ubuntu/docker:
+	# https://www.howtogeek.com/devops/how-to-install-docker-and-docker-compose-on-linux/
+	sudo apt update
+	sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	sudo apt update -y
+	sudo apt install -y docker-ce docker-ce-cli containerd.io
 
 .PHONY: link/all link/common
 link/all: link/common
