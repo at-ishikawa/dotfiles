@@ -1,13 +1,11 @@
 # Getting Started
-1. Copy `bash/.env.example` file to `bash/.env` file and edit it.
-2. Run make by `make install`
+1. Run `make install`
 
 # Configurations
 ## Common for platforms
 ### tmux
 1. Use C-t for prefix, instead of C-b
 2. Enable mouse
-
 
 ### fish
 This dotfiles contain fish to
@@ -19,16 +17,7 @@ These environment variables can be configured in ~/.config/fish/config.fish
 
 ### git
 
-### bash
-1. Configure PATH for followings
-   - Google Cloud SDK
-   - Android SDk
-   - Anyenv
-   - Golang
-   - Gem
-
-### emacs
 
 
-# List of Mac Apps
+## List of Mac Apps
 See homebrew_cask_packages in `package_mac.yml`.
