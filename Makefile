@@ -34,11 +34,10 @@ install/common:
 		mkdir -p $(HOME)/.vim/bundle \
 		git clone https://github.com/Shougo/neobundle.vim $(HOME)/.vim/bundle/neobundle.vim; \
 	fi
-	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 
 .PHONY: install/mac/brew
 install/mac: install/mac/brew
-	chsh -s $(shell which fish)
+
 install/linux: install/linux/$(DISTRIBUTION)
 	echo $(shell which fish) | sudo tee -a /etc/shells
 	$(eval BREW_PREFIX=$(shell brew --prefix))
@@ -59,8 +58,6 @@ endif
 	brew update
 
 install/linux: install/linux/$(DISTRIBUTION)
-	sudo chsh -s $(shell which fish)
-	echo $(shell which fish) | sudo tee -a /etc/shells
 
 install/linux/Ubuntu: install/linux/Ubuntu/*
 	# Emacs
