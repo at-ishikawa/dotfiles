@@ -1,9 +1,0 @@
-partial modifier_keys
-xkb_symbols "metakeys" {
-    key <LALT> { [ Super_L, Hyper_L ] };
-    key <LWIN> { [ Alt_L, Meta_L ] };
-    key <RWIN> { [ Alt_R, Meta_R ] };
-    modifier_map Mod1 { <LWIN>, <RWIN> };
-    modifier_map Mod4 { <LALT> };
-};
-

@@ -37,9 +37,6 @@ install/common:
 
 .PHONY: install/mac/brew
 install/mac: install/mac/brew
-
-install/linux: install/linux/$(DISTRIBUTION)
-	echo $(shell which fish) | sudo tee -a /etc/shells
 	$(eval BREW_PREFIX=$(shell brew --prefix))
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker-compose
