@@ -1,6 +1,3 @@
-STATIC_COMMON_DIR_PREFIX=static/common
-STATIC_COMMON_SOURCE_LINK_FILES=$(shell ls -A $(STATIC_COMMON_DIR_PREFIX))
-
 UNAME = $(shell uname)
 ifeq ($(UNAME),Linux)
 OS=linux
@@ -10,11 +7,6 @@ ifeq ($(UNAME),Darwin)
 OS=mac
 DISTRIBUTION=
 endif
-
-define linkFile
-	$(eval DESTINATION := $(abspath $(2)))
-	ln -sfn $(realpath $(1)) $(DESTINATION)
-endef
 
 
 prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
@@ -31,7 +23,7 @@ prerequisite/mac/:
 
 
 .PHONY: install install/mac
-install: prerequisite link/all install/common install/$(OS)
+install: prerequisite install/common install/$(OS)
 	ansible-playbook --ask-become-pass bootstrap.yml
 
 
@@ -136,8 +128,3 @@ install/linux/Ubuntu/docker:
 	sudo apt update -y
 	sudo apt install -y docker-ce docker-ce-cli containerd.io
 
-.PHONY: link/all link/common
-link/all: link/common
-
-link/common:
-	$(foreach f,$(STATIC_COMMON_SOURCE_LINK_FILES),$(call linkFile,$(STATIC_COMMON_DIR_PREFIX)/$(f),$(HOME)/$(f)))
