@@ -1,6 +1,7 @@
 # Getting Started
 1. Run `make install`
 
+
 # Configurations
 ## Common for platforms
 ### tmux
@@ -16,7 +17,6 @@ These environment variables can be configured in ~/.config/fish/config.fish
 2. FISH_PROMPT_GCP_CONFIG_NAMES (array): GCP config names that should be shown on prompt
 
 ### git
-
 
 
 ## List of Mac Apps

@@ -20,6 +20,9 @@ endef
 prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 
 prerequisite/linux/Ubuntu:
+	sudo apt update -y
+	sudo apt install -y ansible
+	# TODOs: These should be migrated into bootstrap.yml
 	sudo apt install git \
 		curl \
 		fish
@@ -29,6 +32,7 @@ prerequisite/mac/:
 
 .PHONY: install install/mac
 install: prerequisite link/all install/common install/$(OS)
+	ansible-playbook --ask-become-pass bootstrap.yml
 
 
 .PHONY: install/common

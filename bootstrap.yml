@@ -1,0 +1,20 @@
+# https://phelipetls.github.io/posts/introduction-to-ansible/
+- name: Bootstrap a local environment
+  hosts: localhost
+
+  tasks:
+  - name: Install required packages with apt
+    become: yes
+    apt:
+      name:
+        - git
+        - curl
+        - fish
+      state: present
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Create a symbolic link for a fish
+    file:
+      src: "{{ playbook_dir }}/static/common/.config/fish"
+      dest: "{{ ansible_env.HOME }}/.config/fish"
+      state: link
