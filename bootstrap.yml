@@ -13,6 +13,7 @@
         - git
         - curl
         - fish
+        - ruby-dev
       state: present
     when: ansible_distribution == "Ubuntu"
 
@@ -78,3 +79,11 @@
     user:
       name: "{{ user_id }}"
       shell: "{{ fish_command_path }}"
+
+
+
+  # Install bundle for GitHub pages
+  - name: Install bundle
+    gem:
+      name: bundler
+      state: latest
