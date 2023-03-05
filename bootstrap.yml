@@ -14,6 +14,7 @@
         - curl
         - fish
         - ruby-dev
+        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
       state: present
     when: ansible_distribution == "Ubuntu"
 
@@ -81,9 +82,23 @@
       shell: "{{ fish_command_path }}"
 
 
-
-  # Install bundle for GitHub pages
-  - name: Install bundle
-    gem:
-      name: bundler
-      state: latest
+  # Install anyenv
+  - name: Clone anyenv repository
+    git:
+      repo: "https://github.com/anyenv/anyenv"
+      dest: "{{ ansible_env.HOME }}/.anyenv"
+  - name: Check if the anyenv manifest directory exists
+    stat:
+      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
+    register: anyenv_manifest_directory
+  - name: Initialize anyenv
+    command: "~/.anyenv/bin/anyenv install --force-init'"
+    when: not anyenv_manifest_directory.stat.exists
+  ## rbenv
+  - name: Check if rbenv is already installed
+    stat:
+      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
+    register: rbenv_directory
+  - name: Install rbenv
+    command: "~/.anyenv/bin/anyenv install rbenv'"
+    when: not rbenv_directory.stat.exists

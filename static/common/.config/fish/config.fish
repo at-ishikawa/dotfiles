@@ -27,7 +27,15 @@ if type -q anyenv
 #    status --is-interactive; and source (anyenv init -|psub)
 end
 
-# nodenv under anyenv
+## rbenv under anyenv
+set -x PATH $HOME/.anyenv/envs/rbenv/bin $PATH
+# rbenv needs a plugin ruby-build
+set -x PATH $HOME/.anyenv/envs/rbenv/plugins/ruby-build/bin $PATH
+if type -q rbenv
+    status --is-interactive; and rbenv init - fish | source
+end
+
+## nodenv under anyenv
 set -x PATH $HOME/.anyenv/envs/nodenv/bin $PATH
 if type -q nodenv
     status --is-interactive; and source (nodenv init -|psub)
