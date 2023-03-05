@@ -108,3 +108,30 @@
   - name: Install rbenv
     command: "~/.anyenv/bin/anyenv install rbenv"
     when: not rbenv_directory.stat.exists
+
+# https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
+- name: Check current OS distribution
+  hosts: localhost
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: os_{{ ansible_facts['distribution'] }}
+
+# Ubuntu only
+- hosts: os_Ubuntu
+  gather_facts: False
+  tasks:
+    - name: Install Microk8s
+      become: yes
+      community.general.snap:
+        name: microk8s
+        classic: true
+        channel: 1.18/stable
+
+# MacOSX only
+- hosts: os_MacOSX
+  gather_facts: False
+  tasks:
+    - name: Install MacOSX packages
+      debug:
+        msg: "There is no configuration yet"

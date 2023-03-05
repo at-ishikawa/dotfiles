@@ -14,6 +14,9 @@ prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 prerequisite/linux/Ubuntu:
 	sudo apt update -y
 	sudo apt install -y ansible
+	# Use a snap module
+	# https://docs.ansible.com/ansible/latest/collections/community/general/snap_module.html
+	ansible-galaxy collection install community.general
 	# TODOs: These should be migrated into bootstrap.yml
 	sudo apt install git \
 		curl \
