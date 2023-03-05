@@ -126,7 +126,14 @@
       community.general.snap:
         name: microk8s
         classic: true
-        channel: 1.18/stable
+        channel: 1.26/stable
+    - name: Install application packages on Ubuntu
+      become: yes
+      apt:
+        name:
+          - scrcpy # https://github.com/Genymobile/scrcpy
+          - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
+        state: present
 
 # MacOSX only
 - hosts: os_MacOSX
