@@ -130,16 +130,16 @@
 
     - name: Add homebrew taps
       homebrew_tap:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: present
       loop:
         - github/gh
         - golangci/tap
         - sourcegraph/src-cli
 
-    - name: homebrew cask packages install
+    - name: Install packages with homebrew cask
       homebrew_cask:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: present
       environment:
         HOMEBREW_CASK_OPTS: "--appdir=/Applications"
@@ -155,25 +155,40 @@
         - spectacle
         - bettertouchtool
         - 1password
+        - 1password-cli
         - goland
         - iterm2
         - google-cloud-sdk
         - dropbox
 
-    - name: homebrew packages install
+    - name: Install homebrew packages
       homebrew:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: present
       loop:
-      - git
-      - tmux
-      - reattach-to-user-namespace
-      - fish
-      - kubernetes-helm
-      - go
-      - fzf
-      - ghq
-      - mas # https://github.com/mas-cli/mas
+        - git
+        - gh
+        - ghq
+
+        - fish
+        - fzf
+        - tmux
+        - tmuxinator
+        - reattach-to-user-namespace
+
+        - yq
+        - jq
+        - tree
+
+        - go
+
+        - kubernetes-cli
+        - kubernetes-helm
+        - kubie
+        - istioctl
+        - mycli
+
+        - mas # https://github.com/mas-cli/mas
 
 
 # Ubuntu only
