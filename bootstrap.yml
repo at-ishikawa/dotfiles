@@ -17,6 +17,10 @@
     when: ansible_distribution == "Ubuntu"
 
   # Prepare symbolic links at first
+  - name: Ensure there is the $HOME/.config directory
+    file:
+      path: "{{ ansible_env.HOME }}/.config"
+      state: directory
   - name: Create symbolic links for a $HOME/.config directory
     file:
       src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
@@ -26,7 +30,6 @@
       - fish
       - git
       - tmux
-
   - name: Create symbolic links for a $HOME/ directory
     file:
       src: "{{ playbook_dir }}/static/common/{{ item }}"
@@ -42,7 +45,6 @@
       - .gitignore
 
 
-
   # Fish
   - name: Create a symbolic link for a $HOME/.config directory
     file:
@@ -51,6 +53,7 @@
       state: link
     loop:
       - fish
+  ## todo: Next step fails on check option
   - name: Download a fisher
     get_url:
       url: https://git.io/fisher
@@ -110,12 +113,36 @@
     when: not rbenv_directory.stat.exists
 
 # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
-- name: Check current OS distribution
+- name: Check current environments
   hosts: localhost
+  gather_facts: yes
   tasks:
-    - name: Classify hosts depending on their OS distribution
+    - name: Check if running on WSL
+      shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
+      register: wsl_check
+
+    - name: Set is_wsl fact
+      set_fact:
+        is_wsl: "{{ wsl_check.stdout == 'true' }}"
+      when: wsl_check.rc == 0
+
+    - name: Classify a host if it's WSL
+      group_by:
+        key: wsl_{{ ansible_facts['distribution'] }}
+      when: is_wsl
+
+    - name: Classify a host for non WSL distributions
       group_by:
         key: os_{{ ansible_facts['distribution'] }}
+      when: not is_wsl
+
+# WSL Ubuntu only
+- hosts: wsl_Ubuntu
+  gather_facts: False
+  tasks:
+    - name: Install WSL Ubuntu packages
+      debug:
+        msg: "There is no configuration yet"
 
 # Ubuntu only
 - hosts: os_Ubuntu

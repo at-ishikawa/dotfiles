@@ -15,11 +15,6 @@ set __fish_git_prompt_show_informative_status 'yes'
 set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin
 
-# Setting the GEM_PATH and GEM_HOME variables may not be necessary, check 'gem env' output to verify whether both variables already exist
-set -x GEM_HOME (ruby -e 'puts Gem.user_dir')
-set -x GEM_PATH $GEM_HOME
-set -x PATH $GEM_HOME/bin $PATH
-
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
 # error happens for some reasons

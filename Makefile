@@ -17,26 +17,16 @@ prerequisite/linux/Ubuntu:
 	# Use a snap module
 	# https://docs.ansible.com/ansible/latest/collections/community/general/snap_module.html
 	ansible-galaxy collection install community.general
-	# TODOs: These should be migrated into bootstrap.yml
-	sudo apt install git \
-		curl \
-		fish
 
 prerequisite/mac/:
 
+.PHONY: check
+check: prerequisite
+	ansible-playbook --diff --check --ask-become-pass bootstrap.yml
 
 .PHONY: install install/mac
-install: prerequisite install/common install/$(OS)
+install: prerequisite install/$(OS)
 	ansible-playbook --ask-become-pass bootstrap.yml
-
-
-.PHONY: install/common
-install/common:
-	$(shell which npm && cd $(HOME) && npm install)
-	if [ ! -d "$(HOME)/.vim/bundle/neobundle.vim" ]; then \
-		mkdir -p $(HOME)/.vim/bundle \
-		git clone https://github.com/Shougo/neobundle.vim $(HOME)/.vim/bundle/neobundle.vim; \
-	fi
 
 .PHONY: install/mac/brew
 install/mac: install/mac/brew
