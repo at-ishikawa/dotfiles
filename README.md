@@ -5,6 +5,9 @@
 1. Add a password of the private key into ssh agent
 1. Run `make install` again
 
+After install, some configurations are required
+- 1Password CLI: `op account add --signin --address my.1password.com`
+
 
 # Configurations
 ## Common for platforms

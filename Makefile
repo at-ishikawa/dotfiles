@@ -29,7 +29,7 @@ prepare: prerequisite
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
-	ansible-playbook bootstrap.yml
+	ansible-playbook --ask-become-pass bootstrap.yml
 
 .PHONY: install/mac/brew
 install/mac: install/mac/brew
