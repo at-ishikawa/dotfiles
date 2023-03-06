@@ -124,9 +124,57 @@
 # MacOSX only
 - hosts: os_MacOSX
   tasks:
-    - name: Install MacOSX packages
-      debug:
-        msg: "There is no configuration yet"
+    - name: Update homebrew formulae
+      homebrew:
+        update_homebrew: yes
+
+    - name: Add homebrew taps
+      homebrew_tap:
+        name: '{{ item }}'
+        state: present
+      loop:
+        - github/gh
+        - golangci/tap
+        - sourcegraph/src-cli
+
+    - name: homebrew cask packages install
+      homebrew_cask:
+        name: '{{ item }}'
+        state: present
+      environment:
+        HOMEBREW_CASK_OPTS: "--appdir=/Applications"
+      ignore_errors: yes # highly likely this is because applications are already installed
+      loop:
+        - google-japanese-ime
+        - appcleaner
+        - emacs
+        - slack
+        - docker
+        - google-chrome
+        - alfred
+        - spectacle
+        - bettertouchtool
+        - 1password
+        - goland
+        - iterm2
+        - google-cloud-sdk
+        - dropbox
+
+    - name: homebrew packages install
+      homebrew:
+        name: '{{ item }}'
+        state: present
+      loop:
+      - git
+      - tmux
+      - reattach-to-user-namespace
+      - fish
+      - kubernetes-helm
+      - go
+      - fzf
+      - ghq
+      - mas # https://github.com/mas-cli/mas
+
 
 # Ubuntu only
 - hosts: os_Ubuntu

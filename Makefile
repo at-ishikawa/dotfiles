@@ -23,6 +23,8 @@ prerequisite/linux/Ubuntu:
 	ansible-galaxy collection install community.general
 
 prerequisite/mac/:
+	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
+	brew install ansible
 
 .PHONY: prepare install install/mac install/linux
 prepare: prerequisite
@@ -31,24 +33,12 @@ prepare: prerequisite
 install: install/$(OS)
 	ansible-playbook --ask-become-pass bootstrap.yml
 
-.PHONY: install/mac/brew
-install/mac: install/mac/brew
+install/mac:
 	$(eval BREW_PREFIX=$(shell brew --prefix))
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker-compose
 	mkdir -p ~/lib
 	ln -sfn /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk ~/lib/
-
-install/mac/brew:
-	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
-ifeq (, $(shell which ansible))
-	brew install ansible
-endif
-ifeq (, $(shell which python))
-	brew install python
-endif
-	ansible-playbook -i hosts package_mac.yml
-	brew update
 
 install/linux: install/linux/$(DISTRIBUTION)
 
