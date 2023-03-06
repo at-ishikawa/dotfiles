@@ -22,11 +22,11 @@ prerequisite/mac/:
 
 .PHONY: check
 check: prerequisite
-	ansible-playbook --diff --check --ask-become-pass bootstrap.yml
+	ansible-playbook --diff --check bootstrap.yml
 
 .PHONY: install install/mac
 install: prerequisite install/$(OS)
-	ansible-playbook --ask-become-pass bootstrap.yml
+	ansible-playbook bootstrap.yml
 
 .PHONY: install/mac/brew
 install/mac: install/mac/brew
