@@ -13,7 +13,6 @@
         - git
         - curl
         - fish
-        - fzf
       state: present
     when: ansible_distribution == "Ubuntu"
 
@@ -118,6 +117,31 @@
   hosts: localhost
   gather_facts: yes
   tasks:
+    - name: Classify a host depending on OS
+      group_by:
+        key: os_{{ ansible_facts['distribution'] }}
+
+# MacOSX only
+- hosts: os_MacOSX
+  tasks:
+    - name: Install MacOSX packages
+      debug:
+        msg: "There is no configuration yet"
+
+# Ubuntu only
+- hosts: os_Ubuntu
+  tasks:
+    # Install for Ubuntu, regardless of WSL or non WSL
+    - name: Install application packages on Ubuntu
+      become: yes
+      apt:
+        name:
+          - fzf
+          - tmux
+          - golang-go
+        state: present
+
+    # Prepare hosts based on WSL or non WSL
     - name: Check if running on WSL
       shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
       register: wsl_check
@@ -134,20 +158,16 @@
 
     - name: Classify a host for non WSL distributions
       group_by:
-        key: os_{{ ansible_facts['distribution'] }}
+        key: non_wsl_{{ ansible_facts['distribution'] }}
       when: not is_wsl
 
-# WSL Ubuntu only
 - hosts: wsl_Ubuntu
-  gather_facts: False
   tasks:
-    - name: Install WSL Ubuntu packages
+    - name: Install packages on WSL Ubuntu
       debug:
         msg: "There is no configuration yet"
 
-# Ubuntu only
-- hosts: os_Ubuntu
-  gather_facts: False
+- hosts: non_wsl_Ubuntu
   tasks:
     - name: Install Microk8s
       become: yes
@@ -162,11 +182,3 @@
           - scrcpy # https://github.com/Genymobile/scrcpy
           - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
         state: present
-
-# MacOSX only
-- hosts: os_MacOSX
-  gather_facts: False
-  tasks:
-    - name: Install MacOSX packages
-      debug:
-        msg: "There is no configuration yet"

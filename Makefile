@@ -55,9 +55,7 @@ install/linux: install/linux/$(DISTRIBUTION)
 install/linux/Ubuntu: install/linux/Ubuntu/*
 	# Emacs
 	sudo apt update -y
-	sudo apt install -y golang-go \
-		fzf \
-		tmux \
+	sudo apt install -y
 		gnome-tweaks \
 		gnome-shell-extensions \
 		gnome-shell-extension-gpaste \
