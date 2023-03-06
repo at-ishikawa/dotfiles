@@ -88,17 +88,6 @@ install/linux/Ubuntu/1password:
 	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
 	sudo apt update && sudo apt install -y 1password
 
-install/linux/Ubuntu/1password-cli:
-	# CLI
-	# https://developer.1password.com/docs/cli/get-started
-	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
-	echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(shell dpkg --print-architecture) stable main" | sudo tee /etc/apt/sources.list.d/1password.list
-	sudo mkdir -p /etc/debsig/policies/AC2D62742012EA22/
-	curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | sudo tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
-	sudo mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
-	curl -sS https://downloads.1password.com/linux/keys/1password.asc | sudo gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
-	sudo apt update && sudo apt install -y 1password-cli
-
 install/linux/Ubuntu/gh:
 	type -p curl >/dev/null || sudo apt install curl -y
 	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -115,4 +104,3 @@ install/linux/Ubuntu/docker:
 	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(shell lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 	sudo apt update -y
 	sudo apt install -y docker-ce docker-ce-cli containerd.io
-
