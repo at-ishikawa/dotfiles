@@ -1,5 +1,6 @@
 # Getting Started
-1. Run `make install` at first. This will fail to clone anyenv repository
+1. Run `make prepare`. This will fail on the step to download a fisher on ansible currently
+1. Run `make install`. This will fail to clone anyenv repository
 1. Create a private key and public key for GitHub. And upload the public key on GitHub.
 1. Add a password of the private key into ssh agent
 1. Run `make install` again

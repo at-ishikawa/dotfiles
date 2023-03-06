@@ -12,7 +12,11 @@ endif
 prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 
 prerequisite/linux/Ubuntu:
-	sudo apt update -y
+	# Download the latest ansible version
+	# https://www.cyberciti.biz/faq/how-to-install-and-configure-latest-version-of-ansible-on-ubuntu-linux/
+	sudo apt remove -y ansible && sudo apt --purge -y autoremove
+	sudo apt update -y && sudo apt upgrade -y
+	sudo apt install -y software-properties-common && sudo apt-add-repository -y ppa:ansible/ansible
 	sudo apt install -y ansible
 	# Use a snap module
 	# https://docs.ansible.com/ansible/latest/collections/community/general/snap_module.html
@@ -20,12 +24,11 @@ prerequisite/linux/Ubuntu:
 
 prerequisite/mac/:
 
-.PHONY: check
-check: prerequisite
+.PHONY: prepare install install/mac install/linux
+prepare: prerequisite
 	ansible-playbook --diff --check bootstrap.yml
 
-.PHONY: install install/mac
-install: prerequisite install/$(OS)
+install: install/$(OS)
 	ansible-playbook bootstrap.yml
 
 .PHONY: install/mac/brew
