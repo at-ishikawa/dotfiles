@@ -42,5 +42,5 @@
   become: yes
   apt:
     name: 1password-cli
-    state: latest
+    state: present
     update_cache: yes
