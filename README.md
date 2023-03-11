@@ -1,4 +1,6 @@
 # Getting Started
+
+## Non Windows Operating System
 1. Run `make prepare`. This will fail on the step to download a fisher on ansible currently
 1. Run `make install`. This will fail to clone anyenv repository
 1. Create a private key and public key for GitHub. And upload the public key on GitHub.
@@ -7,6 +9,9 @@
 
 After install, some configurations are required
 - 1Password CLI: `op account add --signin --address my.1password.com`
+
+## Windows Operating System
+1. Run bootstrap_windows.ps1
 
 
 # Configurations
