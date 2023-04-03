@@ -11,7 +11,8 @@ $packages = @(
 
     "canonical.ubuntu.2204",
     "vscode",
-   "git.git"
+   "git.git",
+   "Docker"
 )
 foreach ($package in $packages) {
     echo "Package: $package"
