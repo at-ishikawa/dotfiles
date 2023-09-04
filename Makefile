@@ -42,14 +42,14 @@ install/mac:
 
 install/linux: install/linux/$(DISTRIBUTION)
 
-install/linux/Ubuntu: install/linux/Ubuntu/*
+install/linux/Ubuntu: # install/linux/Ubuntu/%
 	# Emacs
-	sudo apt update -y
-	sudo apt install -y
-		gnome-tweaks \
-		gnome-shell-extensions \
-		gnome-shell-extension-gpaste \
-		gnome-shell-extension-prefs
+	# sudo apt update -y
+	# sudo apt install -y
+	# 	gnome-tweaks \
+	# 	gnome-shell-extensions \
+	# 	gnome-shell-extension-gpaste \
+	# 	gnome-shell-extension-prefs
 
 install/linux/Ubuntu/vscode:
 	# https://code.visualstudio.com/docs/setup/linux

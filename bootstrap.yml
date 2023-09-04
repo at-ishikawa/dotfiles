@@ -196,6 +196,7 @@
   roles:
     # 1Password CLI
     - role: ubuntu.1password-cli
+      become: yes
 
   tasks:
     # Install for Ubuntu, regardless of WSL or non WSL
