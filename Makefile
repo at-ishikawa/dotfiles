@@ -14,7 +14,6 @@ prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 prerequisite/linux/Ubuntu:
 	# Download the latest ansible version
 	# https://www.cyberciti.biz/faq/how-to-install-and-configure-latest-version-of-ansible-on-ubuntu-linux/
-	sudo apt remove -y ansible && sudo apt --purge -y autoremove
 	sudo apt update -y && sudo apt upgrade -y
 	sudo apt install -y software-properties-common && sudo apt-add-repository -y ppa:ansible/ansible
 	sudo apt install -y ansible

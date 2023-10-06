@@ -16,6 +16,35 @@
       state: present
     when: ansible_distribution == "Ubuntu"
 
+  # Install anyenv
+  - name: Clone anyenv repository
+    git:
+      repo: "https://github.com/anyenv/anyenv"
+      dest: "{{ ansible_env.HOME }}/.anyenv"
+  - name: Check if the anyenv manifest directory exists
+    stat:
+      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
+    register: anyenv_manifest_directory
+  - name: Initialize anyenv
+    command: "~/.anyenv/bin/anyenv install --force-init"
+    when: not anyenv_manifest_directory.stat.exists
+  ## rbenv
+  - name: Install required packages on Ubuntu to use rbenv
+    become: yes
+    apt:
+      name:
+        # - ruby-dev # todo: probably unnecessary
+        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
+      state: present
+    when: ansible_distribution == "Ubuntu"
+  - name: Check if rbenv is already installed
+    stat:
+      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
+    register: rbenv_directory
+  - name: Install rbenv
+    command: "~/.anyenv/bin/anyenv install rbenv"
+    when: not rbenv_directory.stat.exists
+
   # Prepare symbolic links at first
   - name: Ensure there is the $HOME/.config directory
     file:
@@ -43,7 +72,6 @@
       - .eslintrc.json
       - .gitconfig
       - .gitignore
-
 
   # Fish
   - name: Create a symbolic link for a $HOME/.config directory
@@ -82,35 +110,6 @@
       name: "{{ user_id }}"
       shell: "{{ fish_command_path }}"
 
-
-  # Install anyenv
-  - name: Clone anyenv repository
-    git:
-      repo: "https://github.com/anyenv/anyenv"
-      dest: "{{ ansible_env.HOME }}/.anyenv"
-  - name: Check if the anyenv manifest directory exists
-    stat:
-      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
-    register: anyenv_manifest_directory
-  - name: Initialize anyenv
-    command: "~/.anyenv/bin/anyenv install --force-init"
-    when: not anyenv_manifest_directory.stat.exists
-  ## rbenv
-  - name: Install required packages on Ubuntu to use rbenv
-    become: yes
-    apt:
-      name:
-        # - ruby-dev # todo: probably unnecessary
-        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
-      state: present
-    when: ansible_distribution == "Ubuntu"
-  - name: Check if rbenv is already installed
-    stat:
-      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
-    register: rbenv_directory
-  - name: Install rbenv
-    command: "~/.anyenv/bin/anyenv install rbenv"
-    when: not rbenv_directory.stat.exists
 
 # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
 - name: Check current environments
