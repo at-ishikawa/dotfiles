@@ -59,6 +59,7 @@
       - fish
       - git
       - tmux
+      - tmuxinator
   - name: Create symbolic links for a $HOME/ directory
     file:
       src: "{{ playbook_dir }}/static/common/{{ item }}"
