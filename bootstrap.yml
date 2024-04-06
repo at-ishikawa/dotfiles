@@ -112,6 +112,17 @@
         name: "{{ user_id }}"
         shell: "{{ fish_command_path }}"
 
+  - name: Setup fish completion
+    block:
+      - name: gh completion
+        command: gh completion -s fish > ~/.config/fish/completions/gh.fish
+
+      - name: "{{ item }} completion"
+        shell: "{{ item }} completion fish > ~/.config/fish/completions/{{ item }}.fish"
+        with_items:
+          - op
+          - kubectl
+
   - name: Auto update packages by this ansible
     become: true
     cron:
