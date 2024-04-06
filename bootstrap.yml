@@ -13,7 +13,7 @@
         - git
         - curl
         - fish
-      state: present
+      state: latest
     when: ansible_distribution == "Ubuntu"
 
   # Install anyenv
@@ -35,7 +35,7 @@
       name:
         # - ruby-dev # todo: probably unnecessary
         - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
-      state: present
+      state: latest
     when: ansible_distribution == "Ubuntu"
   - name: Check if rbenv is already installed
     stat:
@@ -215,7 +215,7 @@
           - fzf
           - tmux
           - golang-go
-        state: present
+        state: latest
 
     # Prepare hosts based on WSL or non WSL
     - name: Check if running on WSL
@@ -257,4 +257,4 @@
         name:
           - scrcpy # https://github.com/Genymobile/scrcpy
           - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
-        state: present
+        state: latest

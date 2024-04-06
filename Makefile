@@ -25,13 +25,17 @@ prerequisite/mac/:
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
 	brew install ansible
 
-.PHONY: prepare install install/mac install/linux
+.PHONY: prepare install update install/mac install/linux
 prepare: prerequisite
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
 	ansible-playbook --diff --ask-become-pass bootstrap.yml
 
+update:
+	ansible-playbook --diff --ask-become-pass bootstrap.yml
+
+# Deprecated: Move to ansible
 install/mac:
 	$(eval BREW_PREFIX=$(shell brew --prefix))
 	ln -sfn /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion $(BREW_PREFIX)/etc/bash_completion.d/docker
@@ -39,6 +43,7 @@ install/mac:
 	mkdir -p ~/lib
 	ln -sfn /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk ~/lib/
 
+# Deprecated: Move to ansible
 install/linux: install/linux/$(DISTRIBUTION)
 
 install/linux/Ubuntu: # install/linux/Ubuntu/%
