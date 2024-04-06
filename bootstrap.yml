@@ -5,23 +5,15 @@
   vars:
     user_id: "{{ ansible_user_id }}"
 
-  pre_tasks:
-  - name: Install required packages on Ubuntu
-    become: yes
-    when: ansible_distribution == "Ubuntu"
-    block:
-      - name: Update apt cache
-        apt:
-          update_cache: yes
-      - name: Install apt packages to run this playbook
-        apt:
-          name:
-            - git
-            - curl
-            - fish
-          state: latest
-
   tasks:
+  # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
+  - include_role:
+      name: homebrew
+    when: ansible_facts['distribution'] == "MacOSX"
+  - include_role:
+      name: apt
+    when: ansible_facts['distribution'] == "Ubuntu"
+
   - name: Install anyenv
     block:
     - name: Clone anyenv repository
@@ -120,150 +112,9 @@
         name: "{{ user_id }}"
         shell: "{{ fish_command_path }}"
 
-# https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
-- name: Check current environments
-  hosts: localhost
-  gather_facts: yes
-  tasks:
-    - name: Classify a host depending on OS
-      group_by:
-        key: os_{{ ansible_facts['distribution'] }}
-
-# MacOSX only
-- hosts: os_MacOSX
-  tasks:
-    - name: Update homebrew formulae
-      homebrew:
-        update_homebrew: yes
-
-    - name: Add homebrew taps
-      homebrew_tap:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - github/gh
-        - golangci/tap
-        - sourcegraph/src-cli
-
-    - name: Install packages with homebrew cask
-      homebrew_cask:
-        name: "{{ item }}"
-        state: present
-      environment:
-        HOMEBREW_CASK_OPTS: "--appdir=/Applications"
-      ignore_errors: yes # highly likely this is because applications are already installed
-      loop:
-        - google-japanese-ime
-        - appcleaner
-        - emacs
-        - slack
-        - docker
-        - google-chrome
-        - alfred
-        - spectacle
-        - bettertouchtool
-        - 1password
-        - 1password-cli
-        - goland
-        - iterm2
-        - google-cloud-sdk
-        - dropbox
-
-    - name: Install homebrew packages
-      homebrew:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - git
-        - gh
-        - ghq
-
-        - fish
-        - fzf
-        - tmux
-        - tmuxinator
-        - reattach-to-user-namespace
-
-        - yq
-        - jq
-        - tree
-
-        - go
-
-        - kubernetes-cli
-        - kubernetes-helm
-        - kubie
-        - istioctl
-        - mycli
-
-        - mas # https://github.com/mas-cli/mas
-
-
-# Ubuntu only
-- hosts: os_Ubuntu
-  roles:
-    - role: apt-repository.1password-cli
-      become: yes
-    - role: apt-repository.github-cli
-      become: yes
-
-  tasks:
-    # Install for Ubuntu, regardless of WSL or non WSL
-    - name: Install apt packages
-      become: yes
-      block:
-      - name: Update apt cache
-        apt:
-          update_cache: yes
-
-      - name: Install application packages on Ubuntu
-        apt:
-          name:
-            - 1password-cli
-            - gh
-            - fzf
-            - tmux
-            - golang-go
-          state: latest
-
-    # Prepare hosts based on WSL or non WSL
-    - name: Check if running on WSL
-      shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
-      register: wsl_check
-
-    - name: Set is_wsl fact
-      set_fact:
-        is_wsl: "{{ wsl_check.stdout == 'true' }}"
-      when: wsl_check.rc == 0
-
-    - name: Classify a host if it's WSL
-      group_by:
-        key: wsl_{{ ansible_facts['distribution'] }}
-      when: is_wsl
-
-    - name: Classify a host for non WSL distributions
-      group_by:
-        key: non_wsl_{{ ansible_facts['distribution'] }}
-      when: not is_wsl
-
-- hosts: wsl_Ubuntu
-  tasks:
-    - name: Install packages on WSL Ubuntu
-      debug:
-        msg: "There is no configuration yet"
-
-- hosts: non_wsl_Ubuntu
-  tasks:
-    - name: Install Microk8s
-      become: yes
-      community.general.snap:
-        name: microk8s
-        classic: true
-        channel: 1.26/stable
-    - name: Install application packages on Ubuntu
-      become: yes
-      apt:
-        name:
-          - scrcpy # https://github.com/Genymobile/scrcpy
-          - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
-        state: latest
+  - name: Auto update packages by this ansible
+    become: true
+    cron:
+      name: "Run this playbook"
+      special_time: "daily"
+      job: "ansible-playbook {{ playbook_dir }}/bootstrap.yml"

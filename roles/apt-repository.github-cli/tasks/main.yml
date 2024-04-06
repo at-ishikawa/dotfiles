@@ -1,5 +1,6 @@
 # https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
 - name: Add a key to an apt_repository
+  become: yes
   block:
     - name: Create /etc/apt/keyrings directory
       file:
