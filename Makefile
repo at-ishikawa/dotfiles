@@ -67,14 +67,6 @@ install/linux/Ubuntu/google-chrome:
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	rm google-chrome-stable_current_amd64.deb
 
-install/linux/Ubuntu/gh:
-	type -p curl >/dev/null || sudo apt install curl -y
-	curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
-		&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
-		&& echo "deb [arch=$(shell dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
-		&& sudo apt update \
-		&& sudo apt install gh -y
-
 install/linux/Ubuntu/docker:
 	# https://www.howtogeek.com/devops/how-to-install-docker-and-docker-compose-on-linux/
 	sudo apt update

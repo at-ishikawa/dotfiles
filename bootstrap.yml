@@ -194,22 +194,28 @@
 # Ubuntu only
 - hosts: os_Ubuntu
   roles:
-    # 1Password CLI
     - role: apt-repository.1password-cli
+      become: yes
+    - role: apt-repository.github-cli
       become: yes
 
   tasks:
     # Install for Ubuntu, regardless of WSL or non WSL
+    - name: Update apt cache
+      become: yes
+      apt:
+        update_cache: yes
+
     - name: Install application packages on Ubuntu
       become: yes
       apt:
         name:
           - 1password-cli
+          - gh
           - fzf
           - tmux
           - golang-go
         state: present
-        update_cache: yes
 
     # Prepare hosts based on WSL or non WSL
     - name: Check if running on WSL
