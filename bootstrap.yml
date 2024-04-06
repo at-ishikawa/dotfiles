@@ -195,7 +195,7 @@
 - hosts: os_Ubuntu
   roles:
     # 1Password CLI
-    - role: ubuntu.1password-cli
+    - role: apt-repository.1password-cli
       become: yes
 
   tasks:
@@ -204,10 +204,12 @@
       become: yes
       apt:
         name:
+          - 1password-cli
           - fzf
           - tmux
           - golang-go
         state: present
+        update_cache: yes
 
     # Prepare hosts based on WSL or non WSL
     - name: Check if running on WSL
