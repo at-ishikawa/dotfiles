@@ -75,7 +75,6 @@
         dest: "{{ ansible_env.HOME }}/{{ item }}"
         state: link
       loop:
-        - .composer
         - .ssh
         - bin
         - .editorconfig
@@ -218,7 +217,6 @@
           update_cache: yes
 
       - name: Install application packages on Ubuntu
-        become: yes
         apt:
           name:
             - 1password-cli
