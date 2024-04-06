@@ -26,3 +26,8 @@
 # Git configuration for work
 [includeIf "gitdir:~/src/github.com/org/"]
     path = ~/.config/git/work.gitconfig
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
