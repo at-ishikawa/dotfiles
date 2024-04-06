@@ -5,112 +5,121 @@
   vars:
     user_id: "{{ ansible_user_id }}"
 
-  tasks:
+  pre_tasks:
   - name: Install required packages on Ubuntu
     become: yes
-    apt:
-      name:
-        - git
-        - curl
-        - fish
-      state: latest
     when: ansible_distribution == "Ubuntu"
+    block:
+      - name: Update apt cache
+        apt:
+          update_cache: yes
+      - name: Install apt packages to run this playbook
+        apt:
+          name:
+            - git
+            - curl
+            - fish
+          state: latest
 
-  # Install anyenv
-  - name: Clone anyenv repository
-    git:
-      repo: "https://github.com/anyenv/anyenv"
-      dest: "{{ ansible_env.HOME }}/.anyenv"
-  - name: Check if the anyenv manifest directory exists
-    stat:
-      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
-    register: anyenv_manifest_directory
-  - name: Initialize anyenv
-    command: "~/.anyenv/bin/anyenv install --force-init"
-    when: not anyenv_manifest_directory.stat.exists
-  ## rbenv
-  - name: Install required packages on Ubuntu to use rbenv
-    become: yes
-    apt:
-      name:
-        # - ruby-dev # todo: probably unnecessary
-        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-  - name: Check if rbenv is already installed
-    stat:
-      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
-    register: rbenv_directory
+  tasks:
+  - name: Install anyenv
+    block:
+    - name: Clone anyenv repository
+      git:
+        repo: "https://github.com/anyenv/anyenv"
+        dest: "{{ ansible_env.HOME }}/.anyenv"
+    - name: Check if the anyenv manifest directory exists
+      stat:
+        path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
+      register: anyenv_manifest_directory
+    - name: Initialize anyenv
+      command: "~/.anyenv/bin/anyenv install --force-init"
+      when: not anyenv_manifest_directory.stat.exists
   - name: Install rbenv
-    command: "~/.anyenv/bin/anyenv install rbenv"
-    when: not rbenv_directory.stat.exists
+    block:
+    - name: Install required packages on Ubuntu to use rbenv
+      become: yes
+      apt:
+        name:
+          # - ruby-dev # todo: probably unnecessary
+          - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
+        state: latest
+      when: ansible_distribution == "Ubuntu"
+    - name: Check if rbenv is already installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
+      register: rbenv_directory
+    - name: Install rbenv
+      command: "~/.anyenv/bin/anyenv install rbenv"
+      when: not rbenv_directory.stat.exists
 
-  # Prepare symbolic links at first
-  - name: Ensure there is the $HOME/.config directory
-    file:
-      path: "{{ ansible_env.HOME }}/.config"
-      state: directory
-  - name: Create symbolic links for a $HOME/.config directory
-    file:
-      src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
-      dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
-      state: link
-    loop:
-      - fish
-      - git
-      - tmux
-      - tmuxinator
-  - name: Create symbolic links for a $HOME/ directory
-    file:
-      src: "{{ playbook_dir }}/static/common/{{ item }}"
-      dest: "{{ ansible_env.HOME }}/{{ item }}"
-      state: link
-    loop:
-      - .composer
-      - .ssh
-      - bin
-      - .editorconfig
-      - .eslintrc.json
-      - .gitconfig
-      - .gitignore
+  - name: Create symbolic links
+    block:
+    - name: Ensure there is the $HOME/.config directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config"
+        state: directory
+    - name: Create symbolic links for a $HOME/.config directory
+      file:
+        src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
+        state: link
+      loop:
+        - fish
+        - git
+        - tmux
+        - tmuxinator
+    - name: Create symbolic links for a $HOME/ directory
+      file:
+        src: "{{ playbook_dir }}/static/common/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/{{ item }}"
+        state: link
+      loop:
+        - .composer
+        - .ssh
+        - bin
+        - .editorconfig
+        - .eslintrc.json
+        - .gitconfig
+        - .gitignore
 
-  # Fish
-  - name: Create a symbolic link for a $HOME/.config directory
-    file:
-      src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
-      dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
-      state: link
-    loop:
-      - fish
-  ## todo: Next step fails on check option
-  - name: Download a fisher
-    get_url:
-      url: https://git.io/fisher
-      dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
-  - name: Download fish plugins
-    command:
-      cmd: fish -c "fisher update"
+  - name: Set up fish shell
+    block:
+    - name: Create a symbolic link for a $HOME/.config directory
+      file:
+        src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
+        dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
+        state: link
+      loop:
+        - fish
+    ## todo: Next step fails on check option
+    - name: Download a fisher
+      get_url:
+        url: https://git.io/fisher
+        dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
+    - name: Download fish plugins
+      command:
+        cmd: fish -c "fisher update"
 
-  ## Change the default shell to fish
-  - name: Get fish command path
-    command: "which fish"
-    register: fish_command_path
-  - set_fact:
-      fish_command_path: "{{ fish_command_path.stdout }}"
-  - debug:
-      msg: "Fish command path is {{ fish_command_path }}"
-  - name: Check if a /etc/shells contains fish
-    become: true
-    lineinfile:
-      dest: /etc/shells
-      line: "{{ fish_command_path }}"
-      state: present
-  - name: Change the default user shell to fish
-    become: true
-    user:
-      name: "{{ user_id }}"
-      shell: "{{ fish_command_path }}"
-
+    ## Change the default shell to fish
+    - name: Get fish command path
+      command: "which fish"
+      register: fish_command_path
+    - set_fact:
+        fish_command_path: "{{ fish_command_path.stdout }}"
+    - debug:
+        msg: "Fish command path is {{ fish_command_path }}"
+    - name: Check if a /etc/shells contains fish
+      become: true
+      lineinfile:
+        dest: /etc/shells
+        line: "{{ fish_command_path }}"
+        state: present
+    - name: Change the default user shell to fish
+      become: true
+      user:
+        name: "{{ user_id }}"
+        shell: "{{ fish_command_path }}"
 
 # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
 - name: Check current environments
@@ -201,21 +210,23 @@
 
   tasks:
     # Install for Ubuntu, regardless of WSL or non WSL
-    - name: Update apt cache
+    - name: Install apt packages
       become: yes
-      apt:
-        update_cache: yes
+      block:
+      - name: Update apt cache
+        apt:
+          update_cache: yes
 
-    - name: Install application packages on Ubuntu
-      become: yes
-      apt:
-        name:
-          - 1password-cli
-          - gh
-          - fzf
-          - tmux
-          - golang-go
-        state: latest
+      - name: Install application packages on Ubuntu
+        become: yes
+        apt:
+          name:
+            - 1password-cli
+            - gh
+            - fzf
+            - tmux
+            - golang-go
+          state: latest
 
     # Prepare hosts based on WSL or non WSL
     - name: Check if running on WSL
