@@ -13,6 +13,10 @@
   - include_role:
       name: apt
     when: ansible_facts['distribution'] == "Ubuntu"
+  - include_role:
+      name: golang
+    tags:
+      - golang
 
   - name: Install anyenv
     block:

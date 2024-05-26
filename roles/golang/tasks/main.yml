@@ -1,0 +1,7 @@
+- tags:
+    - golang
+  block:
+    - name: Install go packages
+      command: go install {{ item }}
+      with_items:
+        - github.com/x-motemen/ghq@latest
