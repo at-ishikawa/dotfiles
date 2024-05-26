@@ -49,6 +49,42 @@
       command: "~/.anyenv/bin/anyenv install rbenv"
       when: not rbenv_directory.stat.exists
 
+  - name: Install pyenv
+    tags:
+      - pyenv
+    block:
+    - name: Check if pyenv is already installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.anyenv/envs/pyenv"
+      register: pyenv_directory
+    - name: Install pyenv
+      when: not pyenv_directory.stat.exists
+      block:
+        - name: Install required packages on Ubuntu
+          become: yes
+          apt:
+            name:
+              # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+              - build-essential
+              - libssl-dev
+              - zlib1g-dev
+              - libbz2-dev
+              - libreadline-dev
+              - libsqlite3-dev
+              - curl
+              - git
+              - libncursesw5-dev
+              - xz-utils
+              - tk-dev
+              - libxml2-dev
+              - libxmlsec1-dev
+              - libffi-dev
+              - liblzma-dev
+            state: latest
+          when: ansible_distribution == "Ubuntu"
+        - name: Install pyenv
+          command: "~/.anyenv/bin/anyenv install pyenv"
+
   - name: Create symbolic links
     block:
     - name: Ensure there is the $HOME/.config directory
