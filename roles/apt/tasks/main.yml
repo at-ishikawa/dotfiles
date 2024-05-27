@@ -13,6 +13,7 @@
   - name: Install application packages on Ubuntu
     apt:
       name:
+        - unzip
         - git
         - curl
         - fish
@@ -21,6 +22,7 @@
 
         - 1password-cli
         - gh
+        - mycli
         - golang-go
       state: latest
 
