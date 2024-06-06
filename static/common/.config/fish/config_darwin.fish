@@ -1,5 +1,8 @@
+eval (/opt/homebrew/bin/brew shellenv)
+
 # gcloud
-set GCLOUD_SDK_PATH /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
+set HOMEBREW_ROOT /opt/homebrew
+set GCLOUD_SDK_PATH $HOMEBREW_ROOT/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
 source $GCLOUD_SDK_PATH/path.fish.inc
 
 # iTerm 2

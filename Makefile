@@ -22,7 +22,8 @@ prerequisite/linux/Ubuntu:
 	ansible-galaxy collection install community.general
 
 prerequisite/mac/:
-	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install | ruby
+	/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	eval "$$(/opt/homebrew/bin/brew shellenv)"
 	brew install ansible
 
 .PHONY: prepare install update install/mac install/linux

@@ -9,6 +9,8 @@
   # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
   - include_role:
       name: homebrew
+    tags:
+      - homebrew
     when: ansible_facts['distribution'] == "MacOSX"
   - include_role:
       name: apt
@@ -163,9 +165,9 @@
           - op
           - kubectl
 
-  - name: Auto update packages by this ansible
-    become: true
-    cron:
-      name: "Run this playbook"
-      special_time: "daily"
-      job: "ansible-playbook {{ playbook_dir }}/bootstrap.yml"
+  # - name: Auto update packages by this ansible
+  #   become: true
+  #   cron:
+  #     name: "Run this playbook"
+  #     special_time: "daily"
+  #     job: "ansible-playbook {{ playbook_dir }}/bootstrap.yml"

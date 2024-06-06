@@ -1,57 +1,63 @@
-- name: Update homebrew formulae
-  homebrew:
-    update_homebrew: yes
-- name: Add homebrew taps
-  homebrew_tap:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - github/gh
-    - golangci/tap
-    - sourcegraph/src-cli
-- name: Install packages with homebrew cask
-  homebrew_cask:
-    name: "{{ item }}"
-    state: present
-  environment:
-    HOMEBREW_CASK_OPTS: "--appdir=/Applications"
-  ignore_errors: yes # highly likely this is because applications are already installed
-  loop:
-    - google-japanese-ime
-    - appcleaner
-    - emacs
-    - slack
-    - docker
-    - google-chrome
-    - alfred
-    - spectacle
-    - bettertouchtool
-    - 1password
-    - 1password-cli
-    - goland
-    - iterm2
-    - google-cloud-sdk
-    - dropbox
-- name: Install homebrew packages
-  homebrew:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - git
-    - gh
-    - ghq
-    - fish
-    - fzf
-    - tmux
-    - tmuxinator
-    - reattach-to-user-namespace
-    - yq
-    - jq
-    - tree
-    - go
-    - kubernetes-cli
-    - kubernetes-helm
-    - kubie
-    - istioctl
-    - mycli
-    - mas # https://github.com/mas-cli/mas
+- name: Homebrew
+  tags:
+    - homebrew
+  block:
+    - name: Update homebrew formulae
+      homebrew:
+        update_homebrew: yes
+    - name: Add homebrew taps
+      homebrew_tap:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - github/gh
+        - golangci/tap
+        - sourcegraph/src-cli
+    - name: Install packages with homebrew cask
+      homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      environment:
+        HOMEBREW_CASK_OPTS: "--appdir=/Applications"
+      ignore_errors: yes # highly likely this is because applications are already installed
+      loop:
+        - google-japanese-ime
+        - appcleaner
+        - visual-studio-code
+        - emacs
+        # - slack
+        # - docker
+        # - google-chrome
+        - alfred
+        - bettertouchtool
+        - 1password
+        - 1password-cli
+        - iterm2
+        - google-cloud-sdk
+        - gpg-suite # https://formulae.brew.sh/cask/gpg-suite
+        - goland
+        - phpstorm
+        # - dropbox
+    - name: Install homebrew packages
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - gh
+        - ghq
+        - fish
+        - fzf
+        - tmux
+        - tmuxinator
+        - reattach-to-user-namespace
+        - yq
+        - jq
+        - tree
+        - go
+
+        - kubie
+        - krew
+        - istioctl
+        - mycli
+        - mas # https://github.com/mas-cli/mas
