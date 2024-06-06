@@ -61,3 +61,26 @@
         - istioctl
         - mycli
         - mas # https://github.com/mas-cli/mas
+
+- name: Configure iTerm2
+  tags:
+    - iterm
+  block:
+    # Install iterm2_shell_integration by the command: https://iterm2.com/documentation-shell-integration.html
+    - name: Install iterm integration for fish
+      get_url:
+        url: https://iterm2.com/shell_integration/fish
+        dest: "{{ ansible_env.HOME }}/.iterm2_shell_integration.fish"
+    # Load a settings from a directory: https://shyr.io/blog/sync-iterm2-configs
+    - name: Load settings from a directory
+      block:
+        - community.general.osx_defaults:
+            domain: com.googlecode.iterm2
+            key: PrefsCustomFolder
+            type: string
+            value: ~/dotfiles/static/mac/iterm2/settings
+        - community.general.osx_defaults:
+            domain: com.googlecode.iterm2
+            key: LoadPrefsFromCustomFolder
+            type: bool
+            value: true

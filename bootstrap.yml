@@ -11,6 +11,7 @@
       name: homebrew
     tags:
       - homebrew
+      - iterm
     when: ansible_facts['distribution'] == "MacOSX"
   - include_role:
       name: apt
