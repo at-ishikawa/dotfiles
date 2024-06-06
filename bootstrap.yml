@@ -24,6 +24,10 @@
       name: gcloud
     tags:
       - gcloud
+  - include_role:
+      name: kubectl
+    tags:
+      - kubectl
 
   - name: Install anyenv
     block:
