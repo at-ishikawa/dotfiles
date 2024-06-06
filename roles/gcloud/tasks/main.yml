@@ -1,0 +1,11 @@
+- name: Install gcloud components
+  tags:
+    - gcloud
+  block:
+    - command: gcloud components update
+    - name: Install components
+      command: gcloud components install {{ item }}
+      with_items:
+        - kubectl
+        - bq
+        - gsutil

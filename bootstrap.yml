@@ -20,6 +20,10 @@
       name: golang
     tags:
       - golang
+  - include_role:
+      name: gcloud
+    tags:
+      - gcloud
 
   - name: Install anyenv
     block:
