@@ -62,6 +62,8 @@
         - mycli
         - mas # https://github.com/mas-cli/mas
 
+        - grep # GNU grep. Required for tfenv
+
 - name: Configure iTerm2
   tags:
     - iterm

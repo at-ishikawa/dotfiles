@@ -96,6 +96,20 @@
         - name: Install pyenv
           command: "~/.anyenv/bin/anyenv install pyenv"
 
+  - name: Install tfenv
+    tags:
+      - tfenv
+    block:
+    - name: Check if tfenv is already installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.anyenv/envs/tfenv"
+      register: tfenv_directory
+    - name: Install tfenv
+      when: not tfenv_directory.stat.exists
+      block:
+        - name: Install tfenv
+          command: "~/.anyenv/bin/anyenv install tfenv"
+
   - name: Create symbolic links
     block:
     - name: Ensure there is the $HOME/.config directory
