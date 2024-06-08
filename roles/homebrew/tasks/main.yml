@@ -1,57 +1,88 @@
-- name: Update homebrew formulae
-  homebrew:
-    update_homebrew: yes
-- name: Add homebrew taps
-  homebrew_tap:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - github/gh
-    - golangci/tap
-    - sourcegraph/src-cli
-- name: Install packages with homebrew cask
-  homebrew_cask:
-    name: "{{ item }}"
-    state: present
-  environment:
-    HOMEBREW_CASK_OPTS: "--appdir=/Applications"
-  ignore_errors: yes # highly likely this is because applications are already installed
-  loop:
-    - google-japanese-ime
-    - appcleaner
-    - emacs
-    - slack
-    - docker
-    - google-chrome
-    - alfred
-    - spectacle
-    - bettertouchtool
-    - 1password
-    - 1password-cli
-    - goland
-    - iterm2
-    - google-cloud-sdk
-    - dropbox
-- name: Install homebrew packages
-  homebrew:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - git
-    - gh
-    - ghq
-    - fish
-    - fzf
-    - tmux
-    - tmuxinator
-    - reattach-to-user-namespace
-    - yq
-    - jq
-    - tree
-    - go
-    - kubernetes-cli
-    - kubernetes-helm
-    - kubie
-    - istioctl
-    - mycli
-    - mas # https://github.com/mas-cli/mas
+- name: Homebrew
+  tags:
+    - homebrew
+  block:
+    - name: Update homebrew formulae
+      homebrew:
+        update_homebrew: yes
+    - name: Add homebrew taps
+      homebrew_tap:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - github/gh
+        - golangci/tap
+        - sourcegraph/src-cli
+    - name: Install packages with homebrew cask
+      homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      environment:
+        HOMEBREW_CASK_OPTS: "--appdir=/Applications"
+      ignore_errors: yes # highly likely this is because applications are already installed
+      loop:
+        - google-japanese-ime
+        - appcleaner
+        - visual-studio-code
+        - emacs
+        # - slack
+        # - docker
+        # - google-chrome
+        - alfred
+        - bettertouchtool
+        - 1password
+        - 1password-cli
+        - iterm2
+        - google-cloud-sdk
+        - gpg-suite # https://formulae.brew.sh/cask/gpg-suite
+        - goland
+        - phpstorm
+        # - dropbox
+    - name: Install homebrew packages
+      homebrew:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - git
+        - gh
+        - ghq
+        - fish
+        - fzf
+        - tmux
+        - tmuxinator
+        - reattach-to-user-namespace
+        - yq
+        - jq
+        - tree
+        - go
+
+        - kubie
+        - krew
+        - istioctl
+        - mycli
+        - mas # https://github.com/mas-cli/mas
+
+        - grep # GNU grep. Required for tfenv
+
+- name: Configure iTerm2
+  tags:
+    - iterm
+  block:
+    # Install iterm2_shell_integration by the command: https://iterm2.com/documentation-shell-integration.html
+    - name: Install iterm integration for fish
+      get_url:
+        url: https://iterm2.com/shell_integration/fish
+        dest: "{{ ansible_env.HOME }}/.iterm2_shell_integration.fish"
+    # Load a settings from a directory: https://shyr.io/blog/sync-iterm2-configs
+    - name: Load settings from a directory
+      block:
+        - community.general.osx_defaults:
+            domain: com.googlecode.iterm2
+            key: PrefsCustomFolder
+            type: string
+            value: ~/dotfiles/static/mac/iterm2/settings
+        - community.general.osx_defaults:
+            domain: com.googlecode.iterm2
+            key: LoadPrefsFromCustomFolder
+            type: bool
+            value: true

@@ -9,6 +9,9 @@
   # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
   - include_role:
       name: homebrew
+    tags:
+      - homebrew
+      - iterm
     when: ansible_facts['distribution'] == "MacOSX"
   - include_role:
       name: apt
@@ -17,6 +20,14 @@
       name: golang
     tags:
       - golang
+  - include_role:
+      name: gcloud
+    tags:
+      - gcloud
+  - include_role:
+      name: kubectl
+    tags:
+      - kubectl
 
   - name: Install anyenv
     block:
@@ -84,6 +95,20 @@
           when: ansible_distribution == "Ubuntu"
         - name: Install pyenv
           command: "~/.anyenv/bin/anyenv install pyenv"
+
+  - name: Install tfenv
+    tags:
+      - tfenv
+    block:
+    - name: Check if tfenv is already installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.anyenv/envs/tfenv"
+      register: tfenv_directory
+    - name: Install tfenv
+      when: not tfenv_directory.stat.exists
+      block:
+        - name: Install tfenv
+          command: "~/.anyenv/bin/anyenv install tfenv"
 
   - name: Create symbolic links
     block:
@@ -163,9 +188,9 @@
           - op
           - kubectl
 
-  - name: Auto update packages by this ansible
-    become: true
-    cron:
-      name: "Run this playbook"
-      special_time: "daily"
-      job: "ansible-playbook {{ playbook_dir }}/bootstrap.yml"
+  # - name: Auto update packages by this ansible
+  #   become: true
+  #   cron:
+  #     name: "Run this playbook"
+  #     special_time: "daily"
+  #     job: "ansible-playbook {{ playbook_dir }}/bootstrap.yml"

@@ -1,0 +1,12 @@
+- name: Install krew plugins
+  tags:
+    - kubectl
+  block:
+    - command: kubectl krew update
+    - command: kubectl krew install {{ item }}
+      with_items:
+        - ctx
+        - ns
+        - view-secret
+        - hns
+        - tree
