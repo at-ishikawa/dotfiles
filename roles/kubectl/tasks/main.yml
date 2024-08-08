@@ -2,6 +2,26 @@
   tags:
     - kubectl
   block:
+    - name: krew is installed
+      stat:
+        path: "{{ ansible_env.HOME }}/.krew/bin"
+      register: krew_bin_dir
+    - name: Install krew via on Ubuntu
+      when: ansible_facts['distribution'] == "Ubuntu" and not krew_bin_dir.stat.isdir
+      vars:
+        root_dir: /tmp
+      block:
+        - name: Get a deb architecture
+          command: dpkg --print-architecture
+          register: deb_architecture
+        - set_fact:
+            krew_file: krew-linux_{{ deb_architecture.stdout }}
+        - unarchive:
+            remote_src: true
+            src: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_file }}.tar.gz"
+            dest: "{{ root_dir }}"
+        - command: "{{ root_dir }}/{{ krew_file}} install krew"
+
     - command: kubectl krew update
     - command: kubectl krew install {{ item }}
       with_items:

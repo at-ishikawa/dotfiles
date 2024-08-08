@@ -20,14 +20,6 @@
       name: golang
     tags:
       - golang
-  - include_role:
-      name: gcloud
-    tags:
-      - gcloud
-  - include_role:
-      name: kubectl
-    tags:
-      - kubectl
 
   - name: Install anyenv
     block:
@@ -138,6 +130,23 @@
         - .eslintrc.json
         - .gitconfig
         - .gitignore
+    - name: Check if running on WSL
+      shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
+      register: wsl_check
+      tags:
+        - wsl
+    - name: WSL Ubuntu
+      when: wsl_check.stdout == 'true'
+      tags:
+        - wsl
+      block:
+        - file:
+            src: "{{ playbook_dir }}/static/wsl/{{ item.src }}"
+            dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
+            state: link
+          loop:
+            - src: "wsl.gitconfig"
+              dest: ".config/git/platform.gitconfig"
 
   - name: Set up fish shell
     block:
@@ -177,6 +186,16 @@
         name: "{{ user_id }}"
         shell: "{{ fish_command_path }}"
 
+  - include_role:
+      name: gcloud
+    tags:
+      - gcloud
+  - include_role:
+      name: kubectl
+    tags:
+      - kubectl
+
+  # TODOs: Replace completions with their own install role
   - name: Setup fish completion
     block:
       - name: gh completion
@@ -186,7 +205,6 @@
         shell: "{{ item }} completion fish > ~/.config/fish/completions/{{ item }}.fish"
         with_items:
           - op
-          - kubectl
 
   # - name: Auto update packages by this ansible
   #   become: true

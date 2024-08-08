@@ -63,3 +63,8 @@ set -U FISH_COMPLETION_INTERCEPTOR_ENABLED true
 function fish_completion_interceptor_fallback
     __fzf_complete
 end
+
+# 1Password CLI shell integration
+# In some environment like WSL, it doesn't work
+# See https://github.com/1Password/shell-plugins/issues/402
+# [ -f ~/.config/op/plugins.sh ] && source ~/.config/op/plugins.sh

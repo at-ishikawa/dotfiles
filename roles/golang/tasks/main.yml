@@ -1,5 +1,23 @@
 - tags:
     - golang
+  become: true
+  when: ansible_facts['distribution'] == "Ubuntu"
+  block:
+    - name: Get DEB architecture
+      shell: dpkg --print-architecture
+      register: dpkg_print_architecture_result
+    - unarchive:
+        remote_src: true
+        src: https://go.dev/dl/go1.22.6.linux-{{ dpkg_print_architecture_result.stdout }}.tar.gz
+        dest: /usr/local
+        mode: 0755
+    - name: Add to PATH
+      copy:
+        content: "export PATH=$PATH:/usr/local/go/bin"
+        dest: "/etc/profile.d/golang.sh"
+
+- tags:
+    - golang
   block:
     - name: Install go packages
       command: go install {{ item }}

@@ -10,6 +10,7 @@
   - name: Update apt cache
     apt:
       update_cache: yes
+    ignore_errors: true
   - name: Install application packages on Ubuntu
     apt:
       name:
@@ -23,12 +24,20 @@
         - 1password-cli
         - gh
         - mycli
-        - golang-go
+        # Install golang-go by golang role
+        # - golang-go
       state: latest
-
 - name: Check if running on WSL
   shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
   register: wsl_check
+- name: WSL Ubuntu
+  when: wsl_check.stdout == 'true'
+  block:
+    - become: yes
+      apt:
+        name:
+          - wslu
+        state: latest
 - name: non WSL Ubuntu
   when: wsl_check.stdout == 'false'
   block:

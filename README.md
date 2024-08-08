@@ -1,35 +1,41 @@
 # Getting Started
 
 ## Non Windows Operating System
+
 1. Run `make prepare`. This will fail on the step to download a fisher on ansible currently
 1. Run `make install`. This will fail to clone anyenv repository
-1. Create a private key and public key for GitHub. And upload the public key on GitHub.
-1. Add a password of the private key into ssh agent
-1. Run `make install` again
 
-After install, some configurations are required
-- 1Password CLI: `op account add --signin --address my.1password.com`
+After install, some configurations are required to be set manually
+
+### 1Password CLI
+
+At first, sign in by CLI by a hand
+
+```shell
+op account add --signin --address my.1password.com
+```
+
+Then need to install (gh plugin)[https://developer.1password.com/docs/cli/shell-plugins/github/] by hand.
+
+[!WARNING]
+This Shell plugin hasn't worked in WSL until [this issue](https://github.com/1Password/shell-plugins/issues/402) is solved.
+
+```shell
+op plugin init gh
+```
+
+Lastly, set up a [SSH agent](https://developer.1password.com/docs/ssh/agent/) for 1Password CLI.
+
 
 ## Windows Operating System
-1. Run bootstrap_windows.ps1
+1. Install [App Installer](https://apps.microsoft.com/detail/9nblggh4nns1?rtc=1&hl=en-us&gl=US#activetab=pivot:overviewtab) for winget CLI
+1. Run bootstrap_windows.ps1 to install some packages and WSL
+1. Run steps for non windows operating system.
 
 
 # Configurations
 ## Common for platforms
 ### tmux
+
 1. Use C-t for prefix, instead of C-b
 2. Enable mouse
-
-### fish
-This dotfiles contain fish to
-1. prompt configuration for minimumlist, but show k8s or GCP configuration names if they should be shown.
-
-These environment variables can be configured in ~/.config/fish/config.fish
-1. FISH_PROMPT_K8S_CONTEXT_NAMES (array): k8s context names that should be shown on prompt
-2. FISH_PROMPT_GCP_CONFIG_NAMES (array): GCP config names that should be shown on prompt
-
-### git
-
-
-## List of Mac Apps
-See homebrew_cask_packages in `package_mac.yml`.

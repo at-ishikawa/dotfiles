@@ -2,6 +2,31 @@
   tags:
     - gcloud
   block:
+    - name: Install gcloud on Ubuntu
+      when: ansible_facts['distribution'] == "Ubuntu"
+      vars:
+        root_dir: "{{ ansible_env.HOME }}/local"
+      block:
+        - stat:
+            path: "{{ root_dir }}/google-cloud-sdk"
+          register: sdk
+        - when: not (sdk.stat.isdir is defined and sdk.stat.isdir)
+          block:
+            - file:
+                path: "{{ root_dir }}"
+                state: directory
+                mode: 0755
+            - unarchive:
+                remote_src: true
+                src: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-{{ ansible_architecture }}.tar.gz
+                dest: "{{ root_dir }}"
+                mode: 0755
+            - command: "yes | {{ root_dir }}/google-cloud-sdk/install.sh"
+            # - command: /usr/local/google-cloud-sdk/bin/gcloud init
+        # TODO: Load the path during the ansible somehow
+        - debug:
+            msg: Restart fish shell to load {{ root_dir }}/google-cloud-sdk/bin into PATH
+
     - command: gcloud components update
     - name: Install components
       command: gcloud components install {{ item }}
@@ -9,3 +34,8 @@
         - kubectl
         - bq
         - gsutil
+
+    - name: "{{ item }} completion"
+      shell: "{{ item }} completion fish > ~/.config/fish/completions/{{ item }}.fish"
+      with_items:
+        - kubectl
