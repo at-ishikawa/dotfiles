@@ -10,12 +10,9 @@
     - name: Pack the asc key by GPG
       shell: "cat /tmp/1password.asc | gpg --yes --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg"
     # In a WSL architecture, dpkg --print-architecture is amd64 but ansible_architecture is x86_64
-    - name: Get a deb architecture
-      shell: dpkg --print-architecture
-      register: deb_architecture
     - name: Add 1Password repository to sources list
       apt_repository:
-        repo: "deb [arch={{ deb_architecture.stdout }} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/{{ deb_architecture.stdout }} stable main"
+        repo: "deb [arch={{ deb_architecture }} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/{{ deb_architecture }} stable main"
         state: present
 - name: Add the debsig-verify policy
   become: yes

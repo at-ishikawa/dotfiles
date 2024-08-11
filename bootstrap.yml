@@ -5,6 +5,18 @@
   vars:
     user_id: "{{ ansible_user_id }}"
 
+  pre_tasks:
+  # Load a "amd64" instead of "x86_64" into the deb_architecture variable
+  - when: ansible_facts['distribution'] == "Ubuntu"
+    tags:
+      - always
+    block:
+      - name: Get a deb architecture
+        shell: dpkg --print-architecture
+        register: dpkg_print_architecture_result
+      - set_fact:
+          deb_architecture: "{{ dpkg_print_architecture_result.stdout }}"
+
   tasks:
   # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
   - include_role:
@@ -15,11 +27,9 @@
     when: ansible_facts['distribution'] == "MacOSX"
   - include_role:
       name: apt
-    when: ansible_facts['distribution'] == "Ubuntu"
-  - include_role:
-      name: golang
     tags:
-      - golang
+      - apt
+    when: ansible_facts['distribution'] == "Ubuntu"
 
   - name: Install anyenv
     block:
@@ -186,6 +196,10 @@
         name: "{{ user_id }}"
         shell: "{{ fish_command_path }}"
 
+  - include_role:
+      name: golang
+    tags:
+      - golang
   - include_role:
       name: gcloud
     tags:

@@ -1,32 +1,40 @@
-- name: Install krew plugins
-  tags:
+- tags:
     - kubectl
   block:
-    - name: krew is installed
-      stat:
-        path: "{{ ansible_env.HOME }}/.krew/bin"
-      register: krew_bin_dir
-    - name: Install krew via on Ubuntu
-      when: ansible_facts['distribution'] == "Ubuntu" and not krew_bin_dir.stat.isdir
-      vars:
-        root_dir: /tmp
+    - name: Install krew plugins
       block:
-        - name: Get a deb architecture
-          command: dpkg --print-architecture
-          register: deb_architecture
-        - set_fact:
-            krew_file: krew-linux_{{ deb_architecture.stdout }}
-        - unarchive:
-            remote_src: true
-            src: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_file }}.tar.gz"
-            dest: "{{ root_dir }}"
-        - command: "{{ root_dir }}/{{ krew_file}} install krew"
+        - name: krew is installed
+          stat:
+            path: "{{ ansible_env.HOME }}/.krew/bin"
+          register: krew_bin_dir
+        - name: Install krew via on Ubuntu
+          when: ansible_facts['distribution'] == "Ubuntu" and (krew_bin_dir.stat.isdir is not defined or not krew_bin_dir.stat.isdir)
+          vars:
+            root_dir: /tmp
+            krew_file: krew-linux_{{ deb_architecture }}
+          block:
+            - unarchive:
+                remote_src: true
+                src: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_file }}.tar.gz"
+                dest: "{{ root_dir }}"
+            - command: "{{ root_dir }}/{{ krew_file}} install krew"
 
-    - command: kubectl krew update
-    - command: kubectl krew install {{ item }}
-      with_items:
-        - ctx
-        - ns
-        - view-secret
-        - hns
-        - tree
+        - command: kubectl krew update
+        - command: kubectl krew install {{ item }}
+          with_items:
+            - ctx
+            - ns
+            - view-secret
+            - hns
+            - tree
+
+    # https://cloud-native-canada.github.io/k8s_setup_tools/kubectl_tooling/kubie/
+    - name: Install kubie
+      vars:
+        kubie_version: v0.19.0
+      block:
+        - get_url:
+            url: https://github.com/sbstp/kubie/releases/download/{{ kubie_version }}/kubie-linux-{{ deb_architecture }}
+            dest: /usr/local/bin/kubie
+            mode: 0755
+          become: true
