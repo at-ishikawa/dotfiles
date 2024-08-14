@@ -197,6 +197,10 @@
         shell: "{{ fish_command_path }}"
 
   - include_role:
+      name: 1password
+    tags:
+      - 1password
+  - include_role:
       name: golang
     tags:
       - golang
@@ -214,11 +218,6 @@
     block:
       - name: gh completion
         command: gh completion -s fish > ~/.config/fish/completions/gh.fish
-
-      - name: "{{ item }} completion"
-        shell: "{{ item }} completion fish > ~/.config/fish/completions/{{ item }}.fish"
-        with_items:
-          - op
 
   # - name: Auto update packages by this ansible
   #   become: true

@@ -1,0 +1,28 @@
+- tags:
+    - 1password
+  block:
+    - debug:
+        msg: "TODO Install 1password"
+
+    - name: "1 password CLI completion"
+      shell: "op completion fish > ~/.config/fish/completions/op.fish"
+
+    - stat:
+        path: "{{ ansible_env.HOME }}/.config/1Password/ssh/agent.toml"
+      register: ssh_agent_file
+
+    # Prevent overwriting an agent file if it exists already
+    - name: Copy agent.toml file
+      when: not ssh_agent_file.stat.exists
+      block:
+        - name: Create a directory
+          file:
+            path: "{{ ansible_env.HOME }}/.config/1Password/ssh"
+            mode: 0750
+            state: directory
+
+        - name: Copy an agent.toml
+          copy:
+            src: "{{ role_path }}/files/agent.toml"
+            dest: "{{ ansible_env.HOME }}/.config/1Password/ssh/agent.toml"
+            mode: 0640
