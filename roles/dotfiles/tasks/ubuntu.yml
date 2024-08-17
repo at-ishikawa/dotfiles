@@ -60,7 +60,6 @@
             - tmux
             - jq
 
-            - 1password-cli
             - gh
             - mycli
             # Install golang-go by golang role

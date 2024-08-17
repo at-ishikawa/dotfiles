@@ -39,4 +39,10 @@
         - name: Pack the asc key
           shell: "cat /tmp/1password.asc | gpg --yes --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg"
 
+    - name: Install 1password cli
+      apt:
+        name:
+          - 1password-cli
+        state: latest
+
     - include_tasks: main.yml
