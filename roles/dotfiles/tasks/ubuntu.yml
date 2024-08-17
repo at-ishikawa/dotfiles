@@ -17,9 +17,6 @@
 - tags:
     - apt
   block:
-    - include_role:
-        name: apt-repository.1password-cli
-
     - name: Add a key to an apt_repository
       become: yes
       block:
