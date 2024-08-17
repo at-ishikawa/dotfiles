@@ -98,6 +98,15 @@
             state: latest
 
 - tags:
-    -
+    - always
   include_tasks: all_os.yml
 
+- tags:
+    - always
+  include_role:
+    name: "{{ role }}"
+    tasks_from: apt
+  loop:
+    - 1password
+  loop_control:
+    loop_var: role

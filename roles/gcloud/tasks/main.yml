@@ -18,6 +18,7 @@
                 mode: 0755
             - unarchive:
                 remote_src: true
+                # TODO: Replace linux and deb_architecture with a variable
                 src: https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-{{ ansible_architecture }}.tar.gz
                 dest: "{{ root_dir }}"
                 mode: 0755

@@ -1,10 +1,7 @@
 - tags:
     - 1password
   block:
-    - debug:
-        msg: "TODO Install 1password"
-
-    - name: "1 password CLI completion"
+    - name: "1 password CLI completion for fish"
       shell: "op completion fish > ~/.config/fish/completions/op.fish"
 
     - stat:

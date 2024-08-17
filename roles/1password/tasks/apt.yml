@@ -1,0 +1,42 @@
+# https://developer.1password.com/docs/cli/get-started
+# Require become = yes
+- tags:
+    - 1password
+  block:
+    - name: Add a apt_repository
+      become: yes
+      block:
+        - name: Download 1Password ASC key
+          get_url:
+            url: https://downloads.1password.com/linux/keys/1password.asc
+            dest: /tmp/1password.asc
+        - name: Pack the asc key by GPG
+          shell: "cat /tmp/1password.asc | gpg --yes --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg"
+        # In a WSL architecture, dpkg --print-architecture is amd64 but ansible_architecture is x86_64
+        - name: Add 1Password repository to sources list
+          apt_repository:
+            repo: "deb [arch={{ deb_architecture }} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/{{ deb_architecture }} stable main"
+            state: present
+    - name: Add the debsig-verify policy
+      become: yes
+      block:
+        - name: Ensure /etc/debsig/policies/AC2D62742012EA22 directory exists
+          file:
+            path: "/etc/debsig/policies/AC2D62742012EA22"
+            state: directory
+        - name: Add 1Password debsig policy
+          get_url:
+            url: https://downloads.1password.com/linux/debian/debsig/1password.pol
+            dest: /etc/debsig/policies/AC2D62742012EA22/1password.pol
+        - name: Download 1Password GPG key
+          get_url:
+            url: https://downloads.1password.com/linux/keys/1password.asc
+            dest: /tmp/1password.asc
+        - name: Ensure /usr/share/debsig/keyrings/AC2D62742012EA22 directory exists
+          file:
+            path: /usr/share/debsig/keyrings/AC2D62742012EA22
+            state: directory
+        - name: Pack the asc key
+          shell: "cat /tmp/1password.asc | gpg --yes --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg"
+
+    - include_tasks: main.yml

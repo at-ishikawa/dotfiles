@@ -90,3 +90,12 @@
 - tags:
     - always
   include_tasks: all_os.yml
+
+- tags:
+    - always
+  include_role:
+    name: "{{ role }}"
+  loop:
+    - 1password
+  loop_control:
+    loop_var: role

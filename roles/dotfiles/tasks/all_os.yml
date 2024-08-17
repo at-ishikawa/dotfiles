@@ -158,22 +158,16 @@
       name: "{{ ansible_user_id }}"
       shell: "{{ fish_command_path }}"
 
-- include_role:
-    name: 1password
-  tags:
-    - 1password
-- include_role:
-    name: golang
-  tags:
+- tags:
+    - always
+  include_role:
+    name: "{{ role }}"
+  loop:
     - golang
-- include_role:
-    name: gcloud
-  tags:
     - gcloud
-- include_role:
-    name: kubectl
-  tags:
     - kubectl
+  loop_control:
+    loop_var: role
 
 # TODOs: Replace completions with their own install role
 - name: Setup fish completion
