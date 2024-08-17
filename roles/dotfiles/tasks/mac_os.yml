@@ -86,3 +86,7 @@
             key: LoadPrefsFromCustomFolder
             type: bool
             value: true
+
+- tags:
+    - always
+  include_tasks: all_os.yml
