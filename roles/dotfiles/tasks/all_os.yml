@@ -168,9 +168,3 @@
     - kubectl
   loop_control:
     loop_var: role
-
-# TODOs: Replace completions with their own install role
-- name: Setup fish completion
-  block:
-    - name: gh completion
-      command: gh completion -s fish > ~/.config/fish/completions/gh.fish

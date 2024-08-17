@@ -97,5 +97,6 @@
     name: "{{ role }}"
   loop:
     - 1password
+    - github-cli
   loop_control:
     loop_var: role
