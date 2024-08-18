@@ -1,0 +1,12 @@
+- include_role:
+    name: golang
+  vars:
+    deb_architecture: amd64
+
+- name: To make sure go and some commands are installed
+  block:
+    - command: which go
+      register: go_command_path
+    - assert:
+        that:
+          - go_command_path.stdout != ''

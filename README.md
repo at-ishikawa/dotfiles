@@ -39,3 +39,8 @@ Lastly, set up a [SSH agent](https://developer.1password.com/docs/ssh/agent/) fo
 
 1. Use C-t for prefix, instead of C-b
 2. Enable mouse
+
+
+# Development
+
+In order to run `ansible-test`, checkout this repository under ansible_collection path such as `~/.ansible/collections/ansible_collections/$NAMESPACE/$COLLECTION`.
