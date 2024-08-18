@@ -1,0 +1,79 @@
+# Vars
+## config_directory: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
+
+- tags:
+    - vscode
+  block:
+    - command: code --install-extension {{ item }}
+      loop: "{{ additional_extensions }}"
+
+    - file:
+        path: "{{ config_directory }}"
+        state: directory
+        mode: 0750
+
+    # Copy config files
+    # https://bobbyhadz.com/blog/what-is-vscode-folder
+    - template:
+        src: "{{ item }}"
+        dest: "{{ config_directory }}/{{ item | regex_replace('\\.j2$', '') }}"
+        mode: 0640
+      loop:
+        - keybindings.json.j2
+        - settings.json.j2
+
+    - command: code --install-extension {{ item }}
+      loop:
+        # VSCode config
+        ## Keybindings: Awesome Emacs Keymap
+        - tuttieee.emacs-mcx
+        - editorconfig.editorconfig
+        ## Themes
+        - github.github-vscode-theme
+        ### Switch to a night theme automatically
+        - muuvmuuv.vscode-sundial
+        - johnpapa.vscode-peacock
+
+        ## Spell checker
+        - streetsidesoftware.code-spell-checker
+
+        # Copilot
+        - github.copilot
+
+        # Git
+        - eamodio.gitlens
+        - github.vscode-pull-request-github
+
+        # Makefile
+        - ms-vscode.makefile-tools
+
+        # Markdown
+        - shd101wyy.markdown-preview-enhanced
+        - yzhang.markdown-all-in-one
+        - marp-team.marp-vscode
+
+        # CSV
+        - mechatroner.rainbow-csv
+        - randomfractalsinc.tabular-data-viewer
+
+        # Yaml
+        - redhat.vscode-yaml
+
+        # Toml
+        - bungcip.better-toml
+
+        # Go
+        - golang.go
+
+        # Fish shell
+        - bmalehorn.vscode-fish
+
+        # Protocol buffers
+        - zxh404.vscode-proto3
+
+        # Docker
+        - ms-azuretools.vscode-docker
+
+        # Kubernetes
+        - ms-kubernetes-tools.vscode-kubernetes-tools
+        - ipedrazas.kubernetes-snippets

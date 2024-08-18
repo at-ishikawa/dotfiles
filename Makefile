@@ -8,6 +8,8 @@ OS=mac
 DISTRIBUTION=
 endif
 
+HOST_USER := at-ishikawa
+
 
 prerequisite: prerequisite/$(OS)/$(DISTRIBUTION)
 
@@ -37,10 +39,14 @@ prepare: prerequisite
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
-	ansible-playbook --diff --ask-become-pass bootstrap.yml
+	ansible-playbook --diff --ask-become-pass \
+		--extra-var host_user=$(HOST_USER) \
+		bootstrap.yml
 
 update:
-	ansible-playbook --diff --ask-become-pass bootstrap.yml
+	ansible-playbook --diff --ask-become-pass \
+		--extra-var host_user=$(HOST_USER) \
+		bootstrap.yml
 
 test:
 	ansible-test sanity roles bootstrap.yml

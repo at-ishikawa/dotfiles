@@ -83,3 +83,13 @@
     - github-cli
   loop_control:
     loop_var: role
+
+- when: is_wsl
+  tags: always
+  include_role:
+    name: "{{ role.name }}"
+    tasks_from: wsl_ubuntu
+  loop:
+    - name: vscode
+  loop_control:
+    loop_var: role
