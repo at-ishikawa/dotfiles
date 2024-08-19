@@ -38,6 +38,7 @@
         - goland
         - phpstorm
         # - dropbox
+        - google-drive
     - name: Install homebrew packages
       homebrew:
         name: "{{ item }}"
@@ -94,9 +95,12 @@
 - tags:
     - always
   include_role:
-    name: "{{ role }}"
+    name: "{{ role.name }}"
+    tasks_from: "{{ role.task | default('main') }}"
   loop:
-    - 1password
-    - github-cli
+    - name: 1password
+    - name: github-cli
+    - name: vscode
+      task: mac_os
   loop_control:
     loop_var: role

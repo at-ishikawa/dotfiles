@@ -5,6 +5,7 @@
     - vscode
   block:
     - command: code --install-extension {{ item }}
+      when: additional_extensions is defined
       loop: "{{ additional_extensions }}"
 
     - file:
@@ -28,6 +29,7 @@
         ## Keybindings: Awesome Emacs Keymap
         - tuttieee.emacs-mcx
         - editorconfig.editorconfig
+
         ## Themes
         - github.github-vscode-theme
         ### Switch to a night theme automatically
@@ -51,6 +53,7 @@
         - shd101wyy.markdown-preview-enhanced
         - yzhang.markdown-all-in-one
         - marp-team.marp-vscode
+        - bierner.markdown-mermaid
 
         # CSV
         - mechatroner.rainbow-csv
@@ -60,10 +63,25 @@
         - redhat.vscode-yaml
 
         # Toml
-        - bungcip.better-toml
+        - tamasfe.even-better-toml
 
         # Go
         - golang.go
+
+        # TypeScript
+        - ms-vscode.vscode-typescript-next
+        - esbenp.prettier-vscode
+        - zhang-renyang.vscode-react
+        ## React Native
+        - msjsdiag.vscode-react-native
+
+        # Python
+        - ms-python.python
+
+        # PHP
+        - devsense.intelli-php-vscode
+        - devsense.composer-php-vscode
+        - xdebug.php-debug
 
         # Fish shell
         - bmalehorn.vscode-fish
@@ -71,9 +89,20 @@
         # Protocol buffers
         - zxh404.vscode-proto3
 
+        # Terraform
+        - hashicorp.terraform
+
         # Docker
         - ms-azuretools.vscode-docker
 
         # Kubernetes
         - ms-kubernetes-tools.vscode-kubernetes-tools
         - ipedrazas.kubernetes-snippets
+
+        # Ansible
+        - redhat.ansible
+        - wholroyd.jinja
+
+        # SSH
+        - ms-vscode-remote.remote-ssh
+        - ms-vscode-remote.remote-ssh-edit
