@@ -17,23 +17,25 @@ set -x PATH $PATH $GOPATH/bin
 
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
-# error happens for some reasons
 if type -q anyenv
-    #    status --is-interactive; and source (anyenv init -|psub)
+    status --is-interactive; and source (anyenv init -|psub)
 end
 
 ## rbenv under anyenv
-set -x PATH $HOME/.anyenv/envs/rbenv/bin $PATH
-# rbenv needs a plugin ruby-build
-set -x PATH $HOME/.anyenv/envs/rbenv/plugins/ruby-build/bin $PATH
+### rbenv also needs a plugin ruby-build for an install command
+set RBENV_ROOT $HOME/.anyenv/envs/rbenv
+set -x PATH $RBENV_ROOT/bin $PATH
+set -x PATH $RBENV_ROOT/plugins/ruby-build/bin $PATH
 if type -q rbenv
     status --is-interactive; and rbenv init - fish | source
 end
 
 ## nodenv under anyenv
-set -x PATH $HOME/.anyenv/envs/nodenv/bin $PATH
+### nodenv also needs a plugin node-build for an install command
+set NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv
+set -x PATH $NODE_ENV_ROOT/bin $NODE_ENV_ROOT/plugins/node-build/bin $PATH
 if type -q nodenv
-    status --is-interactive; and source (nodenv init -|psub)
+    status --is-interactive; and nodenv init - fish | source
 end
 
 ## tfenv under anyenv

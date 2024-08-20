@@ -17,30 +17,28 @@
 - tags:
     - apt
   block:
-
-
     # Install for Ubuntu, regardless of WSL or non WSL
     - name: Install apt packages
       become: yes
       block:
-      - name: Update apt cache
-        apt:
-          update_cache: yes
-        ignore_errors: true
-      - name: Install application packages on Ubuntu
-        apt:
-          name:
-            - unzip
-            - git
-            - git-lfs
-            - curl
-            - fish
-            - fzf
-            - tmux
-            - jq
+        - name: Update apt cache
+          apt:
+            update_cache: yes
+          ignore_errors: true
+        - name: Install application packages on Ubuntu
+          apt:
+            name:
+              - unzip
+              - git
+              - git-lfs
+              - curl
+              - fish
+              - fzf
+              - tmux
+              - jq
 
-            - mycli
-          state: latest
+              - mycli
+            state: latest
 
     - name: WSL Ubuntu
       when: is_wsl

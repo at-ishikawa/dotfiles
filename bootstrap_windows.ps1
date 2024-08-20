@@ -14,6 +14,7 @@ $packages = @(
     "vscode",
     "git.git",
     "Docker",
+    "Grammarly.Grammarly"
 
     # Some applications are managed by Steam
     # 1. WallPaper Engine
