@@ -10,4 +10,5 @@
       # WSL
       - ms-vscode-remote.remote-containers
       - ms-vscode-remote.remote-wsl
-  tags: always
+  tags:
+    - vscode
