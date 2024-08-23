@@ -76,6 +76,7 @@
     block:
       - name: Install tfenv
         command: "~/.anyenv/bin/anyenv install tfenv"
+  - command: tfenv install latest
 - name: Create symbolic links
   block:
   - name: Ensure there is the $HOME/.config directory
