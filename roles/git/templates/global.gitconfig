@@ -31,5 +31,5 @@
 [include]
 	path = ~/.config/git/platform.gitconfig
 # Git configuration for an organization
-[includeIf "gitdir:~/src/github.com/org/"]
-    path = ~/.config/git/org.gitconfig
+[includeIf "gitdir:~/src/github.com/{{ github_org }}/"]
+    path = ~/.config/git/{{ github_org}}.gitconfig
