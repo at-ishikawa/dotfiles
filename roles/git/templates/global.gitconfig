@@ -30,6 +30,6 @@
 	required = true
 [include]
 	path = ~/.config/git/platform.gitconfig
-# Git configuration for work
+# Git configuration for an organization
 [includeIf "gitdir:~/src/github.com/org/"]
-    path = ~/.config/git/orgs/work.gitconfig
+    path = ~/.config/git/org.gitconfig

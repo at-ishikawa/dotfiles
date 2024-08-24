@@ -86,8 +86,11 @@
   tags: always
   include_role:
     name: "{{ role.name }}"
-    tasks_from: wsl_ubuntu
+    tasks_from: "{{ role.task }}"
   loop:
     - name: vscode
+      task: wsl_ubuntu
+    - name: git
+      task: wsl
   loop_control:
     loop_var: role

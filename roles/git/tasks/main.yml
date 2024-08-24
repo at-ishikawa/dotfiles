@@ -1,0 +1,17 @@
+- tags:
+    - git
+  block:
+    - file:
+        path: "{{ config_dir }}"
+        state: directory
+    - template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: 0640
+      loop:
+        - src: global.gitconfig
+          dest: "{{ ansible_env.HOME }}/.gitconfig"
+        - src: org.gitconfig
+          dest: "{{ config_dir }}/org.gitconfig"
+        - src: global.gitignore
+          dest: "{{ config_dir }}/gitignore"

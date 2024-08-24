@@ -1,0 +1,11 @@
+- tags:
+    - git
+  block:
+    - import_tasks: main.yml
+    - template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: 0640
+      loop:
+        - src: wsl.gitconfig
+          dest: "{{ config_dir }}/platform.gitconfig"
