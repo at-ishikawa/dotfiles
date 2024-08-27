@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 UNAME = $(shell uname)
 ifeq ($(UNAME),Linux)
 OS=linux
@@ -30,13 +32,14 @@ prerequisite/mac/:
 .PHONY: prepare install update install/mac install/linux
 prepare: prerequisite
 	python3 -m venv venv
-	source venv/bin/activate
-	pip install ansible
+	source venv/bin/activate;
+	pip install -r requirements.txt
 	ansible-galaxy collection install community.general
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
 	ansible-playbook --diff --ask-become-pass bootstrap.yml
+	pip freeze > requirements.txt
 
 update:
 	ansible-playbook --diff --ask-become-pass bootstrap.yml
