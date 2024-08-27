@@ -6,6 +6,7 @@
     # config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
     # config_directory: "{{ ansible_env.HOME }}/.vscode-server/data/Machine"
     config_directory: "/mnt/c/Users/{{ host_user }}/AppData/Roaming/Code/User"
+    meta_key: alt
     additional_extensions:
       # WSL
       - ms-vscode-remote.remote-containers

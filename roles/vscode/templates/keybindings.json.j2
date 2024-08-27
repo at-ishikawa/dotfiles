@@ -1,6 +1,6 @@
 [
     {
-        "key": "alt+.",
+        "key": "{{ meta_key }}+.",
         "command": "editor.action.revealDefinition",
         "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
     },
@@ -10,17 +10,17 @@
         "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
     },
     {
-        "key": "shift+alt+8",
+        "key": "shift+{{ meta_key }}+8",
         "command": "workbench.action.navigateBack",
         "when": "canNavigateBack"
     },
     {
-        "key": "alt+left",
+        "key": "{{ meta_key }}+left",
         "command": "-workbench.action.navigateBack",
         "when": "canNavigateBack"
     },
     {
-        "key": "shift+alt+r",
+        "key": "shift+{{ meta_key }}+r",
         "command": "editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
     },
@@ -35,17 +35,17 @@
         "command": "workbench.action.findInFiles"
     },
     {
-        "key": "shift+cmd+f",
+        "key": "shift+{{ meta_key }}+f",
         "command": "-workbench.action.findInFiles"
     },
     {# Use Ctrl+Alt+H to show a call hierarchy #}
     {
-        "key": "ctrl+alt+h",
+        "key": "ctrl+{{ meta_key }}+h",
         "command": "references-view.showCallHierarchy",
         "when": "editorHasCallHierarchyProvider"
     },
     {
-        "key": "shift+alt+h",
+        "key": "shift+{{ meta_key }}+h",
         "command": "-references-view.showCallHierarchy",
         "when": "editorHasCallHierarchyProvider"
     },
