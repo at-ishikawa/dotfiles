@@ -1,6 +1,14 @@
 {
     {# Awesome Emacs: The CMD key is used for the Meta key only on MacOS #}
     "emacs-mcx.useMetaPrefixMacCmd": true,
+    {#
+      VS Code doesn't provide a way to recognize i-search or replace.
+      In order to have a better experience of a replace,
+      disable behaviors not to exit the find widget when shortcut keys for moving cursors are used
+      See https://github.com/whitphx/vscode-emacs-mcx/issues/137 for more details
+     #}
+    "emacs-mcx.cursorMoveOnFindWidget": true,
+
     "workbench.colorTheme": "Solarized Dark",
     "workbench.preferredLightColorTheme": "GitHub Light Default",
     "workbench.preferredDarkColorTheme": "Solarized Dark",
