@@ -63,7 +63,7 @@
           become: yes
           apt:
             name:
-              - scrcpy # https://github.com/Genymobile/scrcpy
+              # - scrcpy # https://github.com/Genymobile/scrcpy
               - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
             state: latest
 

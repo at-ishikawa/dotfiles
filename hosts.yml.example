@@ -12,3 +12,7 @@ local:
     ## The user directory name in Windows from WSL.
     ## It's going to be used as /mnt/c/Users/{{ host_user }} in the VSCode role
     host_user: ishikawa
+
+    ## Install the gcloud CLI and kubernetes CLI
+    install_gcloud_cli: false
+    install_kubectl_cli: false

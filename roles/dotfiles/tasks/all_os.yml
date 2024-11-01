@@ -149,9 +149,10 @@
     - always
   include_role:
     name: "{{ role }}"
+  when: role != ''
   loop:
     - golang
-    - gcloud
-    - kubectl
+    - "{{ 'gcloud' if install_gcloud_cli else '' }}"
+    - "{{ 'kubectl' if install_kubectl_cli else '' }}"
   loop_control:
     loop_var: role
