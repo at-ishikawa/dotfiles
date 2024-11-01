@@ -8,6 +8,9 @@
     See https://github.com/whitphx/vscode-emacs-mcx/issues/137 for more details
    -#}
   "emacs-mcx.cursorMoveOnFindWidget": true,
+  "emacs-mcx.strictEmacsMove": true,
+  "emacs-mcx.emacsLikeTab": true,
+  "emacs-mcx.killWholeLine": true,
 
   "workbench.colorTheme": "Solarized Dark",
   "workbench.preferredLightColorTheme": "GitHub Light Default",
@@ -19,6 +22,8 @@
   "files.trimTrailingWhitespace": true,
   "files.eol": "\n",
   "files.autoSave": "afterDelay",
+  {# Prevent running scripts to change a cursor by a short amount of time  #}
+  "files.autoSaveDelay": 5000,
 
   "editor.formatOnSave": true,
   "editor.accessibilitySupport": "on",
@@ -35,5 +40,5 @@
     "-v",
   ],
   "explorer.confirmDragAndDrop": false,
-  "window.autoDetectColorScheme": true,
+  "window.autoDetectColorScheme": true
 }

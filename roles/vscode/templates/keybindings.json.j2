@@ -1,4 +1,12 @@
 [
+    {# Override VSCode Emacs MCX: https://github.com/whitphx/vscode-emacs-mcx/issues/1319 #}
+    {
+        "key": "ctrl+k",
+        "command": "emacs-mcx.killLine",
+        "when": "editorTextFocus && !editorReadonly || terminal.active"
+    },
+
+    {# Code jump in the same way as Emacs Tags  #}
     {
         "key": "{{ meta_key }}+.",
         "command": "editor.action.revealDefinition",
@@ -19,6 +27,7 @@
         "command": "-workbench.action.navigateBack",
         "when": "canNavigateBack"
     },
+
     {
         "key": "shift+{{ meta_key }}+r",
         "command": "editor.action.rename",
@@ -29,6 +38,7 @@
         "command": "-editor.action.rename",
         "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
     },
+
     {# Use Ctrl+Shift+f instead of CMD+f on all platforms #}
     {
         "key": "ctrl+shift+f",
@@ -49,6 +59,7 @@
         "command": "-references-view.showCallHierarchy",
         "when": "editorHasCallHierarchyProvider"
     },
+
     {# Use Ctrl-X Ctrl-R to show File: Recent #}
     {
         "key": "ctrl+x ctrl+r",
