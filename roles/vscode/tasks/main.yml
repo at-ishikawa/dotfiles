@@ -71,7 +71,6 @@
         # TypeScript
         - ms-vscode.vscode-typescript-next
         - esbenp.prettier-vscode
-        - zhang-renyang.vscode-react
         ## React Native
         - msjsdiag.vscode-react-native
 
@@ -79,7 +78,6 @@
         - ms-python.python
 
         # PHP
-        - devsense.intelli-php-vscode
         - devsense.composer-php-vscode
         - xdebug.php-debug
 

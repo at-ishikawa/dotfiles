@@ -38,7 +38,7 @@ prepare: prerequisite
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
-	ansible-playbook --diff --ask-become-pass bootstrap.yml
+	ansible-playbook --verbose --diff --ask-become-pass bootstrap.yml
 	pip freeze > requirements.txt
 
 update:

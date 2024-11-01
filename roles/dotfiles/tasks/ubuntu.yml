@@ -12,7 +12,7 @@
       register: wsl_check
     - name: WSL Ubuntu
       set_fact:
-        is_wsl: wsl_check.stdout == 'true'
+        is_wsl: "{{ wsl_check.stdout == 'true' }}"
 
 - tags:
     - apt
@@ -79,6 +79,20 @@
   loop:
     - 1password
     - github-cli
+  loop_control:
+    loop_var: role
+
+- when: not is_wsl
+  tags:
+    - always
+  include_role:
+    name: "{{ role.name }}"
+    tasks_from: "{{ role.task }}"
+  loop:
+    - name: vscode
+      task: ubuntu
+    - name: git
+      task: main
   loop_control:
     loop_var: role
 

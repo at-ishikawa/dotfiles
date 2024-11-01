@@ -1,0 +1,6 @@
+- import_tasks: main.yml
+  vars:
+    config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
+    meta_key: alt
+  tags:
+    - vscode

@@ -1,82 +1,3 @@
-- name: Install anyenv
-  block:
-  - name: Clone anyenv repository
-    git:
-      repo: "https://github.com/anyenv/anyenv"
-      dest: "{{ ansible_env.HOME }}/.anyenv"
-  - name: Check if the anyenv manifest directory exists
-    stat:
-      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
-    register: anyenv_manifest_directory
-  - name: Initialize anyenv
-    command: "~/.anyenv/bin/anyenv install --force-init"
-    when: not anyenv_manifest_directory.stat.exists
-- name: Install rbenv
-  block:
-  - name: Install required packages on Ubuntu to use rbenv
-    become: yes
-    apt:
-      name:
-        # - ruby-dev # todo: probably unnecessary
-        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-  - name: Check if rbenv is already installed
-    stat:
-      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
-    register: rbenv_directory
-  - name: Install rbenv
-    command: "~/.anyenv/bin/anyenv install rbenv"
-    when: not rbenv_directory.stat.exists
-- name: Install pyenv
-  tags:
-    - pyenv
-  block:
-  - name: Check if pyenv is already installed
-    stat:
-      path: "{{ ansible_env.HOME }}/.anyenv/envs/pyenv"
-    register: pyenv_directory
-  - name: Install pyenv
-    when: not pyenv_directory.stat.exists
-    block:
-      - name: Install required packages on Ubuntu
-        become: yes
-        apt:
-          name:
-            # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-            - build-essential
-            - libssl-dev
-            - zlib1g-dev
-            - libbz2-dev
-            - libreadline-dev
-            - libsqlite3-dev
-            - curl
-            - git
-            - libncursesw5-dev
-            - xz-utils
-            - tk-dev
-            - libxml2-dev
-            - libxmlsec1-dev
-            - libffi-dev
-            - liblzma-dev
-          state: latest
-        when: ansible_distribution == "Ubuntu"
-      - name: Install pyenv
-        command: "~/.anyenv/bin/anyenv install pyenv"
-- name: Install tfenv
-  tags:
-    - tfenv
-  block:
-  - name: Check if tfenv is already installed
-    stat:
-      path: "{{ ansible_env.HOME }}/.anyenv/envs/tfenv"
-    register: tfenv_directory
-  - name: Install tfenv
-    when: not tfenv_directory.stat.exists
-    block:
-      - name: Install tfenv
-        command: "~/.anyenv/bin/anyenv install tfenv"
-  - command: tfenv install latest
 - name: Create symbolic links
   block:
   - name: Ensure there is the $HOME/.config directory
@@ -145,6 +66,86 @@
       name: "{{ ansible_user_id }}"
       shell: "{{ fish_command_path }}"
 
+- name: Install anyenv
+  block:
+  - name: Clone anyenv repository
+    git:
+      repo: "https://github.com/anyenv/anyenv"
+      dest: "{{ ansible_env.HOME }}/.anyenv"
+  - name: Check if the anyenv manifest directory exists
+    stat:
+      path: "{{ ansible_env.HOME }}/.config/anyenv/anyenv-install"
+    register: anyenv_manifest_directory
+  - name: Initialize anyenv
+    command: "~/.anyenv/bin/anyenv install --force-init"
+    when: not anyenv_manifest_directory.stat.exists
+- name: Install rbenv
+  block:
+  - name: Install required packages on Ubuntu to use rbenv
+    become: yes
+    apt:
+      name:
+        # - ruby-dev # todo: probably unnecessary
+        - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
+      state: latest
+    when: ansible_distribution == "Ubuntu"
+  - name: Check if rbenv is already installed
+    stat:
+      path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv"
+    register: rbenv_directory
+  - name: Install rbenv
+    command: "~/.anyenv/bin/anyenv install rbenv"
+    when: not rbenv_directory.stat.exists
+- name: Install pyenv
+  tags:
+    - pyenv
+  block:
+  - name: Check if pyenv is already installed
+    stat:
+      path: "{{ ansible_env.HOME }}/.anyenv/envs/pyenv"
+    register: pyenv_directory
+  - name: Install pyenv
+    when: not pyenv_directory.stat.exists
+    block:
+      - name: Install required packages on Ubuntu
+        become: yes
+        apt:
+          name:
+            # https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+            - build-essential
+            - libssl-dev
+            - zlib1g-dev
+            - libbz2-dev
+            - libreadline-dev
+            - libsqlite3-dev
+            - curl
+            - git
+            - libncursesw5-dev
+            - xz-utils
+            - tk-dev
+            - libxml2-dev
+            - libxmlsec1-dev
+            - libffi-dev
+            - liblzma-dev
+          state: latest
+        when: ansible_distribution == "Ubuntu"
+      - name: Install pyenv
+        command: "~/.anyenv/bin/anyenv install pyenv"
+# todo: This doesn't work for a new installation when `tfenv install latest` runs
+# - name: Install tfenv
+#   tags:
+#     - tfenv
+#   block:
+#   - name: Check if tfenv is already installed
+#     stat:
+#       path: "{{ ansible_env.HOME }}/.anyenv/envs/tfenv"
+#     register: tfenv_directory
+#   - name: Install tfenv
+#     when: not tfenv_directory.stat.exists
+#     block:
+#       - name: Install tfenv
+#         command: "~/.anyenv/bin/anyenv install tfenv"
+#   - command: tfenv install latest
 - tags:
     - always
   include_role:

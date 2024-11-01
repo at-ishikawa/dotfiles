@@ -1,3 +1,6 @@
+# Stop showing a welcome message
+set fish_greeting
+
 set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-alt-t:toggle-preview,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down"
 
 # fish_prompt
@@ -18,7 +21,8 @@ set -x PATH $PATH $GOPATH/bin
 # anyenv
 set -x PATH $HOME/.anyenv/bin $PATH
 if type -q anyenv
-    status --is-interactive; and source (anyenv init -|psub)
+    # Use anyenv init - fish: https://github.com/anyenv/anyenv/issues/69
+    status --is-interactive; and source (anyenv init - fish|psub)
 end
 
 ## rbenv under anyenv
