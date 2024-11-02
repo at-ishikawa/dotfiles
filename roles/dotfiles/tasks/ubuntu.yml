@@ -38,6 +38,17 @@
               - jq
 
               - mycli
+
+            state: latest
+
+    - name: Non WSL
+      when: not is_wsl
+      block:
+        - become: yes
+          apt:
+            name:
+              # Clipboard manager: https://hluk.github.io/CopyQ/
+              - copyq
             state: latest
 
     - name: WSL Ubuntu
