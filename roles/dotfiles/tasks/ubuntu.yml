@@ -44,7 +44,27 @@
     - name: Non WSL
       when: not is_wsl
       block:
-        - become: yes
+        - name: Install an app launcher
+          block:
+            # universe repository cannot be installed by apt_repository, so install it by hand
+            # https://github.com/ansible/ansible/issues/48714
+            - become: true
+              command: add-apt-repository -y universe
+            - become: true
+              apt_repository:
+                repo: "{{ item }}"
+                state: present
+              loop:
+                - "ppa:agornostal/ulauncher"
+            - become: true
+              apt:
+                name:
+                  - ulauncher
+                state: latest
+              # Bookmark launcher cannot be installed by a command
+              # Extension install: https://github.com/Ulauncher/Ulauncher/issues/1018
+              # Bookmark launcher: https://ext.ulauncher.io/-/github-man0xff-ulauncher-bookmarks
+        - become: true
           apt:
             name:
               # Clipboard manager: https://hluk.github.io/CopyQ/
