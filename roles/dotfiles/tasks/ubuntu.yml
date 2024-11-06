@@ -80,24 +80,6 @@
               - wslu
             state: latest
 
-    - name: non WSL Ubuntu
-      when: not is_wsl
-      block:
-        # TODOs this shouldn't be under apt role
-        # - name: Install Microk8s
-        #   become: yes
-        #   community.general.snap:
-        #     name: microk8s
-        #     classic: true
-        #     channel: 1.26/stable
-        - name: Install application packages on Ubuntu
-          become: yes
-          apt:
-            name:
-              # - scrcpy # https://github.com/Genymobile/scrcpy
-              - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
-            state: latest
-
 - tags:
     - always
   include_tasks: all_os.yml
@@ -117,15 +99,7 @@
   tags:
     - always
   include_role:
-    name: "{{ role.name }}"
-    tasks_from: "{{ role.task }}"
-  loop:
-    - name: vscode
-      task: ubuntu
-    - name: git
-      task: main
-  loop_control:
-    loop_var: role
+    name: ubuntu-desktop
 
 - when: is_wsl
   tags: always

@@ -1,0 +1,30 @@
+- tags:
+    - ubuntu-desktop
+  block:
+    # https://docs.ansible.com/ansible/latest/collections/community/general/dconf_module.html
+    - community.general.dconf:
+        # Support Emacs shortcut keys in some applications
+        # https://discourse.gnome.org/t/gtk-key-themes-for-gnome-shell/3472
+        key: "/org/gnome/desktop/interface/gtk-key-theme"
+        value: "'Emacs'"
+
+    - tags:
+        - always
+      include_role:
+        name: "{{ role.name }}"
+        tasks_from: "{{ role.task }}"
+      loop:
+        - name: vscode
+          task: ubuntu
+        - name: git
+          task: main
+      loop_control:
+        loop_var: role
+
+    - name: Install application packages on Ubuntu
+      become: yes
+      apt:
+        name:
+          # - scrcpy # https://github.com/Genymobile/scrcpy
+          - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
+        state: latest

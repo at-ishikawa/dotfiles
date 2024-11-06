@@ -31,6 +31,9 @@ prerequisite/mac/:
 
 .PHONY: prepare install update install/mac install/linux
 prepare: prerequisite
+# \
+	# For dconf
+	/usr/bin/pip3 install psutil
 	python3 -m venv venv
 	source venv/bin/activate;
 	pip install -r requirements.txt
@@ -39,7 +42,6 @@ prepare: prerequisite
 
 install: install/$(OS)
 	ansible-playbook --verbose --diff --ask-become-pass bootstrap.yml
-	pip freeze > requirements.txt
 
 update:
 	ansible-playbook --diff --ask-become-pass bootstrap.yml
