@@ -13,6 +13,9 @@
         # Enable a night light: https://unix.stackexchange.com/a/400036
         - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
           value: true
+        # Enable natural-scrolling on a touchpad, especially to show activities
+        - key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+          value: true
 
     - tags:
         - always
