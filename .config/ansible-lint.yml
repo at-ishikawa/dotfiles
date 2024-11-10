@@ -1,0 +1,6 @@
+# https://ansible.readthedocs.io/projects/lint/configuring/
+
+skip_list:
+  # https://ansible.readthedocs.io/projects/lint/rules/
+  - fqcn
+  - name[missing]
