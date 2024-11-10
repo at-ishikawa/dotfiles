@@ -3,10 +3,16 @@
   block:
     # https://docs.ansible.com/ansible/latest/collections/community/general/dconf_module.html
     - community.general.dconf:
+        key: "{{ item.key }}"
+        value: "{{ item.value }}"
+      loop:
         # Support Emacs shortcut keys in some applications
         # https://discourse.gnome.org/t/gtk-key-themes-for-gnome-shell/3472
-        key: "/org/gnome/desktop/interface/gtk-key-theme"
-        value: "'Emacs'"
+        - key: "/org/gnome/desktop/interface/gtk-key-theme"
+          value: "'Emacs'"
+        # Enable a night light: https://unix.stackexchange.com/a/400036
+        - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+          value: true
 
     - tags:
         - always
