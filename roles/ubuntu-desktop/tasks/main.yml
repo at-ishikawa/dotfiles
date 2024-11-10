@@ -21,12 +21,12 @@
         - always
       include_role:
         name: "{{ role.name }}"
-        tasks_from: "{{ role.task }}"
+        tasks_from: "{{ role.task | default ('main') }}"
       loop:
         - name: vscode
           task: ubuntu
         - name: git
-          task: main
+        - name: keyd
       loop_control:
         loop_var: role
 

@@ -1,0 +1,34 @@
+- tags:
+    - keyd
+  become: true
+  block:
+    # https://launchpad.net/~keyd-team/+archive/ubuntu/ppa
+    - apt_repository:
+        repo: "ppa:keyd-team/ppa"
+        state: present
+    - apt:
+        name:
+          - keyd
+        state: latest
+    - systemd:
+        name: keyd
+        enabled: true
+        state: started
+
+- tags:
+    - keyd
+    - keyd-config
+  become: true
+  block:
+    - template:
+        src: default.conf.j2
+        dest: /etc/keyd/default.conf
+      notify:
+        - Reload keyd
+
+    # sudo add-apt-repository
+    # sudo apt install keyd
+    # copy default.conf.j2 to /etc/keyd/default.conf
+
+    # sudo systemctl enable keyd
+    # sudo systemctl start keyd
