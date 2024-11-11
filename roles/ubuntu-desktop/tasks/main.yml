@@ -17,6 +17,13 @@
         - key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
           value: true
 
+        # Enable to update a timezone automatically based on a location
+        # There is a bug so these configs don't work: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/issues/58
+        - key: "/org/gnome/system/location/enabled"
+          value: true
+        - key: "/org/gnome/desktop/datetime/automatic-timezone"
+          value: true
+
     - tags:
         - always
       include_role:
