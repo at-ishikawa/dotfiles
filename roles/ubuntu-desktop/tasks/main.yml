@@ -10,6 +10,9 @@
         # https://discourse.gnome.org/t/gtk-key-themes-for-gnome-shell/3472
         - key: "/org/gnome/desktop/interface/gtk-key-theme"
           value: "'Emacs'"
+        # Show a battery percentage on a desktop icon on a laptop
+        - key: "/org/gnome/desktop/interface/show-battery-percentage"
+          value: true
         # Enable a night light: https://unix.stackexchange.com/a/400036
         - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
           value: true
