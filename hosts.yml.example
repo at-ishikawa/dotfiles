@@ -13,6 +13,9 @@ local:
     ## It's going to be used as /mnt/c/Users/{{ host_user }} in the VSCode role
     host_user: ishikawa
 
+    ## Install the AWS CLI
+    install_aws_cli: false
+
     ## Install the gcloud CLI and kubernetes CLI
     install_gcloud_cli: false
     install_kubectl_cli: false
