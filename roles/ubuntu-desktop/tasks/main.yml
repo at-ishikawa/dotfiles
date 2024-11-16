@@ -31,7 +31,7 @@
         - always
       include_role:
         name: "{{ role.name }}"
-        tasks_from: "{{ role.task | default ('main') }}"
+        tasks_from: "{{ role.task | default('main') }}"
       loop:
         - name: vscode
           task: ubuntu
@@ -59,4 +59,11 @@
         name:
           # - scrcpy # https://github.com/Genymobile/scrcpy
           - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
+
+          # gnome console is the default terminal for Gnome: https://release.gnome.org/42/
+          # It supports to switch a theme based on a system configuration
+          # Also, use the gnome console from the Files app https://fostips.com/gnome-console-default-terminal-ubuntu-2204/
+          - gnome-console
+          - nautilus-extension-gnome-console
+          - nautilus-extension-gnome-terminal
         state: latest
