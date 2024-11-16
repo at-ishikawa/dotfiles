@@ -18,4 +18,4 @@ local:
 
     ## Install the gcloud CLI and kubernetes CLI
     install_gcloud_cli: false
-    install_kubectl_cli: false
+    install_kubectl: false

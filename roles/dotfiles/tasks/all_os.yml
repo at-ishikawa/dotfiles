@@ -154,6 +154,6 @@
   loop:
     - golang
     - "{{ 'gcloud' if install_gcloud_cli else '' }}"
-    - "{{ 'kubectl' if install_kubectl_cli else '' }}"
+    - "{{ 'kubectl' if install_kubectl else '' }}"
   loop_control:
     loop_var: role

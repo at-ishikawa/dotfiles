@@ -48,6 +48,8 @@
         optional_packages:
           - name: aws-cli
             installed: "{{ install_aws_cli }}"
+          - name: kubectl
+            installed: "{{ install_kubectl }}"
       tags:
         - snap
 
