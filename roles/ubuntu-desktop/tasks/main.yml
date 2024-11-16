@@ -66,4 +66,8 @@
           - gnome-console
           - nautilus-extension-gnome-console
           - nautilus-extension-gnome-terminal
+
+          # Gnome shell extensions: https://itsfoss.com/gnome-shell-extensions/
+          # todo: Install a night theme switcher: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
+          - gnome-shell-extensions
         state: latest
