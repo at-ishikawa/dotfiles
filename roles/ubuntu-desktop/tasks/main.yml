@@ -50,6 +50,8 @@
             installed: "{{ install_aws_cli }}"
           - name: kubectl
             installed: "{{ install_kubectl }}"
+          - name: helm
+            installed: "{{ install_kubectl }}"
       tags:
         - snap
 
