@@ -2,6 +2,13 @@
 # The list of available distributions by wsl --list --online
 wsl --install -d Ubuntu-24.04
 
+# Improve a WSL networking speed
+# See https://github.com/microsoft/WSL/issues/8171#issuecomment-1378665636
+$adapter = Get-NetAdapter -Name "*vEthernet (WSL*" -IncludeHidden
+if ($adapter) {
+    Disable-NetAdapterLso -IncludeHidden -Name $adapter.Name
+}
+
 # Search packages by winget search $keyword
 $packages = @(
     "Google Drive",
@@ -13,7 +20,6 @@ $packages = @(
     # "canonical.ubuntu.2204",
     "vscode",
     "git.git",
-    "Docker",
     "Grammarly.Grammarly"
 
     # Some applications are managed by Steam
@@ -24,3 +30,5 @@ foreach ($package in $packages) {
     echo "Package: $package"
     winget install $package --source winget
 }
+
+# todo: install Rancher Desktop

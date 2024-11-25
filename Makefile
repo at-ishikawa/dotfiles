@@ -31,13 +31,10 @@ prerequisite/mac/:
 
 .PHONY: prepare install update install/mac install/linux
 prepare: prerequisite
-# \
-	# For dconf
-	/usr/bin/pip3 install psutil
 	python3 -m venv venv
-	source venv/bin/activate;
-	pip install -r requirements.txt
-	ansible-galaxy collection install community.general
+	source venv/bin/activate; \
+	pip install -r requirements.txt; \
+	ansible-galaxy collection install community.general; \
 	ansible-playbook --diff --check bootstrap.yml
 
 install: install/$(OS)
