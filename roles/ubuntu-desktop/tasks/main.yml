@@ -1,6 +1,11 @@
 - tags:
     - ubuntu-desktop
   block:
+    - become: true
+      apt:
+        name:
+          - python3-psutil
+
     # https://docs.ansible.com/ansible/latest/collections/community/general/dconf_module.html
     - community.general.dconf:
         key: "{{ item.key }}"
