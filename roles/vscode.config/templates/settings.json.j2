@@ -1,0 +1,43 @@
+{
+  {# Awesome Emacs: The CMD key is used for the Meta key only on MacOS -#}
+  "emacs-mcx.useMetaPrefixMacCmd": true,
+  {#
+    VS Code doesn't provide a way to recognize i-search or replace.
+    In order to have a better experience of a replace,
+    disable behaviors not to exit the find widget when shortcut keys for moving cursors are used
+    See https://github.com/whitphx/vscode-emacs-mcx/issues/137 for more details
+   -#}
+  "emacs-mcx.cursorMoveOnFindWidget": true,
+  "emacs-mcx.strictEmacsMove": true,
+  "emacs-mcx.emacsLikeTab": true,
+
+  "workbench.colorTheme": "Solarized Dark",
+  "workbench.preferredLightColorTheme": "GitHub Light Default",
+  "workbench.preferredDarkColorTheme": "Solarized Dark",
+  "git.autofetch": true,
+  "gitlens.codeLens.enabled": false,
+  "markdown-preview-enhanced.liveUpdate": true,
+
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "files.autoSave": "afterDelay",
+  {# Prevent running scripts to change a cursor by a short amount of time  #}
+  "files.autoSaveDelay": 5000,
+
+  "editor.formatOnSave": true,
+  "editor.accessibilitySupport": "on",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.minimap.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "enabled"
+  },
+  "go.testFlags": [
+    "-v",
+  ],
+  "explorer.confirmDragAndDrop": false,
+  "window.autoDetectColorScheme": true
+}

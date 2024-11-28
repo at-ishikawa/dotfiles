@@ -1,0 +1,72 @@
+[
+    {# Override VSCode Emacs MCX: https://github.com/whitphx/vscode-emacs-mcx/issues/1319 #}
+    {
+        "key": "ctrl+k",
+        "command": "emacs-mcx.killLine",
+        "when": "editorTextFocus && !editorReadonly || terminal.active"
+    },
+
+    {# Code jump in the same way as Emacs Tags  #}
+    {
+        "key": "{{ meta_key }}+.",
+        "command": "editor.action.revealDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+        "key": "f12",
+        "command": "-editor.action.revealDefinition",
+        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+    },
+    {
+        "key": "shift+{{ meta_key }}+8",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    {
+        "key": "{{ meta_key }}+left",
+        "command": "-workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+
+    {
+        "key": "shift+{{ meta_key }}+r",
+        "command": "editor.action.rename",
+        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "f2",
+        "command": "-editor.action.rename",
+        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+    },
+
+    {# Use Ctrl+Shift+f instead of CMD+f on all platforms #}
+    {
+        "key": "ctrl+shift+f",
+        "command": "workbench.action.findInFiles"
+    },
+    {
+        "key": "shift+{{ meta_key }}+f",
+        "command": "-workbench.action.findInFiles"
+    },
+    {# Use Ctrl+Alt+H to show a call hierarchy #}
+    {
+        "key": "ctrl+{{ meta_key }}+h",
+        "command": "references-view.showCallHierarchy",
+        "when": "editorHasCallHierarchyProvider"
+    },
+    {
+        "key": "shift+{{ meta_key }}+h",
+        "command": "-references-view.showCallHierarchy",
+        "when": "editorHasCallHierarchyProvider"
+    },
+
+    {# Use Ctrl-X Ctrl-R to show File: Recent #}
+    {
+        "key": "ctrl+x ctrl+r",
+        "command": "workbench.action.openRecent"
+    },
+    {
+        "key": "ctrl+r",
+        "command": "-workbench.action.openRecent"
+    }
+]

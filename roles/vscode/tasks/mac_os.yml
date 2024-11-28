@@ -1,5 +1,5 @@
 - block:
-    - import_tasks: main.yml
+    - import_tasks: tasks.yml
       vars:
         config_directory: "{{ ansible_env.HOME }}/Library/Application Support/Code/User"
         meta_key: "cmd"

@@ -38,8 +38,6 @@
         name: "{{ role.name }}"
         tasks_from: "{{ role.task | default('main') }}"
       loop:
-        - name: vscode
-          task: ubuntu
         - name: git
         - name: keyd
       loop_control:

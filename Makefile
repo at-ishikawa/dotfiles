@@ -37,7 +37,8 @@ prepare: prerequisite
 	ansible-galaxy collection install community.general; \
 	ansible-playbook --diff --check bootstrap.yml
 
-install: install/$(OS)
+install:
+	ansible-playbook --verbose --diff --ask-become-pass core.yml
 	ansible-playbook --verbose --diff --ask-become-pass bootstrap.yml
 
 update:

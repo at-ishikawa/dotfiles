@@ -101,7 +101,6 @@
     - name: 1password
     - name: github-cli
     - name: vscode
-      task: mac_os
     - name: git
   loop_control:
     loop_var: role

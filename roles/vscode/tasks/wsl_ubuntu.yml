@@ -1,6 +1,4 @@
-# Vars:
-## host_user: Required. The user name of a Windows host
-- import_tasks: main.yml
+- import_tasks: tasks.yml
   vars:
     # The Linux default config directory nor the SSL remote config doesn't work in the WSL
     # config_directory: "{{ ansible_env.HOME }}/.config/Code/User"

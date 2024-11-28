@@ -108,7 +108,6 @@
     tasks_from: "{{ role.task }}"
   loop:
     - name: vscode
-      task: wsl_ubuntu
     - name: git
       task: wsl
   loop_control:
