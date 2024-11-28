@@ -1,0 +1,49 @@
+# Core playbook is to install something essential so even something wrong happens in the other playbooks,
+# it's still possible to edit and fix the other playbooks.
+# https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
+- hosts: all
+  tags:
+    - always
+  tasks:
+    - name: Classify hosts depending on their OS distribution
+      group_by:
+        key: os_{{ ansible_distribution }}
+
+- hosts: os_Ubuntu
+  gather_facts: false
+  tags:
+    - always
+  tasks:
+    - name: Get a deb architecture
+      command: dpkg --print-architecture
+      register: dpkg_print_architecture_result
+      changed_when: false
+    - set_fact:
+        deb_architecture: "{{ dpkg_print_architecture_result.stdout }}"
+    - name: Check if running on WSL
+      shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
+      register: wsl_check
+      changed_when: false
+    - name: WSL Ubuntu
+      set_fact:
+        ubuntu_type: wsl
+      when: wsl_check.stdout == 'true'
+    - name: Not WSL Ubuntu
+      set_fact:
+        ubuntu_type: desktop
+      when: wsl_check.stdout == 'false'
+    - include_role:
+        name: dotfiles.install
+        tasks_from: ubuntu.desktop.yml
+      when: ubuntu_type == 'desktop'
+    - fail:
+        msg: "WSL is not supported yet"
+      when: ubuntu_type == 'wsl'
+
+- hosts: os_MacOSX
+  gather_facts: False
+  tags:
+    - always
+  tasks:
+    - fail:
+        msg: "macOS is not supported yet"

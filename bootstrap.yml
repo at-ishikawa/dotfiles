@@ -1,24 +1,27 @@
+# Deprecated.
+# Use core/install/core playbooks
+
 # https://phelipetls.github.io/posts/introduction-to-ansible/
 - name: Bootstrap a local environment
   hosts: localhost
   become: no
   tasks:
-  - debug:
-      msg: "{{ ansible_facts['distribution'] }}"
+    - debug:
+        msg: "{{ ansible_facts['distribution'] }}"
 
-  # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
-  - when: ansible_facts['distribution'] == "Ubuntu"
-    tags:
-      - always
-    include_role:
-      name: dotfiles
-      tasks_from: ubuntu
-  - when: ansible_facts['distribution'] == "MacOSX"
-    tags:
-      - always
-    include_role:
-      name: dotfiles
-      tasks_from: mac_os
+    # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
+    - when: ansible_facts['distribution'] == "Ubuntu"
+      tags:
+        - always
+      include_role:
+        name: dotfiles
+        tasks_from: ubuntu
+    - when: ansible_facts['distribution'] == "MacOSX"
+      tags:
+        - always
+      include_role:
+        name: dotfiles
+        tasks_from: mac_os
 
   # - name: Auto update packages by this ansible
   #   become: true

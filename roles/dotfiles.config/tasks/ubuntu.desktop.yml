@@ -1,0 +1,31 @@
+- tags:
+    - always
+  block:
+    # This requires to install psutil in a non-virtualenv python
+    # https://docs.ansible.com/ansible/latest/collections/community/general/dconf_module.html
+    - tags:
+        - dconf
+      community.general.dconf:
+        key: "{{ item.key }}"
+        value: "{{ item.value }}"
+      loop:
+        # Support Emacs shortcut keys in some applications
+        # https://discourse.gnome.org/t/gtk-key-themes-for-gnome-shell/3472
+        - key: "/org/gnome/desktop/interface/gtk-key-theme"
+          value: "'Emacs'"
+        # Show a battery percentage on a desktop icon on a laptop
+        - key: "/org/gnome/desktop/interface/show-battery-percentage"
+          value: true
+        # Enable a night light: https://unix.stackexchange.com/a/400036
+        - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
+          value: true
+        # Enable natural-scrolling on a touchpad, especially to show activities
+        - key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
+          value: true
+
+        # Enable to update a timezone automatically based on a location
+        # There is a bug so these configs don't work: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/issues/58
+        - key: "/org/gnome/system/location/enabled"
+          value: true
+        - key: "/org/gnome/desktop/datetime/automatic-timezone"
+          value: true
