@@ -20,6 +20,7 @@
     - community.general.snap:
         name: "{{ optional_packages | selectattr('installed', 'equalto', true) | map(attribute='name') | list }}"
         classic: true
+      become: true
       vars:
         # Install guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
         optional_packages:
