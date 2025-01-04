@@ -27,3 +27,5 @@
       with_items:
         - github.com/x-motemen/ghq@latest
         - github.com/golang/mock/mockgen@latest
+        # it's old version of apt repository: https://github.com/junegunn/fzf/issues/2599
+        - github.com/junegunn/fzf@latest
