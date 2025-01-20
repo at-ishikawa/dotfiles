@@ -1,6 +1,8 @@
 # Stop showing a welcome message
 set fish_greeting
 
+set -gx EDITOR emacs
+
 set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-alt-t:toggle-preview,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down"
 
 # fish_prompt
