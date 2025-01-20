@@ -1,18 +1,7 @@
 - tags:
     - always
-  block:
-    - name: Get a deb architecture
-      shell: dpkg --print-architecture
-      register: dpkg_print_architecture_result
-    - set_fact:
-        deb_architecture: "{{ dpkg_print_architecture_result.stdout }}"
-
-    - name: Check if running on WSL
-      shell: "grep -q 'WSL' /proc/version && echo 'true' || echo 'false'"
-      register: wsl_check
-    - name: WSL Ubuntu
-      set_fact:
-        is_wsl: "{{ wsl_check.stdout == 'true' }}"
+  include_vars:
+    file: ubuntu.yml
 
 - tags:
     - apt
@@ -27,27 +16,9 @@
           ignore_errors: true
         - name: Install application packages on Ubuntu
           apt:
-            name:
-              - unzip
-              - git
-              - git-lfs
-              - curl
-              - fish
-              # fzf version is too old from apt until next issue is resolved
-              # https://github.com/junegunn/fzf/issues/2599
-              # - fzf
-              - tmux
-              - jq
-
-              - mycli
-              # rbenv install ruby where version >= 3 requires libyaml-dev
-              - libyaml-dev
-
+            name: "{{ apt_packages }}"
             state: latest
 
-    - name: Non WSL
-      when: not is_wsl
-      block:
         - name: Install an app launcher
           block:
             # universe repository cannot be installed by apt_repository, so install it by hand
@@ -75,15 +46,6 @@
               - copyq
             state: latest
 
-    - name: WSL Ubuntu
-      when: is_wsl
-      block:
-        - become: yes
-          apt:
-            name:
-              - wslu
-            state: latest
-
 - tags:
     - always
   include_tasks: all_os.yml
@@ -99,20 +61,7 @@
   loop_control:
     loop_var: role
 
-- when: not is_wsl
-  tags:
+- tags:
     - always
   include_role:
     name: ubuntu-desktop
-
-- when: is_wsl
-  tags: always
-  include_role:
-    name: "{{ role.name }}"
-    tasks_from: "{{ role.task | default('main') }}"
-  loop:
-    - name: vscode
-    - name: git
-      task: wsl
-  loop_control:
-    loop_var: role

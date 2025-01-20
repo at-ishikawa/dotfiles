@@ -30,14 +30,20 @@
       block:
         - set_fact:
             virtual_env: wsl
+            # backward compatibility
+            is_wsl: true
+        - include_role:
+            name: dotfiles
+            tasks_from: ubuntu_wsl
+    - name: Not WSL Ubuntu
+      when: wsl_check.stdout == 'false'
+      block:
+        - set_fact:
+            # Deprecated. For a backward compatibility
+            is_wsl: false
         - include_role:
             name: dotfiles
             tasks_from: ubuntu
-    - name: Not WSL Ubuntu
-      when: wsl_check.stdout == 'false'
-      include_role:
-        name: dotfiles
-        tasks_from: ubuntu
 
 - hosts: os_MacOSX
   tags:

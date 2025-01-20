@@ -1,0 +1,15 @@
+apt_packages:
+  - unzip
+  - git
+  - git-lfs
+  - curl
+  - fish
+  # fzf version is too old from apt until next issue is resolved
+  # https://github.com/junegunn/fzf/issues/2599
+  # - fzf
+  - tmux
+  - jq
+
+  - mycli
+  # rbenv install ruby where version >= 3 requires libyaml-dev
+  - libyaml-dev

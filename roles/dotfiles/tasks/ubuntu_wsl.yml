@@ -1,0 +1,53 @@
+- tags:
+    - always
+  include_vars:
+    file: ubuntu.yml
+
+- tags:
+    - apt
+  block:
+    # Install for Ubuntu, regardless of WSL or non WSL
+    - name: Install apt packages
+      become: true
+      block:
+        - name: Update apt cache
+          apt:
+            update_cache: yes
+          ignore_errors: true
+        - name: Install application packages on Ubuntu
+          apt:
+            name: "{{ apt_packages }}"
+            state: latest
+
+        - name: WSL only packages
+          become: true
+          apt:
+            name:
+              - wslu
+            state: latest
+
+- tags:
+    - always
+  include_tasks: all_os.yml
+
+- tags:
+    - always
+  include_role:
+    name: "{{ role }}"
+    tasks_from: apt
+  loop:
+    - 1password
+    - github-cli
+  loop_control:
+    loop_var: role
+
+- tags: always
+  include_role:
+    name: "{{ role.name }}"
+    tasks_from: "{{ role.task | default('main') }}"
+  loop:
+    - name: vscode
+    - name: git
+      task: wsl
+  loop_control:
+    loop_var: role
