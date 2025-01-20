@@ -1,24 +1,25 @@
 - tags:
     - github-cli
-  become: yes
   block:
-    - name: Create /etc/apt/keyrings directory
-      file:
-        path: /etc/apt/keyrings
-        state: directory
-        mode: '0755'
-    - name: Download GitHub CLI archive keyring
-      get_url:
-        url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-        dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
-        mode: '0644'
-    - name: Add GitHub CLI repository to sources.list.d
-      lineinfile:
-        path: /etc/apt/sources.list.d/github-cli.list
-        line: "deb [arch={{ deb_architecture }} signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
-        create: yes
-    - apt:
-        name:
-          - gh
-        state: latest
+    - become: true
+      block:
+        - name: Create /etc/apt/keyrings directory
+          file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: '0755'
+        - name: Download GitHub CLI archive keyring
+          get_url:
+            url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+            dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+            mode: '0644'
+        - name: Add GitHub CLI repository to sources.list.d
+          lineinfile:
+            path: /etc/apt/sources.list.d/github-cli.list
+            line: "deb [arch={{ deb_architecture }} signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+            create: yes
+        - apt:
+            name:
+              - gh
+            state: latest
     - include_tasks: main.yml
