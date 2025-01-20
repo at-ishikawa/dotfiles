@@ -40,6 +40,8 @@
               - jq
 
               - mycli
+              # rbenv install ruby where version >= 3 requires libyaml-dev
+              - libyaml-dev
 
             state: latest
 
@@ -107,7 +109,7 @@
   tags: always
   include_role:
     name: "{{ role.name }}"
-    tasks_from: "{{ role.task }}"
+    tasks_from: "{{ role.task | default('main') }}"
   loop:
     - name: vscode
     - name: git
