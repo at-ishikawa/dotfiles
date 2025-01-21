@@ -49,6 +49,33 @@
   include_tasks: all_os.yml
 
 - tags:
+    - snap
+    - vscode
+  become: true
+  community.general.snap:
+    name: "{{ optional_packages | selectattr('installed', 'equalto', true) | map(attribute='name') | list }}"
+    classic: true
+  vars:
+    # Install guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+    optional_packages:
+      - name: aws-cli
+        installed: "{{ install_aws_cli }}"
+      - name: kubectl
+        installed: "{{ install_kubectl }}"
+      - name: helm
+        installed: "{{ install_kubectl }}"
+      - name: code
+        installed: true
+
+- tags:
+    - vscode
+  include_role:
+    name: vscode.config
+  vars:
+    config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
+    meta_key: alt
+
+- tags:
     - always
   include_role:
     name: "{{ role.name }}"
@@ -84,20 +111,3 @@
           # todo: Install a night theme switcher: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
           - gnome-shell-extensions
         state: latest
-
-- tags:
-    - snap
-  become: true
-  community.general.snap:
-    name: "{{ optional_packages | selectattr('installed', 'equalto', true) | map(attribute='name') | list }}"
-    classic: true
-  vars:
-    # Install guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-    optional_packages:
-      - name: aws-cli
-        installed: "{{ install_aws_cli }}"
-      - name: kubectl
-        installed: "{{ install_kubectl }}"
-      - name: helm
-        installed: "{{ install_kubectl }}"
-
