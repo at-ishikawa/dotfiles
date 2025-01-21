@@ -40,6 +40,8 @@
             name:
               # Clipboard manager: https://hluk.github.io/CopyQ/
               - copyq
+              # I forgot why I installed this but this is a dependency for something
+              - python3-psutil
             state: latest
 
 - tags:
@@ -49,15 +51,53 @@
 - tags:
     - always
   include_role:
-    name: "{{ role }}"
-    tasks_from: apt
+    name: "{{ role.name }}"
+    tasks_from: "{{ role.task | default('main') }}"
   loop:
-    - 1password
-    - github-cli
+    - name: 1password
+      task: apt
+    - name: git
+    - name: github-cli
+      task: apt
+    - name: keyd
   loop_control:
     loop_var: role
 
 - tags:
-    - always
-  include_role:
-    name: ubuntu-desktop
+    - ubuntu-desktop
+  block:
+    - name: Install application packages on Ubuntu
+      become: true
+      apt:
+        name:
+          # - scrcpy # https://github.com/Genymobile/scrcpy
+          - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
+
+          # gnome console is the default terminal for Gnome: https://release.gnome.org/42/
+          # It supports to switch a theme based on a system configuration
+          # Also, use the gnome console from the Files app https://fostips.com/gnome-console-default-terminal-ubuntu-2204/
+          - gnome-console
+          - nautilus-extension-gnome-console
+          - nautilus-extension-gnome-terminal
+
+          # Gnome shell extensions: https://itsfoss.com/gnome-shell-extensions/
+          # todo: Install a night theme switcher: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
+          - gnome-shell-extensions
+        state: latest
+
+- tags:
+    - snap
+  become: true
+  community.general.snap:
+    name: "{{ optional_packages | selectattr('installed', 'equalto', true) | map(attribute='name') | list }}"
+    classic: true
+  vars:
+    # Install guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+    optional_packages:
+      - name: aws-cli
+        installed: "{{ install_aws_cli }}"
+      - name: kubectl
+        installed: "{{ install_kubectl }}"
+      - name: helm
+        installed: "{{ install_kubectl }}"
+
