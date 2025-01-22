@@ -13,3 +13,9 @@ set -a PATH $RBENV_ROOT/plugins/ruby-build/bin
 if type -q rbenv
     status --is-interactive; and rbenv init - fish | source
 end
+
+## tfenv under anyenv
+set -a PATH $HOME/.anyenv/envs/tfenv/bin
+if type -q tfenv
+    status --is-interactive; and source (tfenv init -|psub)
+end

@@ -28,12 +28,6 @@ if type -q nodenv
     status --is-interactive; and nodenv init - fish | source
 end
 
-## tfenv under anyenv
-set -x PATH $HOME/.anyenv/envs/tfenv/bin $PATH
-if type -q tfenv
-    status --is-interactive; and source (tfenv init -|psub)
-end
-
 # krew
 set -gx PATH $PATH $HOME/.krew/bin
 
