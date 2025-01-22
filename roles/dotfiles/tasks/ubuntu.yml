@@ -44,9 +44,7 @@
               - python3-psutil
             state: latest
 
-- tags:
-    - always
-  include_tasks: all_os.yml
+- import_tasks: all_os.yml
 
 - tags:
     - snap

@@ -1,0 +1,62 @@
+- tags:
+    - fish
+  name: Set up a fish
+  block:
+    - name: Install fisher plugins
+      block:
+        ## todo: Next step fails on check option
+        - name: Download a fisher
+          get_url:
+            url: https://git.io/fisher
+            dest: "{{ fish_config_root_dir }}/functions/fisher.fish"
+            mode: 0755
+          check_mode: false
+
+        - name: Copy a fisher plugins
+          template:
+            src: "{{ item }}"
+            dest: "{{ fish_config_root_dir }}/{{ item }}"
+          loop:
+            - fish_plugins
+        - name: Download fish plugins
+          command:
+            cmd: fish -c "fisher update"
+
+    ## Change the default shell to fish
+    - name: Get fish command path
+      command: "which fish"
+      register: fish_command_path
+      check_mode: false
+    - set_fact:
+        fish_command_path: "{{ fish_command_path.stdout }}"
+    - debug:
+        msg: "Fish command path is {{ fish_command_path }}"
+    - name: Check if a /etc/shells contains fish
+      become: true
+      lineinfile:
+        dest: /etc/shells
+        line: "{{ fish_command_path }}"
+        state: present
+    - name: Change the default user shell to fish
+      become: true
+      user:
+        name: "{{ ansible_user_id }}"
+        shell: "{{ fish_command_path }}"
+
+- tags:
+    - fish
+    - fish.config
+  block:
+    - name: Copy config files
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ fish_config_root_dir }}/{{ item.src }}"
+      loop:
+        - src: config.fish
+          condition: true
+        # https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html#ansible-facts-os-family
+        - src: conf.d/config_darwin.fish
+          condition: "{{ ansible_facts['os_family'] == 'Darwin' }}"
+        - src: conf.d/config_ubuntu.fish
+          condition: "{{ ansible_facts['distribution'] == 'Ubuntu' }}"
+      when: item.condition

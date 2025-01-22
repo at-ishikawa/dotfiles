@@ -10,7 +10,6 @@
       dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
       state: link
     loop:
-      - fish
       - tmux
       - tmuxinator
   - name: Create symbolic links for a $HOME/ directory
@@ -29,42 +28,8 @@
     tags:
       - wsl
 
-- name: Set up fish shell
-  block:
-  - name: Create a symbolic link for a $HOME/.config directory
-    file:
-      src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
-      dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
-      state: link
-    loop:
-      - fish
-  ## todo: Next step fails on check option
-  - name: Download a fisher
-    get_url:
-      url: https://git.io/fisher
-      dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
-  - name: Download fish plugins
-    command:
-      cmd: fish -c "fisher update"
-  ## Change the default shell to fish
-  - name: Get fish command path
-    command: "which fish"
-    register: fish_command_path
-  - set_fact:
-      fish_command_path: "{{ fish_command_path.stdout }}"
-  - debug:
-      msg: "Fish command path is {{ fish_command_path }}"
-  - name: Check if a /etc/shells contains fish
-    become: true
-    lineinfile:
-      dest: /etc/shells
-      line: "{{ fish_command_path }}"
-      state: present
-  - name: Change the default user shell to fish
-    become: true
-    user:
-      name: "{{ ansible_user_id }}"
-      shell: "{{ fish_command_path }}"
+- import_role:
+    name: fish
 
 - name: Install anyenv
   block:

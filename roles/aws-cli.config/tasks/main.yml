@@ -2,6 +2,7 @@
 ## aws_completer_path: a path for aws_completer
 - tags:
     - aws-cli.config
+    - fish.config
   block:
     - template:
         src: aws.fish.j2

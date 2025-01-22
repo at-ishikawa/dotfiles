@@ -1,0 +1,1 @@
+fish_config_root_dir: "{{ ansible_env.HOME }}/.config/fish"
