@@ -5,6 +5,9 @@
 
 - tags:
     - apt
+    - anyenv
+    - rbenv
+    - pyenv
   block:
     # Install for Ubuntu, regardless of WSL or non WSL
     - name: Install apt packages
@@ -72,6 +75,9 @@
   vars:
     config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
     meta_key: alt
+
+- import_role:
+    name: anyenv
 
 - import_role:
     name: aws-cli.config
