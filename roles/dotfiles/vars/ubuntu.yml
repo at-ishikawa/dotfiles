@@ -9,7 +9,26 @@ apt_packages:
   # - fzf
   - tmux
   - jq
-
   - mycli
+
+
+  # anyenv dependencies
+  # - libz-dev # fix an error "zlib.h" not found during rbenv install 2.7.7
   # rbenv install ruby where version >= 3 requires libyaml-dev
   - libyaml-dev
+  # pyenv dependencies listed in https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+  - build-essential
+  - libssl-dev
+  - zlib1g-dev
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - curl
+  - git
+  - libncursesw5-dev
+  - xz-utils
+  - tk-dev
+  - libxml2-dev
+  - libxmlsec1-dev
+  - libffi-dev
+  - liblzma-dev
