@@ -20,22 +20,6 @@ set __fish_git_prompt_show_informative_status yes
 set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin
 
-# anyenv
-set -x PATH $HOME/.anyenv/bin $PATH
-if type -q anyenv
-    # Use anyenv init - fish: https://github.com/anyenv/anyenv/issues/69
-    status --is-interactive; and source (anyenv init - fish|psub)
-end
-
-## rbenv under anyenv
-### rbenv also needs a plugin ruby-build for an install command
-set RBENV_ROOT $HOME/.anyenv/envs/rbenv
-set -x PATH $RBENV_ROOT/bin $PATH
-set -x PATH $RBENV_ROOT/plugins/ruby-build/bin $PATH
-if type -q rbenv
-    status --is-interactive; and rbenv init - fish | source
-end
-
 ## nodenv under anyenv
 ### nodenv also needs a plugin node-build for an install command
 set NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv

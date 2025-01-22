@@ -31,7 +31,6 @@
       command:
         cmd: "{{ anyenv_root_dir }}/bin/anyenv install pyenv"
         creates: "{{ anyenv_root_dir }}/envs/pyenv"
-
       # todo: This doesn't work for a new installation when `tfenv install latest` runs
       # - name: Install tfenv
       #   tags:
@@ -47,3 +46,14 @@
       #       - name: Install tfenv
       #         command: "~/.anyenv/bin/anyenv install tfenv"
       #   - command: tfenv install latest
+
+- tags:
+    - anyenv.config
+    - fish.config
+  block:
+    - tags:
+        - fish.config
+      template:
+        src: anyenv.fish
+        dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/anyenv.fish"
+        mode: "0644"
