@@ -19,13 +19,21 @@
       command:
         cmd: "{{ anyenv_root_dir }}/bin/anyenv install rbenv"
         creates: "{{ anyenv_root_dir }}/envs/rbenv"
+
     - name: Install pyenv
       tags:
         - pyenv
       command:
         cmd: "{{ anyenv_root_dir }}/bin/anyenv install pyenv"
         creates: "{{ anyenv_root_dir }}/envs/pyenv"
-      # todo: This doesn't work for a new installation when `tfenv install latest` runs
+
+    - name: Install nodenv
+      tags:
+        - nodenv
+      command:
+        cmd: "{{ anyenv_root_dir }}/bin/anyenv install nodenv"
+        creates: "{{ anyenv_root_dir }}/envs/nodenv"
+
     - name: Install tfenv
       tags:
         - tfenv

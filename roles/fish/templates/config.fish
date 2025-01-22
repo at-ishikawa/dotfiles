@@ -20,14 +20,6 @@ set __fish_git_prompt_show_informative_status yes
 set -x GOPATH $HOME/go
 set -x PATH $PATH $GOPATH/bin
 
-## nodenv under anyenv
-### nodenv also needs a plugin node-build for an install command
-set NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv
-set -x PATH $NODE_ENV_ROOT/bin $NODE_ENV_ROOT/plugins/node-build/bin $PATH
-if type -q nodenv
-    status --is-interactive; and nodenv init - fish | source
-end
-
 # krew
 set -gx PATH $PATH $HOME/.krew/bin
 

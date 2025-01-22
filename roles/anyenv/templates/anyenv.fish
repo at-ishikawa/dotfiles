@@ -5,6 +5,15 @@ if type -q anyenv
     status --is-interactive; and source (anyenv init - fish|psub)
 end
 
+## nodenv under anyenv
+### nodenv also needs a plugin node-build for an install command
+set NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv
+set -a PATH $NODE_ENV_ROOT/bin
+set -a PATH $NODE_ENV_ROOT/plugins/node-build/bin
+if type -q nodenv
+    status --is-interactive; and nodenv init - fish | source
+end
+
 ## rbenv under anyenv
 ### rbenv also needs a plugin ruby-build for an install command
 set RBENV_ROOT $HOME/.anyenv/envs/rbenv
