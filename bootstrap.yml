@@ -13,7 +13,7 @@
 
 - hosts: os_Ubuntu
   tasks:
-    - check_mode: true
+    - check_mode: false
       tags:
         - always
       block:
