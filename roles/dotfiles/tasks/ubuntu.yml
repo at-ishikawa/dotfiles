@@ -68,9 +68,7 @@
       - name: code
         installed: true
 
-- tags:
-    - vscode
-  include_role:
+- import_role:
     name: vscode.config
   vars:
     config_directory: "{{ ansible_env.HOME }}/.config/Code/User"

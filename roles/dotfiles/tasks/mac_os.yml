@@ -92,6 +92,12 @@
     - always
   include_tasks: all_os.yml
 
+- import_role:
+    name: vscode.config
+  vars:
+    config_directory: "{{ ansible_env.HOME }}/Library/Application Support/Code/User"
+    meta_key: "cmd"
+
 - tags:
     - always
   include_role:
@@ -100,7 +106,6 @@
   loop:
     - name: 1password
     - name: github-cli
-    - name: vscode
     - name: git
   loop_control:
     loop_var: role
