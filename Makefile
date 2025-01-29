@@ -39,7 +39,6 @@ prepare: prerequisite
 
 install:
 	ansible-playbook --verbose --diff --ask-become-pass bootstrap.yml
-	ansible-playbook --verbose --diff --ask-become-pass config.yml
 
 update:
 	ansible-playbook --diff --ask-become-pass bootstrap.yml
