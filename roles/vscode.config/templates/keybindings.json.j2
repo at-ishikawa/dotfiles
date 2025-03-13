@@ -68,5 +68,12 @@
     {
         "key": "ctrl+r",
         "command": "-workbench.action.openRecent"
+    },
+
+    {# Ctrl-x 1 is used to maximize or restore the size of a terminal panel #}
+    {
+        "key": "ctrl+x 1",
+        "command": "workbench.action.toggleMaximizedPanel",
+        "when": "terminalFocus"
     }
 ]
