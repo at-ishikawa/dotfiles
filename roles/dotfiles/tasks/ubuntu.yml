@@ -47,6 +47,30 @@
               - python3-psutil
             state: latest
 
+- tags:
+    - golang
+  block:
+    - command:
+        cmd: go version
+      check_mode: false
+      register: go_version_output
+      ignore_errors: true
+    - set_fact:
+        installed_go_version: "{{ go_version_output.stdout | regex_search('go([0-9.]+) ', '\\1') }}"
+    - when: go_version_output.rc != 0 and dotfiles_go_version is defined and dotfiles_go_version != installed_go_version
+      become: true
+      block:
+        - debug:
+            msg: "Install Go {{ dotfiles_go_version }}, upgraded from {{ installed_go_version }}"
+        - file:
+            path: /usr/local/go
+            state: absent
+        - unarchive:
+            remote_src: true
+            src: https://go.dev/dl/go{{ dotfiles_go_version }}.linux-{{ deb_architecture }}.tar.gz
+            dest: /usr/local
+            mode: "0755"
+
 - import_tasks: all_os.yml
 
 - tags:

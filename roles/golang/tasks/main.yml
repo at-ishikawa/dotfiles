@@ -1,26 +1,5 @@
 - tags:
     - golang
-  become: true
-  when: ansible_facts['distribution'] == "Ubuntu"
-  block:
-    - file:
-        path: /usr/local/go
-        state: absent
-    - unarchive:
-        remote_src: true
-        # TODO: Replace linux and {{ deb_architecture }} by a variable
-        src: https://go.dev/dl/go{{ version }}.linux-{{ deb_architecture }}.tar.gz
-        dest: /usr/local
-        mode: 0755
-      vars:
-        version: 1.23.2
-    - name: Add to PATH
-      copy:
-        content: "export PATH=$PATH:/usr/local/go/bin"
-        dest: "/etc/profile.d/golang.sh"
-
-- tags:
-    - golang
   block:
     - name: Install go packages
       command: go install {{ item }}
