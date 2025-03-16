@@ -1,4 +1,7 @@
 apt_packages:
+  # Fix add-apt-repository command not found error: https://phoenixnap.com/kb/add-apt-repository-command-not-found-ubuntu
+  - software-properties-common
+
   - unzip
   - git
   - git-lfs

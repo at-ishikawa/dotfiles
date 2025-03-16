@@ -2,7 +2,7 @@
     - golang
   block:
     - name: Install go packages
-      command: go install {{ item }}
+      command: /usr/local/go/bin/go install {{ item }}
       with_items:
         - github.com/x-motemen/ghq@latest
         - github.com/golang/mock/mockgen@latest

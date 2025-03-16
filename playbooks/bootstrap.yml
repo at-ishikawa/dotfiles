@@ -2,7 +2,7 @@
 # Use core/install/core playbooks
 
 # https://docs.ansible.com/ansible/2.7/user_guide/playbooks_best_practices.html#operating-system-and-distribution-variance
-- hosts: localhost
+- hosts: all
   become: false
   tags:
     - always
