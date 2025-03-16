@@ -18,7 +18,6 @@
       dest: "{{ ansible_env.HOME }}/{{ item }}"
       state: link
     loop:
-      - .ssh
       - bin
       - .editorconfig
       - .eslintrc.json
@@ -30,6 +29,20 @@
 
 - import_role:
     name: fish
+
+- tags:
+    - ssh
+  block:
+    - name: Ensure there is the $HOME/.ssh directory
+      file:
+        state: directory
+        path: "{{ ansible_env.HOME }}/.ssh"
+        mode: 0700
+    - name: Copy SSH config
+      template:
+        src: ssh.config.j2
+        dest: "{{ ansible_env.HOME }}/.ssh/config"
+        mode: 0600
 
 - tags:
     - always
