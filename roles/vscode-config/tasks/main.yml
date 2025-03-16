@@ -38,6 +38,9 @@
         - github.copilot
 
         # Git
+        # magit: Emacs's magit for VSCode
+        # gitlens: For file blame
+        - kahole.magit
         - eamodio.gitlens
         - github.vscode-pull-request-github
 
