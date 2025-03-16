@@ -93,7 +93,7 @@
   include_tasks: all_os.yml
 
 - import_role:
-    name: vscode.config
+    name: vscode-config
   vars:
     config_directory: "{{ ansible_env.HOME }}/Library/Application Support/Code/User"
     meta_key: "cmd"

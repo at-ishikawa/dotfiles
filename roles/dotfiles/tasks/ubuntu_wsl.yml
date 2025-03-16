@@ -42,7 +42,7 @@
     loop_var: role
 
 - import_role:
-    name: vscode.config
+    name: vscode-config
   vars:
     # The Linux default config directory nor the SSL remote config doesn't work in the WSL
     # config_directory: "{{ ansible_env.HOME }}/.config/Code/User"

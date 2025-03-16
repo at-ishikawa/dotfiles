@@ -93,7 +93,7 @@
         installed: true
 
 - import_role:
-    name: vscode.config
+    name: vscode-config
   vars:
     config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
     meta_key: alt
@@ -102,7 +102,7 @@
     name: anyenv
 
 - import_role:
-    name: aws-cli.config
+    name: aws-cli-config
   vars:
     aws_completer_path: /snap/aws-cli/current/bin
 
