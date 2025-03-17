@@ -1,0 +1,14 @@
+---
+- name: Run a bootstrap
+  ansible.builtin.import_playbook: at_ishikawa.dotfiles.bootstrap
+
+- name: Converge
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Create symbolic links
+      block:
+        - name: Ensure there is the $HOME/.config directory
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.config"
+            state: directory

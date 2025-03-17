@@ -1,0 +1,21 @@
+---
+driver:
+  name: docker
+platforms:
+  - name: ubuntu
+    image: ubuntu:noble
+    pre_build_image: false
+provisioner:
+  name: ansible
+  inventory:
+    group_vars:
+      all:
+        ansible_connection: docker
+        ansible_user: ansible
+        install_aws_cli: false
+        install_kubectl: false
+        install_gcloud_cli: false
+    host_vars:
+      ubuntu:
+        install_aws_cli: true
+    #     install_kubectl: true

@@ -35,16 +35,13 @@ prepare: prerequisite
 	source venv/bin/activate; \
 	pip install -r requirements.txt; \
 	ansible-galaxy collection install community.general; \
-	ansible-playbook --diff --check bootstrap.yml
+	ansible-playbook --diff --check playbooks/bootstrap.yml
 
 install:
-	ansible-playbook --verbose --diff --ask-become-pass bootstrap.yml
+	ansible-playbook --verbose --diff --ask-become-pass playbooks/bootstrap.yml
 
 update:
-	ansible-playbook --diff --ask-become-pass bootstrap.yml
+	ansible-playbook --diff --ask-become-pass playbooks/bootstrap.yml
 
 test:
-	ansible-test sanity roles bootstrap.yml
-	# For some reasons, --docker option doesn't work for an integration tet
-	# ansible-test integration --docker ubuntu2204
-	ansible-test integration
+	cd extensions/molecule && molecule test
