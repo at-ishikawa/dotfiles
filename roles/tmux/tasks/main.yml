@@ -1,0 +1,39 @@
+- tags:
+    - tmux
+  # vars:
+  #   tmux_gem_path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims/gem"
+  block:
+    - name: Ensure there is the $HOME/.config/tmux directory
+      file:
+        path: "{{ ansible_env.HOME }}/.config/tmux"
+        state: directory
+        mode: "0700"
+    - template:
+        src: tmux.conf.j2
+        dest: "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"
+        mode: "0600"
+    - template:
+        src: tmux.remote.conf.j2
+        dest: "{{ ansible_env.HOME }}/.config/tmux/tmux.remote.conf"
+        mode: "0600"
+
+    - name: Set up the tmuxinator
+      block:
+        - name: Install tmuxinator
+          community.general.gem:
+            name: tmuxinator
+            executable: "{{ tmux_gem_path }}"
+            state: latest
+        - name: Ensure there is the $HOME/.config/tmuxinator directory
+          file:
+            path: "{{ ansible_env.HOME }}/.config/tmuxinator"
+            state: directory
+            mode: "0700"
+        - template:
+            src: tmuxinator/gh-pr-review.yml.j2
+            dest: "{{ ansible_env.HOME }}/.config/tmuxinator/gh-pr-review.yml"
+            mode: "0600"
+        - template:
+            src: tmuxinator/tmux-fzf-switcher.j2
+            dest: "{{ ansible_env.HOME }}/bin/tmux-fzf-switcher"
+            mode: "0700"

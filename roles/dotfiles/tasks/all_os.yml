@@ -1,24 +1,23 @@
 - name: Create symbolic links
+  tags:
+    - fish
+    - tmux
   block:
-  - name: Ensure there is the $HOME/.config directory
+  - name: Ensure there are a few directories under a home directory
     file:
-      path: "{{ ansible_env.HOME }}/.config"
+      path: "{{ ansible_env.HOME }}/{{ item }}"
       state: directory
-  - name: Create symbolic links for a $HOME/.config directory
-    file:
-      src: "{{ playbook_dir }}/static/common/.config/{{ item }}"
-      dest: "{{ ansible_env.HOME }}/.config/{{ item  }}"
-      state: link
+      mode: "0750"
     loop:
-      - tmux
-      - tmuxinator
+      - .config
+      - bin
+
   - name: Create symbolic links for a $HOME/ directory
     file:
       src: "{{ playbook_dir }}/static/common/{{ item }}"
       dest: "{{ ansible_env.HOME }}/{{ item }}"
       state: link
     loop:
-      - bin
       - .editorconfig
       - .eslintrc.json
   - name: Check if running on WSL

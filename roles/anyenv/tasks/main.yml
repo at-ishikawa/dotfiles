@@ -2,6 +2,8 @@
     - anyenv
   vars:
     anyenv_root_dir: "{{ ansible_env.HOME }}/.anyenv"
+    # Pass a version to install a specific version of ruby
+    # anyenv_ruby_version: "3.3.5"
   block:
     - name: Install anyenv
       block:
@@ -19,6 +21,18 @@
       command:
         cmd: "{{ anyenv_root_dir }}/bin/anyenv install rbenv"
         creates: "{{ anyenv_root_dir }}/envs/rbenv"
+
+    # Install a ruby for some tools like tmuxinator
+    - name: Install ruby
+      tags:
+        - ruby
+      block:
+        - command:
+            cmd: "{{ anyenv_root_dir }}/envs/rbenv/bin/rbenv install {{ anyenv_ruby_version }}"
+            creates: "{{ anyenv_root_dir }}/envs/rbenv/versions/{{ anyenv_ruby_version }}"
+        - command:
+            cmd: "{{ anyenv_root_dir }}/envs/rbenv/bin/rbenv global {{ anyenv_ruby_version }}"
+            creates: "{{ ansible_env.HOME }}/.rbenv/version"
 
     - name: Install pyenv
       tags:

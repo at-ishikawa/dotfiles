@@ -99,12 +99,18 @@
     meta_key: alt
 
 - import_role:
-    name: anyenv
-
-- import_role:
     name: aws-cli-config
   vars:
     aws_completer_path: /snap/aws-cli/current/bin
+
+- import_role:
+    name: anyenv
+  vars:
+    anyenv_ruby_version: "{{ dotfiles_ruby_version }}"
+- import_role:
+    name: tmux
+  vars:
+    tmux_gem_path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims/gem"
 
 - tags:
     - always
