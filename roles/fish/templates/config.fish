@@ -6,17 +6,7 @@ set -gx EDITOR emacs
 set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-alt-t:toggle-preview,ctrl-alt-n:preview-down,ctrl-alt-p:preview-up,ctrl-alt-v:preview-page-down"
 
 # fish_prompt
-set __fish_git_prompt_showdirtystate yes
-set __fish_git_prompt_showstashstate yes
-set __fish_git_prompt_showuntrackedfiles yes
-set __fish_git_prompt_showupstream yes
-# set -g __fish_git_prompt_color -b grey
-# set -g __fish_git_prompt_color_branch -b grey yellow
-set __fish_git_prompt_color_upstream_ahead -b grey green
-set __fish_git_prompt_color_upstream_behind -b grey red
-set __fish_git_prompt_show_informative_status yes
-
-
+set --global __fish_git_prompt_color -b green
 
 # krew
 set -gx PATH $PATH $HOME/.krew/bin

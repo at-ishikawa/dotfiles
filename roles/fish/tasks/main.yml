@@ -5,6 +5,10 @@
     - name: Install fisher plugins
       block:
         ## todo: Next step fails on check option
+        - file:
+            path: "{{ fish_config_root_dir }}/functions"
+            state: directory
+            mode: "0750"
         - name: Download a fisher
           get_url:
             url: https://git.io/fisher
@@ -59,4 +63,6 @@
           condition: "{{ ansible_facts['os_family'] == 'Darwin' }}"
         - src: conf.d/config_ubuntu.fish
           condition: "{{ ansible_facts['distribution'] == 'Ubuntu' }}"
+        - src: functions/fish_prompt.fish
+          condition: true
       when: item.condition

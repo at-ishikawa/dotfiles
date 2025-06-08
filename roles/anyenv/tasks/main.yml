@@ -18,21 +18,28 @@
     - name: Install rbenv
       tags:
         - rbenv
-      command:
-        cmd: "{{ anyenv_root_dir }}/bin/anyenv install rbenv"
-        creates: "{{ anyenv_root_dir }}/envs/rbenv"
+      block:
+        - command:
+            cmd: "{{ anyenv_root_dir }}/bin/anyenv install rbenv"
+            creates: "{{ anyenv_root_dir }}/envs/rbenv"
+        - git:
+            repo: https://github.com/rbenv/ruby-build.git
+            dest: "{{ anyenv_root_dir }}/envs/rbenv/plugins/ruby-build"
+            update: false
 
     # Install a ruby for some tools like tmuxinator
     - name: Install ruby
       tags:
         - ruby
+      environment:
+        PATH: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims:{{ ansible_env.HOME }}/.anyenv/envs/rbenv/bin:{{ ansible_env.PATH }}"
       block:
         - command:
-            cmd: "{{ anyenv_root_dir }}/envs/rbenv/bin/rbenv install {{ anyenv_ruby_version }}"
+            cmd: bash -c "rbenv init -; rbenv install {{ anyenv_ruby_version }}"
             creates: "{{ anyenv_root_dir }}/envs/rbenv/versions/{{ anyenv_ruby_version }}"
         - command:
-            cmd: "{{ anyenv_root_dir }}/envs/rbenv/bin/rbenv global {{ anyenv_ruby_version }}"
-            creates: "{{ ansible_env.HOME }}/.rbenv/version"
+            cmd: bash -c "rbenv init -; rbenv global {{ anyenv_ruby_version }}"
+            creates: "{{ anyenv_root_dir }}/envs/rbenv/version"
 
     - name: Install pyenv
       tags:
