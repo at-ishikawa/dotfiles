@@ -19,3 +19,6 @@ local:
     ## Install the gcloud CLI and kubernetes CLI
     install_gcloud_cli: false
     install_kubectl: false
+
+    # Install a desktop configuration on Ubuntu
+    install_desktop_config: true

@@ -1,7 +1,7 @@
 # Vars
 ## config_directory: https://code.visualstudio.com/docs/getstarted/settings#_settings-file-locations
 - tags:
-    - vscode.config
+    - vscode-config
   block:
     - file:
         path: "{{ config_directory }}"
@@ -56,6 +56,9 @@
         # CSV
         - mechatroner.rainbow-csv
         - randomfractalsinc.tabular-data-viewer
+
+        # JSON
+        - esbenp.prettier-vscode
 
         # Yaml
         - redhat.vscode-yaml

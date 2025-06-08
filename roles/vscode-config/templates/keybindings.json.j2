@@ -1,79 +1,106 @@
 [
-    {# Override VSCode Emacs MCX: https://github.com/whitphx/vscode-emacs-mcx/issues/1319 #}
-    {
-        "key": "ctrl+k",
-        "command": "emacs-mcx.killLine",
-        "when": "editorTextFocus && !editorReadonly || terminal.active"
-    },
+  {# Override VSCode Emacs MCX: https://github.com/whitphx/vscode-emacs-mcx/issues/1319 -#}
+  {
+    "key": "ctrl+k",
+    "command": "emacs-mcx.killLine",
+    "when": "editorTextFocus && !editorReadonly || terminal.active"
+  },
 
-    {# Code jump in the same way as Emacs Tags  #}
-    {
-        "key": "{{ meta_key }}+.",
-        "command": "editor.action.revealDefinition",
-        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-    },
-    {
-        "key": "f12",
-        "command": "-editor.action.revealDefinition",
-        "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
-    },
-    {
-        "key": "shift+{{ meta_key }}+8",
-        "command": "workbench.action.navigateBack",
-        "when": "canNavigateBack"
-    },
-    {
-        "key": "{{ meta_key }}+left",
-        "command": "-workbench.action.navigateBack",
-        "when": "canNavigateBack"
-    },
+  {# Code jump in the same way as Emacs Tags  -#}
+  {
+    "key": "{{ meta_key }}+.",
+    "command": "editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "f12",
+    "command": "-editor.action.revealDefinition",
+    "when": "editorHasDefinitionProvider && editorTextFocus && !isInEmbeddedEditor"
+  },
+  {
+    "key": "shift+{{ meta_key }}+8",
+    "command": "workbench.action.navigateBack",
+    "when": "canNavigateBack"
+  },
+  {
+    "key": "{{ meta_key }}+left",
+    "command": "-workbench.action.navigateBack",
+    "when": "canNavigateBack"
+  },
 
-    {
-        "key": "shift+{{ meta_key }}+r",
-        "command": "editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
-    },
-    {
-        "key": "f2",
-        "command": "-editor.action.rename",
-        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
-    },
+  {
+    "key": "shift+{{ meta_key }}+r",
+    "command": "editor.action.rename",
+    "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "f2",
+    "command": "-editor.action.rename",
+    "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+  },
 
-    {# Use Ctrl+Shift+f instead of CMD+f on all platforms #}
-    {
-        "key": "ctrl+shift+f",
-        "command": "workbench.action.findInFiles"
-    },
-    {
-        "key": "shift+{{ meta_key }}+f",
-        "command": "-workbench.action.findInFiles"
-    },
-    {# Use Ctrl+Alt+H to show a call hierarchy #}
-    {
-        "key": "ctrl+{{ meta_key }}+h",
-        "command": "references-view.showCallHierarchy",
-        "when": "editorHasCallHierarchyProvider"
-    },
-    {
-        "key": "shift+{{ meta_key }}+h",
-        "command": "-references-view.showCallHierarchy",
-        "when": "editorHasCallHierarchyProvider"
-    },
+  {# Use Ctrl+Shift+f instead of CMD+f on all platforms -#}
+  {
+    "key": "ctrl+shift+f",
+    "command": "workbench.action.findInFiles"
+  },
+  {
+    "key": "shift+{{ meta_key }}+f",
+    "command": "-workbench.action.findInFiles"
+  },
+  {# Use Ctrl+Alt+H to show a call hierarchy -#}
+  {
+    "key": "ctrl+{{ meta_key }}+h",
+    "command": "references-view.showCallHierarchy",
+    "when": "editorHasCallHierarchyProvider"
+  },
+  {
+    "key": "shift+{{ meta_key }}+h",
+    "command": "-references-view.showCallHierarchy",
+    "when": "editorHasCallHierarchyProvider"
+  },
 
-    {# Use Ctrl-X Ctrl-R to show File: Recent #}
-    {
-        "key": "ctrl+x ctrl+r",
-        "command": "workbench.action.openRecent"
-    },
-    {
-        "key": "ctrl+r",
-        "command": "-workbench.action.openRecent"
-    },
+  {# Use Ctrl-X Ctrl-R to show File: Recent -#}
+  {
+    "key": "ctrl+x ctrl+r",
+    "command": "workbench.action.openRecent"
+  },
+  {
+    "key": "ctrl+r",
+    "command": "-workbench.action.openRecent"
+  },
 
-    {# Ctrl-x 1 is used to maximize or restore the size of a terminal panel #}
-    {
-        "key": "ctrl+x 1",
-        "command": "workbench.action.toggleMaximizedPanel",
-        "when": "terminalFocus"
-    }
+  {#
+    Ctrl-x 1 is used to maximize or restore the size of a terminal panel
+    Ctrl-Shift-Up and Ctrl-Shift-Down are used to resize the terminal panel
+  -#}
+  {
+    "key": "ctrl+x 1",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+up",
+    "command": "workbench.action.terminal.resizePaneUp",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+down",
+    "command": "workbench.action.terminal.resizePaneDown",
+    "when": "terminalFocus"
+  },
+
+  {#
+    Use ^ in dired-mode to go up a directory
+   -#}
+  {
+    "key": "shift+6",
+    "command": "extension.dired.goUpDir",
+    "when": "dired.open && !findWidgetVisible && !inQuickOpen"
+  },
+  {
+    "key": "shift+b",
+    "command": "-extension.dired.goUpDir",
+    "when": "dired.open && !findWidgetVisible && !inQuickOpen"
+  }
 ]

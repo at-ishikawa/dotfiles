@@ -31,25 +31,36 @@
   {# Prevent running scripts to change a cursor by a short amount of time  -#}
   "files.autoSaveDelay": 5000,
 
-  {# Open tmux as a default for a terminal -#}
-  "terminal.integrated.defaultProfile.linux": "tmux",
-
   "editor.formatOnSave": true,
-  "editor.accessibilitySupport": "on",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.minimap.enabled": false,
   "editor.inlineSuggest.enabled": true,
 
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+
+  {# Open tmux as a default for a terminal -#}
+  "terminal.integrated.defaultProfile.linux": "tmux",
+
+  "files.associations: {
+    "*.tmpl": "gotmpl"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[python]": {
     "editor.formatOnType": true
   },
-  "vs-kubernetes": {
-    "vs-kubernetes.crd-code-completion": "enabled"
-  },
+  "go.formatTool": "goimports",
+  "go.buildTags": "integration",
+  "go.testTags": "integration",
   "go.testFlags": ["-v"],
   "go.toolsManagement.autoUpdate": true,
   "go.lintTool": "golangci-lint",
   "go.lintFlags": ["--fast", "--fix"],
-  "explorer.confirmDragAndDrop": false,
+
+  "vs-kubernetes": {
+    "vs-kubernetes.crd-code-completion": "enabled"
+  },
   "makefile.configureOnOpen": true
 }

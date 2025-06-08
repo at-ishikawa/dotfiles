@@ -72,36 +72,8 @@
             mode: "0755"
 
 - import_tasks: all_os.yml
-
-- tags:
-    - snap
-    - vscode
-  become: true
-  community.general.snap:
-    name: "{{ optional_packages | selectattr('installed', 'equalto', true) | map(attribute='name') | list }}"
-    classic: true
-  vars:
-    # Install guide: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
-    optional_packages:
-      - name: aws-cli
-        installed: "{{ install_aws_cli }}"
-      - name: kubectl
-        installed: "{{ install_kubectl }}"
-      - name: helm
-        installed: "{{ install_kubectl }}"
-      - name: code
-        installed: true
-
-- import_role:
-    name: vscode-config
-  vars:
-    config_directory: "{{ ansible_env.HOME }}/.config/Code/User"
-    meta_key: alt
-
-- import_role:
-    name: aws-cli-config
-  vars:
-    aws_completer_path: /snap/aws-cli/current/bin
+- import_tasks: ubuntu_desktop.yml
+  when: install_desktop_config
 
 - import_role:
     name: anyenv
@@ -111,7 +83,6 @@
     name: tmux
   vars:
     tmux_gem_path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims/gem"
-
 - tags:
     - always
   include_role:
@@ -126,74 +97,3 @@
     - name: keyd
   loop_control:
     loop_var: role
-
-- tags:
-    - snap
-  become: true
-  community.general.snap:
-    name:
-      # PDF editor: https://www.onlyoffice.com/download-desktop.aspx
-      - onlyoffice-desktopeditors
-
-- tags:
-    - ubuntu-desktop
-  block:
-    - name: Install application packages on Ubuntu
-      become: true
-      apt:
-        name:
-          # - scrcpy # https://github.com/Genymobile/scrcpy
-          - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
-
-          # gnome console is the default terminal for Gnome: https://release.gnome.org/42/
-          # It supports to switch a theme based on a system configuration
-          # Also, use the gnome console from the Files app https://fostips.com/gnome-console-default-terminal-ubuntu-2204/
-          - gnome-console
-          - nautilus-extension-gnome-console
-          - nautilus-extension-gnome-terminal
-
-          # Gnome shell extensions: https://itsfoss.com/gnome-shell-extensions/
-          # todo: Install a night theme switcher: https://gitlab.com/rmnvgr/nightthemeswitcher-gnome-shell-extension
-          - gnome-shell-extensions
-        state: latest
-
-# This requires to install psutil in a non-virtualenv python
-# https://docs.ansible.com/ansible/latest/collections/community/general/dconf_module.html
-- tags:
-    - gsettings
-  block:
-    - community.general.dconf:
-        key: "{{ item.key }}"
-        value: "{{ item.value }}"
-      loop:
-        # Support Emacs shortcut keys in some applications
-        # https://discourse.gnome.org/t/gtk-key-themes-for-gnome-shell/3472
-        - key: "/org/gnome/desktop/interface/gtk-key-theme"
-          value: "'Emacs'"
-        # Show a battery percentage on a desktop icon on a laptop
-        - key: "/org/gnome/desktop/interface/show-battery-percentage"
-          value: true
-        # Enable a night light: https://unix.stackexchange.com/a/400036
-        - key: "/org/gnome/settings-daemon/plugins/color/night-light-enabled"
-          value: true
-        # Enable natural-scrolling on a touchpad, especially to show activities
-        - key: "/org/gnome/desktop/peripherals/touchpad/natural-scroll"
-          value: true
-
-        # Enable to update a timezone automatically based on a location
-        # There is a bug so these configs don't work: https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/issues/58
-        - key: "/org/gnome/system/location/enabled"
-          value: true
-        - key: "/org/gnome/desktop/datetime/automatic-timezone"
-          value: true
-
-    # Some configurations cannot be updated by dconf, so run gsettings command though it always runs
-    - command:
-        cmd: gsettings set {{ item.schema }} {{ item.key }} "{{ item.value }}"
-      loop:
-        # Override a default unicode shortcut key on ibus
-        # The default value is '<Control><Shift>u' which is used for a shortcut in some applications
-        # See https://superuser.com/questions/358749/how-to-disable-ctrlshiftu
-        - schema: "org.freedesktop.ibus.panel.emoji"
-          key: "unicode-hotkey"
-          value: "['<Control><Alt><Shift>u']"
