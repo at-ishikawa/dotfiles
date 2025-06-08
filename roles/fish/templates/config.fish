@@ -16,9 +16,7 @@ set __fish_git_prompt_color_upstream_ahead -b grey green
 set __fish_git_prompt_color_upstream_behind -b grey red
 set __fish_git_prompt_show_informative_status yes
 
-# Golang
-set -x GOPATH $HOME/go
-set -x PATH $PATH $GOPATH/bin
+
 
 # krew
 set -gx PATH $PATH $HOME/.krew/bin
