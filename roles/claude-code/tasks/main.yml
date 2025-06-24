@@ -1,0 +1,17 @@
+- tags:
+    - claude-code
+  vars:
+    home_claude_directory: "{{ ansible_env.HOME }}/.claude"
+  block:
+    - ansible.builtin.file:
+        path: "{{ home_claude_directory }}"
+        state: directory
+        mode: "0770"
+
+    - ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ home_claude_directory }}/{{ item }}"
+        mode: "0660"
+      loop:
+        - settings.json
+        - CLAUDE.md
