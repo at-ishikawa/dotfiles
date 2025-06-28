@@ -20,8 +20,14 @@ function fish_prompt
         return
     end
 
-    set --local messages \
-        (__aws_prompt) \
+    set --local messages
+
+    # Check if aws cli is installed. If not, skip the AWS prompt.
+    if type -q aws
+        set --append messages (__aws_prompt)
+    end
+
+    set --append messages \
         (prompt_pwd) \
         (__fish_vcs_prompt)
     echo -n -e "$messages"
