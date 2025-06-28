@@ -1,6 +1,6 @@
 [core]
 	excludesfile = ~/.config/git/gitignore
-	editor = emacs
+	editor = code --reuse-window --wait
 [init]
 	defaultBranch = main
 [format]
