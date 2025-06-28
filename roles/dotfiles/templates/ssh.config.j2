@@ -4,6 +4,12 @@ Include config.d/*
 ServerAliveInterval 15
 ServerAliveCountMax 10
 
+{% if one_password_cli.install %}
 Host *
 	IdentityAgent "~/.config/1password/agent.sock"
 	IdentitiesOnly yes
+{% else %}
+Host github.com
+	IdentityFile ~/.ssh/github_ed25519
+	IdentitiesOnly yes
+{% endif %}

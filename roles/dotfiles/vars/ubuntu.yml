@@ -25,7 +25,7 @@ apt_packages:
   - libsqlite3-dev
   - curl
   - git
-  - libncursesw5-dev
+  # - libncursesw5-dev
   - xz-utils
   - tk-dev
   - libxml2-dev

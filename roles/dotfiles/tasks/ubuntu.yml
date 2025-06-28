@@ -41,8 +41,6 @@
               # Bookmark launcher: https://ext.ulauncher.io/-/github-man0xff-ulauncher-bookmarks
         - apt:
             name:
-              # Clipboard manager: https://hluk.github.io/CopyQ/
-              - copyq
               # I forgot why I installed this but this is a dependency for something
               - python3-psutil
             state: latest
@@ -74,6 +72,8 @@
 - import_tasks: all_os.yml
 - import_tasks: ubuntu_desktop.yml
   when: install_desktop_config
+- import_tasks: ubuntu_wsl.yml
+  when: virtual_env == 'wsl'
 
 - import_role:
     name: anyenv

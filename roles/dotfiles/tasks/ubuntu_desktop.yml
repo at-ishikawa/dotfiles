@@ -48,6 +48,8 @@
         name:
           # - scrcpy # https://github.com/Genymobile/scrcpy
           - xsel # For tmux: https://github.com/tmux/tmux/wiki/Clipboard#how-to-configure---tmux-32-and-later
+          # Clipboard manager: https://hluk.github.io/CopyQ/
+          - copyq
 
           # gnome console is the default terminal for Gnome: https://release.gnome.org/42/
           # It supports to switch a theme based on a system configuration

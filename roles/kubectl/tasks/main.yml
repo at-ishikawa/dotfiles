@@ -17,10 +17,14 @@
                 remote_src: true
                 src: "https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew_file }}.tar.gz"
                 dest: "{{ root_dir }}"
-            - command: "{{ root_dir }}/{{ krew_file}} install krew"
+            - name: "Install krew"
+              command: "{{ root_dir }}/{{ krew_file}} install krew"
 
-        - command: kubectl krew update
-        - command: kubectl krew install {{ item }}
+        - name: "kubectl krew update"
+          command: kubectl krew update
+
+        - name: "Install krew plugin: {{ item }}"
+          command: kubectl krew install {{ item }}
           with_items:
             - ctx
             - ns

@@ -31,28 +31,24 @@
 
     - name: Not WSL Ubuntu
       when: wsl_check.stdout != 'true'
-      block:
-        - tags:
-            - always
-          set_fact:
-            # Deprecated. For a backward compatibility
-            is_wsl: false
-        - import_role:
-            name: dotfiles
-            tasks_from: ubuntu
+      tags:
+        - always
+      set_fact:
+        # Deprecated. For a backward compatibility
+        is_wsl: false
 
     - name: WSL Ubuntu
       when: wsl_check.stdout == 'true'
-      block:
-        - tags:
-            - always
-          set_fact:
-            virtual_env: wsl
-            # backward compatibility
-            is_wsl: true
-        - import_role:
-            name: dotfiles
-            tasks_from: ubuntu_wsl
+      tags:
+        - always
+      set_fact:
+        virtual_env: wsl
+        # backward compatibility
+        is_wsl: true
+
+    - import_role:
+        name: dotfiles
+        tasks_from: ubuntu
 
 - hosts: os_MacOSX
   tags:

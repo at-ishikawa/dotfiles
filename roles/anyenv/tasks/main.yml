@@ -5,6 +5,15 @@
     # Pass a version to install a specific version of ruby
     # anyenv_ruby_version: "3.3.5"
   block:
+    - tags:
+        - anyenv.config
+        - fish.config
+      block:
+        - template:
+            src: anyenv.fish
+            dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/anyenv.fish"
+            mode: "0644"
+
     - name: Install anyenv
       block:
         - name: Clone anyenv repository
@@ -31,14 +40,20 @@
     - name: Install ruby
       tags:
         - ruby
+      vars:
+        paths:
+          - "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims"
+          - "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/bin"
+          - "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/plugins/ruby-build/bin"
+          - "{{ ansible_env.PATH }}"
       environment:
-        PATH: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims:{{ ansible_env.HOME }}/.anyenv/envs/rbenv/bin:{{ ansible_env.PATH }}"
+        PATH: "{{ ':'.join(paths) }}"
       block:
         - command:
-            cmd: bash -c "rbenv init -; rbenv install {{ anyenv_ruby_version }}"
+            cmd: bash -c "rbenv init - | source; rbenv install {{ anyenv_ruby_version }}"
             creates: "{{ anyenv_root_dir }}/envs/rbenv/versions/{{ anyenv_ruby_version }}"
         - command:
-            cmd: bash -c "rbenv init -; rbenv global {{ anyenv_ruby_version }}"
+            cmd: bash -c "rbenv init - | source; rbenv global {{ anyenv_ruby_version }}"
             creates: "{{ anyenv_root_dir }}/envs/rbenv/version"
 
     - name: Install pyenv
@@ -61,12 +76,3 @@
       command:
         cmd: "{{ anyenv_root_dir }}/bin/anyenv install tfenv"
         creates: "{{ anyenv_root_dir }}/envs/tfenv"
-
-    - tags:
-        - anyenv.config
-        - fish.config
-      block:
-        - template:
-            src: anyenv.fish
-            dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/anyenv.fish"
-            mode: "0644"
