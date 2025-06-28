@@ -2,9 +2,10 @@
 # Require become = yes
 - tags:
     - 1password
+  when: one_password_cli.install | bool
   block:
     - name: Add a apt_repository
-      become: yes
+      become: true
       block:
         - name: Download 1Password ASC key
           get_url:
@@ -18,7 +19,7 @@
             repo: "deb [arch={{ deb_architecture }} signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/{{ deb_architecture }} stable main"
             state: present
     - name: Add the debsig-verify policy
-      become: yes
+      become: true
       block:
         - name: Ensure /etc/debsig/policies/AC2D62742012EA22 directory exists
           file:
@@ -40,6 +41,7 @@
           shell: "cat /tmp/1password.asc | gpg --yes --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg"
 
     - name: Install 1password cli
+      become: true
       apt:
         name:
           - 1password-cli

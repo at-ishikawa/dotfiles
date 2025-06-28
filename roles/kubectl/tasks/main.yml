@@ -25,7 +25,6 @@
             - ctx
             - ns
             - view-secret
-            - hns
             - tree
 
     # https://cloud-native-canada.github.io/k8s_setup_tools/kubectl_tooling/kubie/

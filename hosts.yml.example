@@ -22,3 +22,7 @@ local:
 
     # Install a desktop configuration on Ubuntu
     install_desktop_config: true
+
+    # one_password_cli config
+    one_password_cli:
+      install: true
