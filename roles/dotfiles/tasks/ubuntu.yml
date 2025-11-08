@@ -73,7 +73,7 @@
 - import_tasks: ubuntu_desktop.yml
   when: install_desktop_config
 - import_tasks: ubuntu_wsl.yml
-  when: virtual_env == 'wsl'
+  when: virtual_env is defined and virtual_env == 'wsl'
 
 - import_role:
     name: anyenv

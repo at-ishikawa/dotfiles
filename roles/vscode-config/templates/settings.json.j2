@@ -13,17 +13,12 @@
 
   {# Sync light/dark modes with a system -#}
   "window.autoDetectColorScheme": true,
-  "workbench.colorTheme": "GitHub Dark",
+  "workbench.colorTheme": "GitHub Light Default",
   "workbench.preferredLightColorTheme": "GitHub Light Default",
   "workbench.preferredHighContrastLightColorTheme": "GitHub Light High Contrast",
   "workbench.preferredDarkColorTheme": "GitHub Dark",
 
   "git.autofetch": true,
-  "gitlens.codeLens.enabled": false,
-  "markdown-preview-enhanced.liveUpdate": true,
-  "[markdown]": {
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
-  },
 
   "files.trimTrailingWhitespace": true,
   "files.eol": "\n",
@@ -36,15 +31,22 @@
   "editor.minimap.enabled": false,
   "editor.inlineSuggest.enabled": true,
 
+
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
 
   {# Open tmux as a default for a terminal -#}
   "terminal.integrated.defaultProfile.linux": "tmux",
 
-  "files.associations: {
+  "files.associations": {
     "*.tmpl": "gotmpl"
   },
+
+  "markdown-preview-enhanced.liveUpdate": true,
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -59,8 +61,11 @@
   "go.lintTool": "golangci-lint",
   "go.lintFlags": ["--fast", "--fix"],
 
+{% if install_kubectl %}
   "vs-kubernetes": {
     "vs-kubernetes.crd-code-completion": "enabled"
   },
+{% endif %}
+
   "makefile.configureOnOpen": true
 }

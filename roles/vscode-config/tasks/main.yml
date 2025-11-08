@@ -34,14 +34,9 @@
         ## Spell checker
         - streetsidesoftware.code-spell-checker
 
-        # Copilot
-        - github.copilot
-
         # Git
         # magit: Emacs's magit for VSCode
-        # gitlens: For file blame
         - kahole.magit
-        - eamodio.gitlens
         - github.vscode-pull-request-github
 
         # Makefile
@@ -50,12 +45,7 @@
         # Markdown
         - shd101wyy.markdown-preview-enhanced
         - yzhang.markdown-all-in-one
-        - marp-team.marp-vscode
         - bierner.markdown-mermaid
-
-        # CSV
-        - mechatroner.rainbow-csv
-        - randomfractalsinc.tabular-data-viewer
 
         # JSON
         - esbenp.prettier-vscode
@@ -72,15 +62,9 @@
         # TypeScript
         - ms-vscode.vscode-typescript-next
         - esbenp.prettier-vscode
-        ## React Native
-        - msjsdiag.vscode-react-native
 
         # Python
         - ms-python.python
-
-        # PHP
-        - devsense.composer-php-vscode
-        - xdebug.php-debug
 
         # Fish shell
         - bmalehorn.vscode-fish
