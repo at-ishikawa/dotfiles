@@ -2,15 +2,29 @@
   "model": "opus",
   "permissions": {
     "allow": [
+      "Glob",
+      "Edit",
+      "Read",
+
       "Bash(ls:*)",
       "Bash(grep:*)",
       "Bash(rg:*)",
       "Bash(find:*)",
       "Bash(mkdir:*)",
+      "Bash(curl:*)",
+      "Bash(cat:*)",
+      "Bash(tree:*)",
+
+      "Bash(make build:*)",
+      "Bash(make lint:*)",
+      "Bash(make test:*)",
 
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git fetch:*)",
 
       "Bash(gh extension:*)",
       "Bash(gh act:*)",
@@ -18,17 +32,79 @@
       "Bash(gh run list:*)",
       "Bash(gh run view:*)",
       "Bash(gh release view:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr comment:*)",
 
       "Bash(go build:*)",
       "Bash(go test:*)",
       "Bash(go get:*)",
       "Bash(go mod:*)",
+      "Bash(go list:*)",
+      "Bash(go generate:*)",
+      "Bash(golangci-lint:*)",
+      "Bash(goimports:*)",
 
       "Bash(npm outdated)",
       "Bash(npm test)",
       "Bash(npm run lint:*)",
-      "Bash(npm run test:*)"
+      "Bash(npm run test:*)",
+
+      "Bash(docker build:*)",
+      "Bash(docker pull:*)",
+      "Bash(docker logs:*)",
+      "Bash(docker inspect:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker image:*)",
+      "Bash(docker tag:*)",
+      "Bash(docker stop:*)",
+
+      "Bash(docker compose build:*)",
+      "Bash(docker compose logs:*)",
+      "Bash(docker compose ls:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker compose images:*)",
+      "Bash(docker compose up:*)",
+      "Bash(docker compose restart:*)",
+      "Bash(docker compose down:*)",
+      "Bash(docker compose volumes:*)",
+
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(kubectl top:*)",
+      "Bash(kubectl kustomize:*)",
+      "Base(kubectl apply --dry-run=client:*)",
+      "Bash(kubectl config view:*)",
+      "Bash(kubectl config get-contexts:*)",
+      "Bash(kubectl config get-clusters:*)",
+
+      "WebFetch(domain:code.claude.com)",
+      "WebFetch(domain:github.com)",
+
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+
+      "mcp__grafana__list_datasources",
+      "mcp__grafana__list_alert_rules",
+      "mcp__grafana__list_prometheus_metric_names",
+      "mcp__grafana__list_prometheus_label_names",
+      "mcp__grafana__list_prometheus_label_values",
+      "mcp__grafana__list_incidents",
+      "mcp__grafana__list_sift_investigations",
+      "mcp__grafana__get_dashboard_by_uid",
+      "mcp__grafana__get_dashboard_panel_queries",
+      "mcp__grafana__query_prometheus",
+      "mcp__grafana__search_dashboards",
+
+      "mcp__netbox__netbox_get_objects"
     ],
-    "deny": []
+    "deny": [
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(sudo:*)",
+      "Bash(chmod:*)",
+      "Bash(chown:*)"
+    ]
   }
 }
