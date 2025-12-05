@@ -33,3 +33,6 @@ local:
     install_typescript: false
     install_python: false
     install_protobuf: false
+
+    vscode:
+      kube_config_path: ~/.kube/config

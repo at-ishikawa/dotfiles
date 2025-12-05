@@ -53,6 +53,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "python.languageServer": "Pylance",
   "[python]": {
     "editor.formatOnType": true
   },
@@ -71,9 +72,14 @@
 
 {% if install_kubectl %}
   "vs-kubernetes": {
+    {%# Allow not to run kubectl oidc-login plugin: https://github.com/int128/kubelogin #%}
+    "vs-kubernetes.kubeconfig": "{{ vscode.kube_config_path }}",
     "vs-kubernetes.crd-code-completion": "enabled"
   },
 {% endif %}
 
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+
+  "claudeCode.initialPermissionMode": "acceptEdits",
+  "claudeCode.preferredLocation": "panel"
 }
