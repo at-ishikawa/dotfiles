@@ -26,3 +26,10 @@ local:
     # one_password_cli config
     one_password_cli:
       install: true
+
+    # Language and tool installation options
+    ## Set to false to skip installing specific tools/extensions
+    install_go: true
+    install_typescript: false
+    install_python: false
+    install_protobuf: false
