@@ -1,0 +1,49 @@
+# Install Google Antigravity IDE on Ubuntu via apt repository
+# https://antigravity.google/
+- tags:
+    - antigravity
+  block:
+    - name: Add Antigravity apt repository
+      become: true
+      block:
+        - name: Create /etc/apt/keyrings directory
+          file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: '0755'
+
+        - name: Download Antigravity repository signing key
+          get_url:
+            url: https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg
+            dest: /tmp/antigravity-repo-key.gpg
+            mode: '0644'
+
+        - name: Dearmor the Antigravity signing key
+          shell: |
+            set -o pipefail
+            cat /tmp/antigravity-repo-key.gpg | gpg --yes --dearmor --output /etc/apt/keyrings/antigravity-repo-key.gpg
+          args:
+            executable: /bin/bash
+            creates: /etc/apt/keyrings/antigravity-repo-key.gpg
+
+        - name: Add Antigravity repository to sources.list.d
+          vars:
+            repo_url: "https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/"
+          lineinfile:
+            path: /etc/apt/sources.list.d/antigravity.list
+            line: "deb [arch={{ deb_architecture }} signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] {{ repo_url }} antigravity-debian main"
+            create: true
+            mode: '0644'
+
+        - name: Clean up temporary signing key
+          file:
+            path: /tmp/antigravity-repo-key.gpg
+            state: absent
+
+    - name: Install Antigravity package
+      become: true
+      apt:
+        name:
+          - antigravity
+        state: present
+        update_cache: true
