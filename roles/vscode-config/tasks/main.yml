@@ -21,7 +21,7 @@
         - settings.json.j2
 
     - name: Install core VSCode extensions
-      ansible.builtin.command: code --install-extension {{ item }}
+      ansible.builtin.command: "{{ editor_command | default('code') }} --install-extension {{ item }}"
       changed_when: false
       loop:
         # VSCode config
@@ -79,7 +79,7 @@
 
     - name: Install conditional VSCode extensions
       changed_when: false
-      ansible.builtin.command: code --install-extension {{ item.extension }}
+      ansible.builtin.command: "{{ editor_command | default('code') }} --install-extension {{ item.extension }}"
       when: lookup('vars', item.condition)
       loop:
         # Go

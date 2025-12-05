@@ -2,6 +2,7 @@
 # https://antigravity.google/
 - tags:
     - antigravity
+    - install-antigravity
   block:
     - name: Add Antigravity apt repository
       become: true
@@ -42,8 +43,22 @@
 
     - name: Install Antigravity package
       become: true
-      apt:
+      ansible.builtin.apt:
         name:
           - antigravity
         state: present
         update_cache: true
+
+# Antigravity configuration and extensions
+# Uses the shared vscode-config role with Antigravity-specific settings
+- tags:
+    - antigravity
+    - configure-antigravity
+  import_role:
+    name: vscode-config
+  vars:
+    config_directory: "{{ ansible_env.HOME }}/.config/Antigravity/User"
+    editor_command: antigravity
+    extra_settings: |2
+        "antigravity.marketplaceGalleryItemURL": "https://marketplace.visualstudio.com/items",
+        "antigravity.marketplaceExtensionGalleryServiceURL": "https://marketplace.visualstudio.com/_apis/public/gallery",

@@ -25,6 +25,8 @@
 
 - import_role:
     name: antigravity
+  vars:
+    meta_key: alt
 
 - import_role:
     name: aws-cli-config
