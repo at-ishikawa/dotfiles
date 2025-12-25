@@ -1,4 +1,7 @@
 {
+{% if extra_settings is defined %}
+{{ extra_settings }}
+{% endif %}
   {# Awesome Emacs: The CMD key is used for the Meta key only on MacOS -#}
   "emacs-mcx.useMetaPrefixMacCmd": true,
   {#
@@ -50,22 +53,33 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "python.languageServer": "Pylance",
   "[python]": {
     "editor.formatOnType": true
   },
   "go.formatTool": "goimports",
   "go.buildTags": "integration",
   "go.testTags": "integration",
-  "go.testFlags": ["-v"],
+  "go.testFlags": [
+    "-v"
+  ],
   "go.toolsManagement.autoUpdate": true,
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--fast", "--fix"],
+  "go.lintFlags": [
+    "--fast",
+    "--fix"
+  ],
 
 {% if install_kubectl %}
   "vs-kubernetes": {
+    {%# Allow not to run kubectl oidc-login plugin: https://github.com/int128/kubelogin #%}
+    "vs-kubernetes.kubeconfig": "{{ vscode.kube_config_path }}",
     "vs-kubernetes.crd-code-completion": "enabled"
   },
 {% endif %}
 
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+
+  "claudeCode.initialPermissionMode": "acceptEdits",
+  "claudeCode.preferredLocation": "panel"
 }

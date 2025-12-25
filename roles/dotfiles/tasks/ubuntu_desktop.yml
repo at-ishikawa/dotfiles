@@ -24,6 +24,11 @@
     meta_key: alt
 
 - import_role:
+    name: antigravity
+  vars:
+    meta_key: alt
+
+- import_role:
     name: aws-cli-config
   vars:
     aws_completer_path: /snap/aws-cli/current/bin
