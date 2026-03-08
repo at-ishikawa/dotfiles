@@ -30,10 +30,9 @@
         - name: Add Antigravity repository to sources.list.d
           vars:
             repo_url: "https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/"
-          lineinfile:
-            path: /etc/apt/sources.list.d/antigravity.list
-            line: "deb [arch={{ deb_architecture }} signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] {{ repo_url }} antigravity-debian main"
-            create: true
+          copy:
+            content: "deb [arch={{ deb_architecture }} signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] {{ repo_url }} antigravity-debian main\n"
+            dest: /etc/apt/sources.list.d/antigravity.list
             mode: '0644'
 
         - name: Clean up temporary signing key
@@ -62,3 +61,14 @@
     extra_settings: |2
         "antigravity.marketplaceGalleryItemURL": "https://marketplace.visualstudio.com/items",
         "antigravity.marketplaceExtensionGalleryServiceURL": "https://marketplace.visualstudio.com/_apis/public/gallery",
+    extra_keybindings: |2
+        {
+          "key": "alt+enter",
+          "command": "antigravity.agent.acceptAgentStep",
+          "when": "!editorTextFocus && !searchViewletFocus"
+        },
+        {
+          "key": "alt+enter",
+          "command": "-antigravity.agent.acceptAgentStep",
+          "when": "!editorTextFocus"
+        }

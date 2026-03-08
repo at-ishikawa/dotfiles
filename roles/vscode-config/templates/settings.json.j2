@@ -34,16 +34,11 @@
   "editor.minimap.enabled": false,
   "editor.inlineSuggest.enabled": true,
 
-
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
 
   {# Open tmux as a default for a terminal -#}
   "terminal.integrated.defaultProfile.linux": "tmux",
-
-  "files.associations": {
-    "*.tmpl": "gotmpl"
-  },
 
   "markdown-preview-enhanced.liveUpdate": true,
   "[markdown]": {
@@ -51,12 +46,13 @@
   },
 
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
-  "python.languageServer": "Pylance",
-  "[python]": {
-    "editor.formatOnType": true
+{% if install_go %}
+  "files.associations": {
+    "*.tmpl": "gotmpl"
   },
+
   "go.formatTool": "goimports",
   "go.buildTags": "integration",
   "go.testTags": "integration",
@@ -69,10 +65,17 @@
     "--fast",
     "--fix"
   ],
+{% endif %}
+{% if install_python %}
+  "python.languageServer": "Pylance",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+{% endif %}
 
 {% if install_kubectl %}
   "vs-kubernetes": {
-    {%# Allow not to run kubectl oidc-login plugin: https://github.com/int128/kubelogin #%}
+    {# Allow not to run kubectl oidc-login plugin: https://github.com/int128/kubelogin -#}
     "vs-kubernetes.kubeconfig": "{{ vscode.kube_config_path }}",
     "vs-kubernetes.crd-code-completion": "enabled"
   },

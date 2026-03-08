@@ -40,8 +40,10 @@
 
         # Git
         # magit: Emacs's magit for VSCode
+        # GitLens: Used for file blame and open remote links
         - kahole.magit
         - github.vscode-pull-request-github
+        - eamodio.gitlens
 
         # Makefile
         - ms-vscode.makefile-tools
@@ -50,9 +52,6 @@
         - shd101wyy.markdown-preview-enhanced
         - yzhang.markdown-all-in-one
         - bierner.markdown-mermaid
-
-        # JSON / Prettier
-        - esbenp.prettier-vscode
 
         # Yaml
         - redhat.vscode-yaml
