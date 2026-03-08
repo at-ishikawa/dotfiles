@@ -125,4 +125,7 @@
     "command": "-search.action.focusPreviousSearchResult",
     "when": "hasSearchResult || inSearchEditor"
   }
+{%- if extra_keybindings is defined %}
+{{ extra_keybindings }}
+{% endif -%}
 ]

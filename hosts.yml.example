@@ -35,4 +35,4 @@ local:
     install_protobuf: false
 
     vscode:
-      kube_config_path: ~/.kube/config
+      kube_config_path: {{ ansible_env.HOME }}/.kube/config

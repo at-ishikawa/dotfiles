@@ -1,6 +1,6 @@
 [core]
 	excludesfile = ~/.config/git/gitignore
-	editor = code --reuse-window --wait
+	editor = antigravity --reuse-window --wait
 [init]
 	defaultBranch = main
 [format]
