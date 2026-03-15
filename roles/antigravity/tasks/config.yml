@@ -1,0 +1,23 @@
+# Antigravity configuration and extensions
+# Uses the shared vscode-config role with Antigravity-specific settings
+- tags:
+    - antigravity
+    - configure-antigravity
+  import_role:
+    name: vscode-config
+  vars:
+    editor_command: antigravity
+    extra_settings: |
+        "antigravity.marketplaceGalleryItemURL": "https://marketplace.visualstudio.com/items",
+        "antigravity.marketplaceExtensionGalleryServiceURL": "https://marketplace.visualstudio.com/_apis/public/gallery",
+    extra_keybindings: |
+        {
+          "key": "alt+enter",
+          "command": "antigravity.agent.acceptAgentStep",
+          "when": "!editorTextFocus && !searchViewletFocus"
+        },
+        {
+          "key": "alt+enter",
+          "command": "-antigravity.agent.acceptAgentStep",
+          "when": "!editorTextFocus"
+        }
