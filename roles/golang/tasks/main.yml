@@ -11,7 +11,7 @@
 
     - tags:
         - fish
-        - fish.config
+        - fish-config
       template:
         src: golang.fish.j2
         dest: ~/.config/fish/conf.d/dotfiles_golang.fish
