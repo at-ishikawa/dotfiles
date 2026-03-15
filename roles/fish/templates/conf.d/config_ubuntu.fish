@@ -1,6 +1,6 @@
 # Configurations only for Linux
-set -g GOOGLE_CLOUD_SDK_ROOT $HOME/local/google-cloud-sdk
-set -g PATH $PATH $GOOGLE_CLOUD_SDK_ROOT/bin
+set --universal GOOGLE_CLOUD_SDK_ROOT $HOME/local/google-cloud-sdk
+set --universal --export --append PATH $GOOGLE_CLOUD_SDK_ROOT/bin
 
-set -g GOROOT /usr/local/go
-set -a PATH $GOROOT/bin
+set --universal GOROOT /usr/local/go
+set --universal --export --append PATH $GOROOT/bin

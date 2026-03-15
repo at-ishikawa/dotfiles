@@ -1,6 +1,6 @@
 # https://docs.aws.amazon.com/cli/v1/userguide/cli-configure-completion.html
 # https://github.com/aws/aws-cli/issues/1079#issuecomment-541997810
-set -a PATH {{ aws_completer_path }}
+set --universal --export --append PATH {{ aws_completer_path }}
 # complete --command aws --no-files --arguments '(begin; set --local --export COMP_SHELL fish; set --local --export COMP_LINE (commandline); aws_completer | sed \'s/ $//\'; end)'
 
 # https://github.com/aws/aws-cli/issues/1079#issuecomment-2225628740

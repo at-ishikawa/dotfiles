@@ -1,1 +1,1 @@
-set --export --prepend PATH $HOME/.rd/bin
+set --universal --export --prepend PATH $HOME/.rd/bin
