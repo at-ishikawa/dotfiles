@@ -9,7 +9,10 @@
         # it's old version of apt repository: https://github.com/junegunn/fzf/issues/2599
         - github.com/junegunn/fzf@latest
 
-    - template:
+    - tags:
+        - fish
+        - fish.config
+      template:
         src: golang.fish.j2
         dest: ~/.config/fish/conf.d/dotfiles_golang.fish
         mode: "0644"
