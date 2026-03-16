@@ -7,7 +7,7 @@ end
 
 ## nodenv under anyenv
 ### nodenv also needs a plugin node-build for an install command
-set --universal NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv
+set --global NODE_ENV_ROOT $HOME/.anyenv/envs/nodenv
 fish_add_path --append $NODE_ENV_ROOT/bin
 fish_add_path --append $NODE_ENV_ROOT/plugins/node-build/bin
 if type -q nodenv
@@ -16,7 +16,7 @@ end
 
 ## rbenv under anyenv
 ### rbenv also needs a plugin ruby-build for an install command
-set --universal RBENV_ROOT $HOME/.anyenv/envs/rbenv
+set --global RBENV_ROOT $HOME/.anyenv/envs/rbenv
 fish_add_path --append $RBENV_ROOT/bin
 fish_add_path --append $RBENV_ROOT/plugins/ruby-build/bin
 if type -q rbenv
