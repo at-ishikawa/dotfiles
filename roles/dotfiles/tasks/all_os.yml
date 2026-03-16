@@ -43,14 +43,13 @@
   tags:
     - eslint
 
-- tags:
-    - always
-  include_role:
-    name: "{{ role }}"
-  when: role != ''
-  loop:
-    - golang
-    - "{{ 'gcloud' if install_gcloud_cli else '' }}"
-    - "{{ 'kubectl' if install_kubectl else '' }}"
-  loop_control:
-    loop_var: role
+- import_role:
+    name: golang
+
+- import_role:
+    name: gcloud
+  when: install_gcloud_cli
+
+- import_role:
+    name: kubectl
+  when: install_kubectl

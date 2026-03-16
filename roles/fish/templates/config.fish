@@ -7,9 +7,9 @@ set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-
 set --global __fish_git_prompt_color_branch green --bold
 
 # krew
-set --universal --export --append PATH $HOME/.krew/bin
+fish_add_path --append $HOME/.krew/bin
 
-set --universal --export --prepend PATH $HOME/bin
+fish_add_path $HOME/bin
 
 set -Ux USE_GKE_GCLOUD_AUTH_PLUGIN True
 

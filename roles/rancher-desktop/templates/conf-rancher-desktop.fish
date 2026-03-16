@@ -1,1 +1,1 @@
-set --universal --export --prepend PATH $HOME/.rd/bin
+fish_add_path $HOME/.rd/bin
