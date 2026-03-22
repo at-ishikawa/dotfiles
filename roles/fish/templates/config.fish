@@ -6,12 +6,11 @@ set -U FZF_DEFAULT_OPTS "--height $FZF_TMUX_HEIGHT --bind ctrl-k:kill-line,ctrl-
 # fish_prompt
 set --global __fish_git_prompt_color_branch green --bold
 
+fish_add_path $HOME/bin
+fish_add_path $HOME/.local/bin
+
 # krew
 fish_add_path --append $HOME/.krew/bin
-
-fish_add_path $HOME/bin
-
-set -Ux USE_GKE_GCLOUD_AUTH_PLUGIN True
 
 # https://github.com/at-ishikawa/fish-completion-interceptor
 set -U FISH_COMPLETION_INTERCEPTOR_ENABLED true
