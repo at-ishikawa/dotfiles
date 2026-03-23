@@ -40,3 +40,13 @@
       shell: "{{ item }} completion fish > ~/.config/fish/completions/{{ item }}.fish"
       with_items:
         - kubectl
+
+- tags:
+    - aws-cli.config
+    - fish
+    - fish-config
+  block:
+    - template:
+        src: gcloud.fish.j2
+        dest: "{{ ansible_env.HOME }}/.config/fish/conf.d/gcloud.fish"
+        mode: "0600"

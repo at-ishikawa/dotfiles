@@ -49,7 +49,7 @@
 
 - tags:
     - fish
-    - fish.config
+    - fish-config
   block:
     - name: Copy config files
       template:

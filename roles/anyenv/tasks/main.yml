@@ -7,7 +7,8 @@
   block:
     - tags:
         - anyenv.config
-        - fish.config
+        - fish
+        - fish-config
       block:
         - template:
             src: anyenv.fish
