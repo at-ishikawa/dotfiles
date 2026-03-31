@@ -6,7 +6,7 @@ black==24.10.0
 bracex==2.5.post1
 cffi==1.17.1
 click==8.1.7
-cryptography==46.0.5
+cryptography==46.0.6
 filelock==3.16.1
 importlib_metadata==8.5.0
 Jinja2==3.1.4
