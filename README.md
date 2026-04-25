@@ -6,7 +6,7 @@
 
 1. Run `cp hosts.yml.example hosts.yml` and update `hosts.yml` for your machine
 2. Run `make prepare`. This will fail on the step to download a fisher on ansible currently
-3. Run `make install`. This will fail to clone anyenv repository
+3. Run `make install`. This will fail to clone anyenv repository.
 
 After install, some configurations are required to be set manually
 

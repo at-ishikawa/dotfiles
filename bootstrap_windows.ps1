@@ -11,6 +11,7 @@ if ($adapter) {
 
 # Search packages by winget search $keyword
 $packages = @(
+    "Flow Launcher",
     "Google Drive",
     "1Password",
     "powertoys",
