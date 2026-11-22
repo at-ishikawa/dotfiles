@@ -36,14 +36,6 @@
     - name: Build Emacs from source on WSL
       when: emacs_check.stdout | default('') != 't' and is_wsl
       block:
-        # Same as the dotfiles role: one broken apt source shouldn't stop
-        # installing packages from the others
-        - name: Update apt cache
-          become: true
-          ansible.builtin.apt:
-            update_cache: true
-          ignore_errors: true
-
         - name: Install Emacs build dependencies
           become: true
           ansible.builtin.apt:
