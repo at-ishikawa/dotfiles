@@ -32,7 +32,15 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'leuven)
+;;
+;; daylight-theme loads leuven from sunrise and leuven-dark from sunset instead.
+(setq doom-theme nil)
+(use-package! daylight-theme
+  :demand t
+  :config
+  (setq daylight-theme-light 'leuven
+        daylight-theme-dark 'leuven-dark)
+  (daylight-theme-mode 1))
 ;; Specify both a dark and light theme, like so and Doom will choose which one
 ;; to load based on your system light/dark setting:
 ;;
