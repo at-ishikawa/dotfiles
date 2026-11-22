@@ -86,7 +86,7 @@
 - import_role:
     name: claude-code
 - import_role:
-    name: doom-emacs
+    name: emacs
 
 - tags:
     - always
