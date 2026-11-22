@@ -91,6 +91,17 @@
         - config.el
         - packages.el
 
+    # Local packages in packages.el, copied as is because they are not
+    # templates. Changes take effect only after `doom sync`.
+    - ansible.builtin.file:
+        path: "{{ doom_directory }}/lisp/daylight-theme"
+        state: directory
+        mode: "0700"
+    - ansible.builtin.copy:
+        src: daylight-theme/daylight-theme.el
+        dest: "{{ doom_directory }}/lisp/daylight-theme/daylight-theme.el"
+        mode: "0600"
+
     - name: Install Doom Emacs dependencies
       become: true
       ansible.builtin.apt:

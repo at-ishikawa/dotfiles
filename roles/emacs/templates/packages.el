@@ -65,3 +65,7 @@
 (package! claude-code
   :recipe (:host github :repo "stevemolitor/claude-code.el"
            :files ("*.el" (:exclude "images/*"))))
+
+;; Light theme by day and dark theme by night; the source is in lisp/.
+(package! daylight-theme
+  :recipe (:local-repo "lisp/daylight-theme"))
