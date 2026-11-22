@@ -89,13 +89,14 @@
           ansible.builtin.command:
             cmd: make install
             chdir: "{{ emacs_source_directory }}"
+          register: emacs_build
 
     - ansible.builtin.file:
         path: "{{ doom_directory }}"
         state: directory
         mode: "0700"
 
-    # Changes to init.el or packages.el take effect only after `doom sync`.
+    # Changes to init.el or packages.el need `doom sync`, run at the end.
     - ansible.builtin.template:
         src: "{{ item }}"
         dest: "{{ doom_directory }}/{{ item }}"
@@ -104,9 +105,10 @@
         - init.el
         - config.el
         - packages.el
+      register: doom_config
 
     # Local packages in packages.el, copied as is because they are not
-    # templates. Changes take effect only after `doom sync`.
+    # templates.
     - ansible.builtin.file:
         path: "{{ doom_directory }}/lisp/daylight-theme"
         state: directory
@@ -115,6 +117,7 @@
         src: daylight-theme/daylight-theme.el
         dest: "{{ doom_directory }}/lisp/daylight-theme/daylight-theme.el"
         mode: "0600"
+      register: doom_local_packages
 
     - name: Install Doom Emacs dependencies
       become: true
@@ -173,5 +176,24 @@
       when: doom_clone.changed
       ansible.builtin.command:
         cmd: "{{ doom_emacs_directory }}/bin/doom install --force --no-config"
+      environment:
+        PATH: "{{ emacs_path }}"
+
+    # `doom install` above already syncs a new clone. --rebuild recompiles
+    # the packages for a rebuilt Emacs.
+    - name: Sync Doom Emacs
+      when: >-
+        not doom_clone.changed and (
+        emacs_build is changed
+        or doom_local_packages is changed
+        or doom_config.results
+          | selectattr('changed')
+          | map(attribute='item')
+          | intersect(['init.el', 'packages.el'])
+          | length > 0)
+      ansible.builtin.command:
+        cmd: >-
+          {{ doom_emacs_directory }}/bin/doom sync --force
+          {{ '--rebuild' if emacs_build is changed else '' }}
       environment:
         PATH: "{{ emacs_path }}"
