@@ -1,0 +1,119 @@
+- tags:
+    - emacs
+  vars:
+    doom_directory: "{{ ansible_env.HOME }}/.config/doom"
+    doom_emacs_directory: "{{ ansible_env.HOME }}/.config/emacs"
+    # Emacs built from source on WSL: https://ftp.gnu.org/gnu/emacs/
+    emacs_source_version: "30.2"
+    emacs_source_directory: "/tmp/emacs-{{ emacs_source_version }}"
+    # snap installs emacs into /snap/bin, and make install into /usr/local/bin
+    emacs_path: "/snap/bin:/usr/local/bin:{{ ansible_env.PATH }}"
+  block:
+    - name: Check if Emacs is installed
+      ansible.builtin.shell: command -v emacs
+      environment:
+        PATH: "{{ emacs_path }}"
+      register: emacs_check
+      changed_when: false
+      failed_when: false
+      check_mode: false
+
+    - name: Install Emacs by snap
+      when: emacs_check.rc != 0 and not is_wsl
+      become: true
+      community.general.snap:
+        name: emacs
+        classic: true
+
+    - name: Build Emacs from source on WSL
+      when: emacs_check.rc != 0 and is_wsl
+      block:
+        - name: Install Emacs build dependencies
+          become: true
+          ansible.builtin.apt:
+            name:
+              - build-essential
+              - texinfo
+              - libgtk-3-dev
+              - libgnutls28-dev
+              - libncurses-dev
+              - libjansson-dev
+              - libtree-sitter-dev
+              - libxml2-dev
+              - libxpm-dev
+              - libjpeg-dev
+              - libpng-dev
+              - libgif-dev
+              - libtiff-dev
+              - libsqlite3-dev
+              - libgccjit-14-dev
+            state: present
+            update_cache: true
+
+        - name: Download and extract the Emacs source
+          ansible.builtin.unarchive:
+            remote_src: true
+            src: "https://ftp.gnu.org/gnu/emacs/emacs-{{ emacs_source_version }}.tar.xz"
+            dest: /tmp
+            creates: "{{ emacs_source_directory }}/configure"
+
+        - name: Configure Emacs
+          ansible.builtin.command:
+            cmd: ./configure
+            chdir: "{{ emacs_source_directory }}"
+            creates: "{{ emacs_source_directory }}/Makefile"
+
+        - name: Build Emacs
+          ansible.builtin.command:
+            cmd: "make -j{{ ansible_processor_nproc }}"
+            chdir: "{{ emacs_source_directory }}"
+            creates: "{{ emacs_source_directory }}/src/emacs"
+
+        - name: Install Emacs
+          become: true
+          ansible.builtin.command:
+            cmd: make install
+            chdir: "{{ emacs_source_directory }}"
+            creates: /usr/local/bin/emacs
+
+    - ansible.builtin.file:
+        path: "{{ doom_directory }}"
+        state: directory
+        mode: "0700"
+
+    # Changes to init.el or packages.el take effect only after `doom sync`.
+    - ansible.builtin.template:
+        src: "{{ item }}"
+        dest: "{{ doom_directory }}/{{ item }}"
+        mode: "0600"
+      loop:
+        - init.el
+        - config.el
+        - packages.el
+
+    - name: Install Doom Emacs dependencies
+      become: true
+      ansible.builtin.apt:
+        name:
+          - git
+          - ripgrep
+          - fd-find
+        state: present
+
+    # https://github.com/doomemacs/doomemacs#install
+    - name: Clone Doom Emacs
+      ansible.builtin.git:
+        repo: https://github.com/doomemacs/doomemacs
+        dest: "{{ doom_emacs_directory }}"
+        depth: 1
+        # Doom is upgraded by `doom upgrade`, not by this playbook
+        update: false
+      register: doom_clone
+
+    # --no-config keeps the templated files in ~/.config/doom
+    - name: Install Doom Emacs
+      when: doom_clone.changed
+      ansible.builtin.command:
+        cmd: "{{ doom_emacs_directory }}/bin/doom install --force --no-config"
+      environment:
+        PATH: "{{ emacs_path }}"

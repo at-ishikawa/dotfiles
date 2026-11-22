@@ -85,6 +85,8 @@
     tmux_gem_path: "{{ ansible_env.HOME }}/.anyenv/envs/rbenv/shims/gem"
 - import_role:
     name: claude-code
+- import_role:
+    name: emacs
 
 - tags:
     - always
