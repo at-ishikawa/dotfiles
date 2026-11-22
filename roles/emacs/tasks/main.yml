@@ -8,9 +8,16 @@
     emacs_source_directory: "/tmp/emacs-{{ emacs_source_version }}"
     # snap installs emacs into /snap/bin, and make install into /usr/local/bin
     emacs_path: "/snap/bin:/usr/local/bin:{{ ansible_env.PATH }}"
+    nerd_font_directory: "{{ ansible_env.HOME }}/.local/share/fonts/NerdFontsSymbolsOnly"
   block:
+    # stdout is "t" only when Emacs is installed with native compilation
     - name: Check if Emacs is installed
-      ansible.builtin.shell: command -v emacs
+      ansible.builtin.command:
+        argv:
+          - emacs
+          - --batch
+          - --eval
+          - "(princ (and (fboundp 'native-comp-available-p) (native-comp-available-p)))"
       environment:
         PATH: "{{ emacs_path }}"
       register: emacs_check
@@ -25,8 +32,9 @@
         name: emacs
         classic: true
 
+    # Rebuilds an existing Emacs without native compilation too
     - name: Build Emacs from source on WSL
-      when: emacs_check.rc != 0 and is_wsl
+      when: emacs_check.stdout | default('') != 't' and is_wsl
       block:
         - name: Install Emacs build dependencies
           become: true
@@ -46,35 +54,42 @@
               - libgif-dev
               - libtiff-dev
               - libsqlite3-dev
+              # libgccjit-14 is found only by gcc-14, not by the default gcc
+              - gcc-14
               - libgccjit-14-dev
             state: present
             update_cache: true
+
+        # Start from a clean source tree, so an earlier build isn't reused
+        - name: Remove an earlier Emacs source
+          ansible.builtin.file:
+            path: "{{ emacs_source_directory }}"
+            state: absent
 
         - name: Download and extract the Emacs source
           ansible.builtin.unarchive:
             remote_src: true
             src: "https://ftp.gnu.org/gnu/emacs/emacs-{{ emacs_source_version }}.tar.xz"
             dest: /tmp
-            creates: "{{ emacs_source_directory }}/configure"
 
+        # --with-native-compilation fails instead of building without it
         - name: Configure Emacs
           ansible.builtin.command:
-            cmd: ./configure
+            cmd: ./configure --with-native-compilation
             chdir: "{{ emacs_source_directory }}"
-            creates: "{{ emacs_source_directory }}/Makefile"
+          environment:
+            CC: gcc-14
 
         - name: Build Emacs
           ansible.builtin.command:
             cmd: "make -j{{ ansible_processor_nproc }}"
             chdir: "{{ emacs_source_directory }}"
-            creates: "{{ emacs_source_directory }}/src/emacs"
 
         - name: Install Emacs
           become: true
           ansible.builtin.command:
             cmd: make install
             chdir: "{{ emacs_source_directory }}"
-            creates: /usr/local/bin/emacs
 
     - ansible.builtin.file:
         path: "{{ doom_directory }}"
@@ -109,7 +124,40 @@
           - git
           - ripgrep
           - fd-find
+          # Fallback font for characters other fonts can't render
+          - fonts-symbola
+          - fontconfig
+          # Compiler for markdown-preview in :lang markdown
+          - markdown
+          # Linter for :lang sh
+          - shellcheck
         state: present
+
+    # Icons in Doom, the same font `M-x nerd-icons-install-fonts' installs
+    - name: Install Symbols Nerd Font
+      block:
+        - ansible.builtin.file:
+            path: "{{ nerd_font_directory }}"
+            state: directory
+            mode: "0755"
+        - ansible.builtin.unarchive:
+            remote_src: true
+            src: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/NerdFontsSymbolsOnly.tar.xz
+            dest: "{{ nerd_font_directory }}"
+            creates: "{{ nerd_font_directory }}/SymbolsNerdFontMono-Regular.ttf"
+          register: nerd_font
+        - when: nerd_font.changed
+          ansible.builtin.command: fc-cache -f "{{ nerd_font_directory }}"
+
+    # Previewer for grip-mode in :lang markdown +grip. It renders locally,
+    # unlike grip, which sends the file to the GitHub API.
+    - name: Install go-grip
+      ansible.builtin.command:
+        cmd: go install github.com/chrishrb/go-grip@latest
+        creates: "{{ ansible_env.HOME }}/go/bin/go-grip"
+      environment:
+        GOPATH: "{{ ansible_env.HOME }}/go"
+        PATH: "/usr/local/go/bin:{{ ansible_env.PATH }}"
 
     # https://github.com/doomemacs/doomemacs#install
     - name: Clone Doom Emacs
